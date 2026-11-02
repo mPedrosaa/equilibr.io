@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Protótipo do ISEP Study-Life Balance Tracker: gestão de ECTS, registo diário e monitorização anti-burnout."
+    />
+    <meta name="theme-color" content="#0b1f3a" />
+    <title>Study-Life Balance Tracker · Protótipo</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b1f3a'/%3E%3Cpath d='M16 40c8-2 10-16 16-16s8 14 16 16' fill='none' stroke='%2314b8a6' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='18' r='4' fill='%23a7f3d0'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <a class="visually-hidden-focusable skip-link" href="#mainContent">Saltar para o conteúdo</a>
+
+    <div class="app-shell">
+      <!-- Sidebar: fixa em desktop, offcanvas em mobile (offcanvas-lg) -->
+      <aside
+        class="offcanvas-lg offcanvas-start sidebar"
+        tabindex="-1"
+        id="mobileSidebar"
+        aria-labelledby="sidebarLabel"
+      >
+        <div class="offcanvas-header sidebar-offcanvas-head">
+          <span class="sidebar-offcanvas-title" id="sidebarLabel">Menu</span>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas"
+            data-bs-target="#mobileSidebar"
+            aria-label="Fechar menu"
+          ></button>
+        </div>
+
+        <div class="offcanvas-body sidebar-inner">
+          <a href="#dashboard" class="brand" data-route="dashboard" aria-label="Study-Life Balance Tracker — início">
+            <span class="brand-mark"><i class="bi bi-activity"></i></span>
+            <span class="brand-copy">
+              <strong>Study-Life</strong>
+              <span>Balance Tracker</span>
+            </span>
+          </a>
+
+          <div class="sidebar-chip">
+            <i class="bi bi-mortarboard-fill"></i>
+            <span>
+              <strong class="js-degree">LEI · 1.º ano</strong>
+              <small class="js-semester">2026/27 · 1.º semestre</small>
+            </span>
+          </div>
+
+          <nav class="sidebar-nav" aria-label="Navegação principal">
+            <span class="nav-label">Painel</span>
+            <a class="sidebar-link active" href="#dashboard" data-route="dashboard">
+              <i class="bi bi-grid-1x2"></i>
+              <span>Visão geral</span>
+            </a>
+            <a class="sidebar-link" href="#ects" data-route="ects">
+              <i class="bi bi-journal-bookmark"></i>
+              <span>Unidades curriculares</span>
+            </a>
+            <a class="sidebar-link" href="#registo" data-route="registo">
+              <i class="bi bi-pencil-square"></i>
+              <span>Registo diário</span>
+              <span class="nav-badge js-log-count">0</span>
+            </a>
+            <span class="nav-label">Bem-estar</span>
+            <a class="sidebar-link" href="#burnout" data-route="burnout">
+              <i class="bi bi-heart-pulse"></i>
+              <span>Anti-burnout</span>
+              <span class="nav-dot js-risk-dot" aria-hidden="true"></span>
+            </a>
+            <span class="nav-label">Projeto</span>
+            <a class="sidebar-link" href="#sobre" data-route="sobre">
+              <i class="bi bi-info-circle"></i>
+              <span>Sobre o protótipo</span>
+            </a>
+          </nav>
+
+          <div class="sidebar-tip">
+            <i class="bi bi-lightbulb"></i>
+            <p>
+              <strong>Dica de protótipo</strong>
+              Regista as horas ao fim do dia. A análise usa uma janela móvel de 7 dias.
+            </p>
+          </div>
+
+          <div class="sidebar-profile">
+            <div class="avatar avatar-sm js-avatar">NS</div>
+            <div class="sidebar-profile-copy">
+              <strong class="js-profile-name">Nuno Sousa</strong>
+              <small>Estudante demo</small>
+            </div>
+            <a href="#sobre" class="sidebar-profile-link" aria-label="Sobre o protótipo">
+              <i class="bi bi-three-dots"></i>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <div class="app-main">
+        <header class="topbar">
+          <div class="d-flex align-items-center gap-3 min-w-0">
+            <button
+              class="btn btn-icon d-lg-none"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#mobileSidebar"
+              aria-controls="mobileSidebar"
+              aria-label="Abrir menu"
+            >
+              <i class="bi bi-list fs-4"></i>
+            </button>
+            <div class="min-w-0">
+              <div class="topbar-kicker" id="pageBreadcrumb">LAPR1 · Protótipo</div>
+              <h1 class="topbar-title" id="pageTitle">Visão geral</h1>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="topbar-date d-none d-md-inline-flex" id="topbarDate">
+              <i class="bi bi-calendar3"></i>
+            </span>
+            <button class="btn btn-soft btn-sm" id="resetDemoBtn" type="button" title="Repor dados de demonstração">
+              <i class="bi bi-arrow-counterclockwise"></i>
+              <span class="d-none d-sm-inline ms-1">Repor demo</span>
+            </button>
+            <div class="avatar js-avatar" aria-hidden="true">NS</div>
+          </div>
+        </header>
+
+        <main class="content" id="mainContent">
+          <!-- ============================ DASHBOARD ============================ -->
+          <section data-view="dashboard">
+            <div class="hero-card mb-4">
+              <div class="hero-copy">
+                <span class="hero-eyebrow">
+                  <i class="bi bi-sun"></i>
+                  <span id="heroDate">Segunda-feira, 2 de novembro</span>
+                </span>
+                <h2 class="hero-title" id="heroGreeting">Bom dia, Nuno.</h2>
+                <p class="hero-subtitle">
+                  Um panorama rápido do teu esforço, descanso e risco de burnout.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                  <a href="#registo" class="btn btn-light btn-sm px-3">
+                    <i class="bi bi-plus-lg me-1"></i> Registar horas
+                  </a>
+                  <a href="#burnout" class="btn btn-hero-ghost btn-sm px-3">
+                    <i class="bi bi-heart-pulse me-1"></i> Ver análise
+                  </a>
+                </div>
+              </div>
+              <div class="hero-panel">
+                <div class="d-flex justify-content-between align-items-start gap-2">
+                  <span class="hero-panel-label">Risco de burnout</span>
+                  <span class="badge risk-badge" id="heroRiskBadge">Moderado</span>
+                </div>
+                <div class="hero-score"><span id="heroRiskScore">39</span><small>/100</small></div>
+                <div class="hero-panel-meta" id="heroRiskMessage">
+                  Há sinais de desgaste acumulado. Vale a pena abrandar.
+                </div>
+                <div
+                  class="progress hero-progress"
+                  role="progressbar"
+                  aria-label="Risco de burnout"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  id="heroRiskProgress"
+                >
+                  <div class="progress-bar" id="heroRiskBar"></div>
+                </div>
+                <a href="#burnout" class="hero-link">
+                  Ver fatores e recomendações <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-6 col-xl-3">
+                <article class="metric-card h-100">
+                  <div class="metric-top">
+                    <span class="metric-icon tone-teal"><i class="bi bi-book-half"></i></span>
+                    <span class="metric-label">Estudo autónomo</span>
+                    <span class="metric-chip" id="kpiAutonomousPct">93%</span>
+                  </div>
+                  <div class="metric-value" id="kpiAutonomous">21,0 <small>h</small></div>
+                  <div class="metric-sub">Meta de <span id="kpiAutonomousMeta">22,5 h</span> · 7 dias</div>
+                  <div class="progress metric-progress" role="progressbar" aria-label="Estudo autónomo face à meta">
+                    <div class="progress-bar bg-teal" id="kpiAutonomousBar"></div>
+                  </div>
+                </article>
+              </div>
+              <div class="col-6 col-xl-3">
+                <article class="metric-card h-100">
+                  <div class="metric-top">
+                    <span class="metric-icon tone-green"><i class="bi bi-cup-hot"></i></span>
+                    <span class="metric-label">Descanso</span>
+                    <span class="metric-chip" id="kpiRestPct">46%</span>
+                  </div>
+                  <div class="metric-value" id="kpiRest">6,5 <small>h</small></div>
+                  <div class="metric-sub">Meta de <span id="kpiRestMeta">14 h</span> · 7 dias</div>
+                  <div class="progress metric-progress" role="progressbar" aria-label="Descanso face à meta">
+                    <div class="progress-bar bg-green" id="kpiRestBar"></div>
+                  </div>
+                </article>
+              </div>
+              <div class="col-6 col-xl-3">
+                <article class="metric-card h-100">
+                  <div class="metric-top">
+                    <span class="metric-icon tone-amber"><i class="bi bi-fire"></i></span>
+                    <span class="metric-label">Sequência de estudo</span>
+                    <span class="metric-chip metric-chip-warning" id="kpiStreakBadge">Atenção</span>
+                  </div>
+                  <div class="metric-value"><span id="kpiStreak">7</span> <small>dias</small></div>
+                  <div class="metric-sub" id="kpiStreakNote">sem pausa dedicada</div>
+                  <div class="metric-mini-track" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                </article>
+              </div>
+              <div class="col-6 col-xl-3">
+                <article class="metric-card h-100">
+                  <div class="metric-top">
+                    <span class="metric-icon tone-coral"><i class="bi bi-heart-pulse"></i></span>
+                    <span class="metric-label">Risco de burnout</span>
+                    <span class="metric-chip metric-chip-danger" id="kpiRiskBadge">Moderado</span>
+                  </div>
+                  <div class="metric-value"><span id="kpiRisk">39</span> <small>/100</small></div>
+                  <div class="metric-sub" id="kpiRiskNote">2 fatores em atenção</div>
+                  <div class="progress metric-progress" role="progressbar" aria-label="Risco de burnout">
+                    <div class="progress-bar" id="kpiRiskBar"></div>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-xl-8">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Ritmo dos últimos 7 dias</h3>
+                      <p>Horas de trabalho académico e descanso por dia.</p>
+                    </div>
+                    <span class="panel-note" id="chartScaleNote">Escala: 8 h/dia</span>
+                  </div>
+                  <div class="chart-legend">
+                    <span><i class="legend-dot dot-study"></i> Trabalho académico</span>
+                    <span><i class="legend-dot dot-rest"></i> Descanso</span>
+                  </div>
+                  <div
+                    class="chart-wrap"
+                    id="weeklyChart"
+                    role="group"
+                    aria-label="Gráfico de horas de trabalho académico e descanso nos últimos sete dias"
+                  ></div>
+                </section>
+              </div>
+              <div class="col-xl-4">
+                <section class="panel h-100 d-flex flex-column">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Sinais de atenção</h3>
+                      <p>Fatores com impacto no risco.</p>
+                    </div>
+                    <span class="badge badge-soft-warning" id="signalsCount">2</span>
+                  </div>
+                  <div class="signal-list" id="signalsList"></div>
+                  <a href="#burnout" class="panel-link mt-auto">
+                    Abrir análise anti-burnout <i class="bi bi-arrow-right"></i>
+                  </a>
+                </section>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-xl-7">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Metas por UC</h3>
+                      <p>Estudo autónomo registado face à meta semanal.</p>
+                    </div>
+                    <a href="#ects" class="panel-link">Gerir UCs</a>
+                  </div>
+                  <div class="goal-list" id="courseGoalsList"></div>
+                </section>
+              </div>
+              <div class="col-xl-5">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Últimos registos</h3>
+                      <p>O que entrou na tua semana.</p>
+                    </div>
+                    <a href="#registo" class="panel-link">Ver todos</a>
+                  </div>
+                  <div class="recent-list" id="recentLogsList"></div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================ ECTS ============================ -->
+          <section data-view="ects" hidden>
+            <div class="page-heading">
+              <div>
+                <span class="eyebrow">Módulo 1 · ECTS</span>
+                <h2>Unidades curriculares</h2>
+                <p>Define as UCs, os créditos e as horas de contacto para calcular a meta autónoma.</p>
+              </div>
+              <button class="btn btn-primary" id="newCourseBtn" type="button">
+                <i class="bi bi-plus-lg"></i> Nova UC
+              </button>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-6 col-xl-3">
+                <article class="stat-card">
+                  <span class="stat-icon tone-teal"><i class="bi bi-mortarboard"></i></span>
+                  <div><span class="stat-label">ECTS inscritos</span><strong id="ectsStatTotal">30</strong></div>
+                </article>
+              </div>
+              <div class="col-6 col-xl-3">
+                <article class="stat-card">
+                  <span class="stat-icon tone-blue"><i class="bi bi-clock-history"></i></span>
+                  <div><span class="stat-label">Carga total / semana</span><strong><span id="ectsStatHours">40,5</span> h</strong></div>
+                </article>
+              </div>
+              <div class="col-6 col-xl-3">
+                <article class="stat-card">
+                  <span class="stat-icon tone-violet"><i class="bi bi-easel2"></i></span>
+                  <div><span class="stat-label">Horas de contacto</span><strong><span id="ectsStatContact">18</span> h</strong></div>
+                </article>
+              </div>
+              <div class="col-6 col-xl-3">
+                <article class="stat-card">
+                  <span class="stat-icon tone-amber"><i class="bi bi-book-half"></i></span>
+                  <div><span class="stat-label">Estudo autónomo</span><strong><span id="ectsStatAutonomous">22,5</span> h</strong></div>
+                </article>
+              </div>
+            </div>
+
+            <div class="formula-banner mb-4">
+              <div class="formula-icon"><i class="bi bi-calculator"></i></div>
+              <div class="formula-copy">
+                <strong>Como calculamos a meta?</strong>
+                <span id="courseFormula">
+                  1 ECTS = 27 h · meta semanal = (ECTS × 27 ÷ 20) − horas de contacto
+                </span>
+              </div>
+              <span class="badge badge-soft-neutral"><i class="bi bi-calendar3"></i> Semestre de 20 semanas</span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h3 class="section-title">As tuas UCs <span class="badge badge-soft-neutral" id="courseCountBadge">5</span></h3>
+              <span class="text-muted small">Clica em editar para ajustar os créditos ou as horas de contacto.</span>
+            </div>
+            <div class="row g-3" id="coursesGrid"></div>
+          </section>
+
+          <!-- ============================ REGISTO ============================ -->
+          <section data-view="registo" hidden>
+            <div class="page-heading">
+              <div>
+                <span class="eyebrow">Módulo 2 · Registo</span>
+                <h2>Registo diário</h2>
+                <p>Adiciona aulas, estudo autónomo, projeto e descanso. Os indicadores atualizam de imediato.</p>
+              </div>
+              <button class="btn btn-primary" id="newLogBtn" type="button">
+                <i class="bi bi-plus-lg"></i> Novo registo
+              </button>
+            </div>
+
+            <div class="row g-4">
+              <div class="col-xl-4">
+                <section class="panel sticky-panel" id="logFormPanel">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Adicionar registo</h3>
+                      <p>Um registo rápido vale mais do que um registo perfeito.</p>
+                    </div>
+                  </div>
+                  <div class="panel-body pt-0">
+                    <form id="logForm" novalidate>
+                      <div class="mb-3">
+                        <label for="logDate" class="form-label">Data</label>
+                        <input type="date" class="form-control" id="logDate" required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="logType" class="form-label">Tipo de atividade</label>
+                        <select class="form-select" id="logType" required>
+                          <option value="estudo">Estudo autónomo</option>
+                          <option value="aula">Aula</option>
+                          <option value="projeto">Projeto / reunião</option>
+                          <option value="descanso">Descanso / lazer</option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="logCourse" class="form-label">Unidade curricular</label>
+                        <select class="form-select" id="logCourse" required></select>
+                        <div class="form-text" id="logCourseHelp">Associa o registo a uma UC.</div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="logMinutes" class="form-label">Duração (minutos)</label>
+                        <div class="input-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            id="logMinutes"
+                            min="5"
+                            max="720"
+                            step="5"
+                            placeholder="60"
+                            required
+                          />
+                          <span class="input-group-text">min</span>
+                        </div>
+                        <div class="quick-durations mt-2" role="group" aria-label="Durações rápidas">
+                          <button type="button" class="btn btn-quick" data-quick-minutes="30">30 min</button>
+                          <button type="button" class="btn btn-quick" data-quick-minutes="60">60 min</button>
+                          <button type="button" class="btn btn-quick" data-quick-minutes="90">90 min</button>
+                          <button type="button" class="btn btn-quick" data-quick-minutes="120">2 h</button>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="logNote" class="form-label">
+                          Nota <span class="text-muted fw-normal">(opcional)</span>
+                        </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="logNote"
+                          maxlength="120"
+                          placeholder="Ex.: revisão de exercícios"
+                        />
+                      </div>
+                      <div class="alert alert-danger py-2 px-3 small" id="logFormError" hidden></div>
+                      <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-check2-circle"></i> Adicionar registo
+                      </button>
+                      <p class="form-hint mt-3">
+                        <i class="bi bi-shield-lock"></i> Os dados ficam apenas neste browser.
+                      </p>
+                    </form>
+                  </div>
+                </section>
+              </div>
+
+              <div class="col-xl-8">
+                <div class="row g-3 mb-3">
+                  <div class="col-4">
+                    <article class="summary-card">
+                      <span class="summary-label">Trabalho académico</span>
+                      <strong id="logSummaryWorkload">0 h</strong>
+                      <small>no período filtrado</small>
+                    </article>
+                  </div>
+                  <div class="col-4">
+                    <article class="summary-card">
+                      <span class="summary-label">Estudo autónomo</span>
+                      <strong id="logSummaryAutonomous">0 h</strong>
+                      <small>estudo + projeto</small>
+                    </article>
+                  </div>
+                  <div class="col-4">
+                    <article class="summary-card">
+                      <span class="summary-label">Descanso</span>
+                      <strong id="logSummaryRest">0 h</strong>
+                      <small>pausas e lazer</small>
+                    </article>
+                  </div>
+                </div>
+
+                <section class="panel">
+                  <div class="panel-head flex-wrap gap-3">
+                    <div>
+                      <h3>Histórico <span class="badge badge-soft-neutral" id="logsCount">0</span></h3>
+                      <p>Filtra para encontrar um registo específico.</p>
+                    </div>
+                    <div class="filter-row">
+                      <select class="form-select form-select-sm" id="logFilterPeriod" aria-label="Filtrar por período">
+                        <option value="7">Últimos 7 dias</option>
+                        <option value="30">Últimos 30 dias</option>
+                        <option value="all">Todo o histórico</option>
+                      </select>
+                      <select class="form-select form-select-sm" id="logFilterCourse" aria-label="Filtrar por UC">
+                        <option value="all">Todas as UCs</option>
+                      </select>
+                      <select class="form-select form-select-sm" id="logFilterType" aria-label="Filtrar por tipo">
+                        <option value="all">Todos os tipos</option>
+                        <option value="aula">Aula</option>
+                        <option value="estudo">Estudo autónomo</option>
+                        <option value="projeto">Projeto / reunião</option>
+                        <option value="descanso">Descanso / lazer</option>
+                      </select>
+                      <button class="btn btn-sm btn-soft" id="logFilterReset" type="button" title="Limpar filtros">
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive" id="logsTableWrap">
+                    <table class="table table-hover align-middle logs-table mb-0">
+                      <caption class="visually-hidden">Registos diários de atividade</caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">Data</th>
+                          <th scope="col">UC</th>
+                          <th scope="col">Tipo</th>
+                          <th scope="col">Duração</th>
+                          <th scope="col">Nota</th>
+                          <th scope="col" class="text-end">Ação</th>
+                        </tr>
+                      </thead>
+                      <tbody id="logsTableBody"></tbody>
+                    </table>
+                  </div>
+
+                  <div class="empty-state" id="logsEmpty" hidden>
+                    <span class="empty-icon"><i class="bi bi-inbox"></i></span>
+                    <h4>Sem registos para estes filtros</h4>
+                    <p>Adiciona uma atividade ou limpa os filtros para voltar a ver o histórico.</p>
+                    <button type="button" class="btn btn-soft btn-sm" id="logsEmptyReset">Limpar filtros</button>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================ BURNOUT ============================ -->
+          <section data-view="burnout" hidden>
+            <div class="page-heading">
+              <div>
+                <span class="eyebrow">Módulo 3 · Bem-estar</span>
+                <h2>Anti-burnout</h2>
+                <p>Uma leitura preventiva do esforço acumulado, descanso e padrões de trabalho.</p>
+              </div>
+              <span class="badge badge-soft-neutral px-3 py-2">
+                <i class="bi bi-activity"></i> Análise em tempo real
+              </span>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-xl-7">
+                <section class="panel risk-hero h-100">
+                  <div class="risk-hero-main">
+                    <div
+                      class="gauge"
+                      id="riskGauge"
+                      role="img"
+                      aria-label="Pontuação de risco de burnout"
+                    >
+                      <div class="gauge-inner">
+                        <span class="gauge-score" id="riskScore">39</span>
+                        <span class="gauge-label">/ 100</span>
+                      </div>
+                    </div>
+                    <div class="risk-copy">
+                      <span class="eyebrow">Estado atual</span>
+                      <div class="d-flex flex-wrap align-items-center gap-2">
+                        <h3 id="riskLevelText">Risco moderado</h3>
+                        <span class="badge risk-badge" id="riskLevelBadge">Moderado</span>
+                      </div>
+                      <p id="riskMessage">
+                        Há sinais de desgaste acumulado. Vale a pena abrandar nas próximas 48 horas.
+                      </p>
+                      <div class="risk-meta">
+                        <span><i class="bi bi-calendar-week"></i> Janela móvel de 7 dias</span>
+                        <span><i class="bi bi-clock-history"></i> <span id="riskWindow">atualizado agora</span></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="risk-recommendations">
+                    <h4><i class="bi bi-stars"></i> Plano de recuperação</h4>
+                    <ul id="riskRecommendations"></ul>
+                  </div>
+                </section>
+              </div>
+              <div class="col-xl-5">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Radar de hábitos</h3>
+                      <p>Indicadores dos últimos 7 dias.</p>
+                    </div>
+                  </div>
+                  <div class="habit-grid">
+                    <article class="habit-card">
+                      <span class="habit-icon tone-amber"><i class="bi bi-arrow-repeat"></i></span>
+                      <div>
+                        <span class="habit-label">Dias consecutivos</span>
+                        <strong id="habitStreak">7 dias</strong>
+                        <small id="habitStreakNote">sem pausa dedicada</small>
+                      </div>
+                      <span class="habit-status" id="habitStreakStatus"><i class="bi bi-exclamation-triangle"></i></span>
+                    </article>
+                    <article class="habit-card">
+                      <span class="habit-icon tone-teal"><i class="bi bi-graph-up-arrow"></i></span>
+                      <div>
+                        <span class="habit-label">Carga vs. meta</span>
+                        <strong id="habitLoad">93%</strong>
+                        <small id="habitLoadNote">21 h de 22,5 h</small>
+                      </div>
+                      <span class="habit-status" id="habitLoadStatus"><i class="bi bi-check-lg"></i></span>
+                    </article>
+                    <article class="habit-card">
+                      <span class="habit-icon tone-green"><i class="bi bi-cup-hot"></i></span>
+                      <div>
+                        <span class="habit-label">Descanso</span>
+                        <strong id="habitRest">6,5 h</strong>
+                        <small id="habitRestNote">46% da meta</small>
+                      </div>
+                      <span class="habit-status" id="habitRestStatus"><i class="bi bi-exclamation-triangle"></i></span>
+                    </article>
+                    <article class="habit-card">
+                      <span class="habit-icon tone-violet"><i class="bi bi-hourglass-split"></i></span>
+                      <div>
+                        <span class="habit-label">Sessão mais longa</span>
+                        <strong id="habitLongest">3 h</strong>
+                        <small id="habitLongestNote">nos últimos 7 dias</small>
+                      </div>
+                      <span class="habit-status" id="habitLongestStatus"><i class="bi bi-info-circle"></i></span>
+                    </article>
+                  </div>
+                </section>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-xl-7">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Decomposição do risco</h3>
+                      <p>Cada fator soma pontos à pontuação final.</p>
+                    </div>
+                    <span class="panel-note">Máx. 100</span>
+                  </div>
+                  <div class="factor-list" id="riskFactorsList"></div>
+                </section>
+              </div>
+              <div class="col-xl-5">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Mapa da semana</h3>
+                      <p>Estudo autónomo e descanso por dia.</p>
+                    </div>
+                  </div>
+                  <div class="heatmap" id="burnoutHeatmap"></div>
+                  <div class="heat-legend">
+                    <span><i class="legend-dot dot-study"></i> Estudo autónomo</span>
+                    <span><i class="legend-dot dot-rest"></i> Descanso</span>
+                  </div>
+                </section>
+              </div>
+            </div>
+
+            <section class="panel scenario-panel mb-3">
+              <div class="panel-head flex-wrap gap-2">
+                <div>
+                  <h3>Laboratório de cenários</h3>
+                  <p>Substitui os registos atuais por uma semana de demonstração e observa o motor de risco.</p>
+                </div>
+                <span class="badge badge-soft-neutral">Apenas protótipo</span>
+              </div>
+              <div class="scenario-grid">
+                <button type="button" class="scenario-option" data-scenario="balanced">
+                  <span class="scenario-icon tone-teal"><i class="bi bi-flower1"></i></span>
+                  <span class="scenario-copy">
+                    <strong>Equilibrado</strong>
+                    <small>Carga moderada e descanso acima da meta.</small>
+                  </span>
+                  <span class="badge badge-soft-success">Risco baixo</span>
+                </button>
+                <button type="button" class="scenario-option" data-scenario="overload">
+                  <span class="scenario-icon tone-coral"><i class="bi bi-fire"></i></span>
+                  <span class="scenario-copy">
+                    <strong>Sobrecarga</strong>
+                    <small>Sete dias intensos, sem descanso registado.</small>
+                  </span>
+                  <span class="badge badge-soft-danger">Risco crítico</span>
+                </button>
+                <button type="button" class="scenario-option" data-scenario="recovery">
+                  <span class="scenario-icon tone-green"><i class="bi bi-brightness-high"></i></span>
+                  <span class="scenario-copy">
+                    <strong>Recuperação</strong>
+                    <small>Semana leve, com pausas e descanso.</small>
+                  </span>
+                  <span class="badge badge-soft-success">Risco baixo</span>
+                </button>
+              </div>
+            </section>
+
+            <div class="alert-soft alert-soft-warning mb-0">
+              <i class="bi bi-info-circle"></i>
+              <div>
+                <strong>Nota importante.</strong>
+                Este protótipo é uma heurística de bem-estar e não substitui acompanhamento clínico.
+                Se o cansaço persistir, procura o apoio psicopedagógico do ISEP ou um profissional de saúde.
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================ SOBRE ============================ -->
+          <section data-view="sobre" hidden>
+            <div class="page-heading">
+              <div>
+                <span class="eyebrow">Documentação</span>
+                <h2>Sobre o protótipo</h2>
+                <p>Do relatório do Sprint 1 a uma interface navegável para validar os fluxos do produto.</p>
+              </div>
+              <span class="badge badge-soft-neutral px-3 py-2" id="aboutVersion">v1.0 · protótipo</span>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-lg-7">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Porque existe este protótipo?</h3>
+                      <p>O relatório descreve uma aplicação de consola; esta versão web testa a experiência.</p>
+                    </div>
+                  </div>
+                  <div class="about-copy">
+                    <p>
+                      O <strong>ISEP Study-Life Balance Tracker</strong> nasce da necessidade de transformar
+                      o planeamento académico num processo quantitativo e preventivo. O relatório do Sprint 1
+                      identificou três módulos: gestão de ECTS, registo diário e monitorização anti-burnout.
+                    </p>
+                    <p>
+                      Para validar a experiência antes da implementação em consola, este protótipo adapta os
+                      mesmos fluxos a uma interface web. As regras de cálculo, o modelo de dados e os cenários
+                      de teste são partilhados com a futura aplicação; o backend e a persistência definitiva
+                      ficam para a próxima fase.
+                    </p>
+                    <div class="about-pills">
+                      <span><i class="bi bi-code-slash"></i> HTML + Bootstrap 5</span>
+                      <span><i class="bi bi-filetype-js"></i> JavaScript vanilla</span>
+                      <span><i class="bi bi-hdd"></i> localStorage</span>
+                      <span><i class="bi bi-phone"></i> Responsivo</span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="col-lg-5">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Estado dos dados</h3>
+                      <p>Informação guardada neste browser.</p>
+                    </div>
+                  </div>
+                  <div class="about-stats">
+                    <div><span>Unidades curriculares</span><strong id="aboutCourses">5</strong></div>
+                    <div><span>Registos</span><strong id="aboutLogs">28</strong></div>
+                    <div><span>Cenário atual</span><strong id="aboutScenario">Demonstração</strong></div>
+                    <div><span>Última atualização</span><strong id="aboutUpdated">—</strong></div>
+                  </div>
+                  <button type="button" class="btn btn-soft w-100 mt-3" id="aboutResetBtn">
+                    <i class="bi bi-arrow-counterclockwise"></i> Repor dados de demonstração
+                  </button>
+                </section>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <article class="info-card h-100">
+                  <span class="info-icon tone-teal"><i class="bi bi-journal-bookmark"></i></span>
+                  <h4>Módulo de ECTS</h4>
+                  <p>Converte créditos em horas semanais e desconta as aulas para obter a meta autónoma por UC.</p>
+                  <span class="info-tag">Implementado</span>
+                </article>
+              </div>
+              <div class="col-md-4">
+                <article class="info-card h-100">
+                  <span class="info-icon tone-blue"><i class="bi bi-pencil-square"></i></span>
+                  <h4>Registo diário</h4>
+                  <p>Regista aulas, estudo, projeto e descanso, com filtros, resumos e histórico persistente.</p>
+                  <span class="info-tag">Implementado</span>
+                </article>
+              </div>
+              <div class="col-md-4">
+                <article class="info-card h-100">
+                  <span class="info-icon tone-coral"><i class="bi bi-heart-pulse"></i></span>
+                  <h4>Anti-burnout</h4>
+                  <p>Calcula risco com cinco fatores, explica a pontuação e sugere ações de recuperação.</p>
+                  <span class="info-tag">Implementado</span>
+                </article>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-lg-7">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Como testar em cinco passos</h3>
+                      <p>Um percurso rápido para validar o protótipo.</p>
+                    </div>
+                  </div>
+                  <ol class="test-steps">
+                    <li><span>1</span><div><strong>Explora a visão geral.</strong> Confirma as metas, o gráfico de 7 dias e os sinais de atenção.</div></li>
+                    <li><span>2</span><div><strong>Edita uma UC.</strong> Muda as horas de contacto e observa a meta autónoma a ser recalculada.</div></li>
+                    <li><span>3</span><div><strong>Adiciona um registo.</strong> Regista estudo ou descanso e vê os indicadores atualizarem.</div></li>
+                    <li><span>4</span><div><strong>Testa o cenário de sobrecarga.</strong> Em Anti-burnout, aplica o cenário e verifica o risco crítico.</div></li>
+                    <li><span>5</span><div><strong>Repõe a demonstração.</strong> Usa o botão no topo para voltar ao estado inicial.</div></li>
+                  </ol>
+                </section>
+              </div>
+              <div class="col-lg-5">
+                <section class="panel h-100">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Limites conhecidos</h3>
+                      <p>O que fica fora desta iteração.</p>
+                    </div>
+                  </div>
+                  <ul class="limit-list">
+                    <li><i class="bi bi-x-circle"></i> Sem backend, autenticação ou sincronização entre dispositivos.</li>
+                    <li><i class="bi bi-x-circle"></i> Dados limitados ao browser; limpar o armazenamento apaga o histórico.</li>
+                    <li><i class="bi bi-x-circle"></i> O risco é uma heurística, não uma avaliação clínica.</li>
+                    <li><i class="bi bi-x-circle"></i> Não há exportação, notificações ou integração com calendário.</li>
+                  </ul>
+                </section>
+              </div>
+            </div>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Projeto e equipa</h3>
+                  <p>Contexto académico do protótipo.</p>
+                </div>
+              </div>
+              <div class="about-copy">
+                <p>
+                  Trabalho desenvolvido no âmbito de <strong>LAPR1 2026/27</strong>, turma
+                  <strong>LAPR1-2627-DKL01-Skills</strong>, pelo grupo <strong>“Quarteto Maravilha”</strong>:
+                  Nuno Sousa, Miguel Pedrosa, Rodrigo Pinheiro e Sofia de Souza.
+                </p>
+                <p class="text-muted mb-0">
+                  Protótipo académico independente. Não é uma aplicação oficial do ISEP. A documentação do
+                  processo está em <code>docs/PROCESSO.md</code> e a visão geral em <code>README.md</code>.
+                </p>
+              </div>
+            </section>
+          </section>
+        </main>
+
+        <footer class="app-footer">
+          <span>Protótipo académico · LAPR1 2026/27 · Quarteto Maravilha</span>
+          <span><i class="bi bi-hdd"></i> Dados locais no browser</span>
+        </footer>
+      </div>
+    </div>
+
+    <!-- ============================ MODAL: UC ============================ -->
+    <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form id="courseForm" novalidate>
+            <div class="modal-header">
+              <div>
+                <h2 class="modal-title fs-5" id="courseModalTitle">Nova UC</h2>
+                <p class="modal-subtitle">Os créditos e as horas de contacto alimentam o cálculo da meta.</p>
+              </div>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="courseId" />
+              <div class="mb-3">
+                <label for="courseName" class="form-label">Nome da UC</label>
+                <input type="text" class="form-control" id="courseName" maxlength="80" required placeholder="Ex.: Laboratório de Engenharia I" />
+              </div>
+              <div class="row g-3">
+                <div class="col-6">
+                  <label for="courseCode" class="form-label">Código</label>
+                  <input type="text" class="form-control" id="courseCode" maxlength="12" required placeholder="LAPR1" />
+                </div>
+                <div class="col-6">
+                  <label for="courseEcts" class="form-label">ECTS</label>
+                  <input type="number" class="form-control" id="courseEcts" min="1" max="30" step="0.5" required />
+                </div>
+                <div class="col-6">
+                  <label for="courseContactHours" class="form-label">Horas de contacto / semana</label>
+                  <input type="number" class="form-control" id="courseContactHours" min="0" max="30" step="0.5" required />
+                </div>
+                <div class="col-6">
+                  <label for="courseColor" class="form-label">Cor de identificação</label>
+                  <input type="color" class="form-control form-control-color w-100" id="courseColor" value="#0f9d8a" title="Escolher cor da UC" />
+                </div>
+              </div>
+              <div class="form-text mt-3">
+                Meta autónoma = (ECTS × 27 ÷ 20) − horas de contacto. Podes ajustar este modelo em
+                <code>assets/js/core.js</code>.
+              </div>
+              <div class="alert alert-danger py-2 px-3 mt-3 mb-0 small" id="courseFormError" hidden></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-soft" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary" id="courseSubmitBtn">Guardar UC</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================ MODAL: CONFIRMAÇÃO ============================ -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm-custom">
+        <div class="modal-content confirm-content">
+          <div class="confirm-icon" id="confirmIcon"><i class="bi bi-exclamation-triangle"></i></div>
+          <h2 class="confirm-title" id="confirmTitle">Confirmar ação</h2>
+          <p class="confirm-message" id="confirmMessage">Esta ação não pode ser anulada.</p>
+          <div class="confirm-actions">
+            <button type="button" class="btn btn-soft" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirmOkBtn">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>

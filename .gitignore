@@ -1,0 +1,21 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependências e artefactos
+node_modules/
+dist/
+build/
+coverage/
+
+# Ambiente e segredos
+.env
+.env.*
+!.env.example
+
+# Logs e temporários
+*.log
+*.tmp
+*.swp
+*~
