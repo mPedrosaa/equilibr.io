@@ -128,9 +128,9 @@ No primeiro arranque, o protótipo cria automaticamente um cenário demonstrativ
 | --- | --- |
 | Unidades curriculares | 5 |
 | ECTS inscritos | 30 |
-| Horas de contacto semanais | 18 h |
+| Horas de contacto semanais | 19 h |
 | Carga total semanal | 40,5 h |
-| Meta de estudo autónomo | 22,5 h |
+| Meta de estudo autónomo | 21,5 h |
 | Estudo autónomo registado | 21,0 h |
 | Descanso registado | 6,5 h |
 | Sequência de estudo | 7 dias |
