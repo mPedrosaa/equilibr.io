@@ -41,7 +41,7 @@
 
           <div class="workspace-box">
             <h2>Aulas</h2>
-            <p class="small">Define o dia e o intervalo de cada aula. Formato 24h: HH:MM.</p>
+            <p class="small">Define o dia e o intervalo de cada aula, em formato 24h.</p>
 
             <form id="classForm" class="inline-form" novalidate>
               <div>
@@ -54,11 +54,11 @@
               </div>
               <div>
                 <label for="classStart">Início</label>
-                <input id="classStart" type="text" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM" autocomplete="off" required />
+                <input id="classStart" type="time" lang="pt-PT" step="60" required />
               </div>
               <div>
                 <label for="classEnd">Fim</label>
-                <input id="classEnd" type="text" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM" autocomplete="off" required />
+                <input id="classEnd" type="time" lang="pt-PT" step="60" required />
               </div>
               <button class="button" type="submit">Adicionar aula</button>
             </form>
@@ -69,7 +69,7 @@
 
           <div class="workspace-box" style="margin-top: 8px">
             <h2>Estudo autónomo</h2>
-            <p class="small">Define apenas o intervalo reservado para estudo. Formato 24h: HH:MM.</p>
+            <p class="small">Define apenas o intervalo reservado para estudo, em formato 24h.</p>
 
             <form id="studyForm" class="inline-form study-form" novalidate>
               <div>
@@ -78,11 +78,11 @@
               </div>
               <div>
                 <label for="studyStart">Início</label>
-                <input id="studyStart" type="text" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM" autocomplete="off" required />
+                <input id="studyStart" type="time" lang="pt-PT" step="60" required />
               </div>
               <div>
                 <label for="studyEnd">Fim</label>
-                <input id="studyEnd" type="text" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM" autocomplete="off" required />
+                <input id="studyEnd" type="time" lang="pt-PT" step="60" required />
               </div>
               <button class="button" type="submit">Adicionar estudo</button>
             </form>
