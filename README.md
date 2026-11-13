@@ -114,7 +114,7 @@ npx serve .
 
 ### Abrir diretamente
 
-Os ficheiros `index.html`, `login.html` e `app.html` também podem ser abertos diretamente no browser. Ainda assim, o servidor local é recomendado para garantir um comportamento consistente do `localStorage` entre sessões.
+Os ficheiros `index.html`, `login.html`, `register.html` e `app.html` também podem ser abertos diretamente no browser. Ainda assim, o servidor local é recomendado para garantir um comportamento consistente do `localStorage` entre sessões.
 
 ### Requisitos
 
@@ -205,6 +205,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 .
 ├── index.html                     # Landing page
 ├── login.html                     # Ecrã de entrada
+├── register.html                  # Criação de conta
 ├── app.html                       # Shell, vistas, modais e conteúdo estático
 ├── assets/
 │   ├── css/
@@ -214,7 +215,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   │   ├── core.js                # Regras de negócio puras e motor de risco
 │   │   ├── data.js                # UCs mock, dados demo e cenários
 │   │   ├── app.js                 # Rotas, estado, renderização e CRUD
-│   │   ├── auth.js                # Entrada com Supabase e modo demonstração
+│   │   ├── auth.js                # Login e registo com Supabase
 │   │   └── config.js              # Configuração pública gerada a partir do .env
 │   └── vendor/
 │       ├── bootstrap/             # Bootstrap 5.3.3 local
@@ -231,7 +232,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   ├── core.test.js               # 13 testes de domínio com Node.js
 │   └── integration/
 │       ├── app.spec.js            # 4 testes de integração da aplicação
-│       └── landing.spec.js        # 2 testes da landing e do login
+│       └── landing.spec.js        # 3 testes da landing, login e registo
 ├── .github/
 │   └── workflows/
 │       └── pr-tests.yml           # Testes automáticos em Pull Requests
@@ -286,10 +287,11 @@ npx playwright install chromium
 npm run test:integration
 ```
 
-Cobrem atualmente seis fluxos:
+Cobrem atualmente sete fluxos:
 
-- landing page com marca e botão de entrada;
-- ecrã de login e passagem para a demonstração local;
+- landing page com marca e entradas;
+- ecrã de login sem logs de configuração e passagem para a demonstração local;
+- ecrã de registo com validação de palavra-passe;
 - dashboard com marca e indicadores base;
 - navegação entre vistas e totais das UCs;
 - criação de um registo e persistência após recarregar;
@@ -299,7 +301,7 @@ Os testes de domínio e de integração correm automaticamente em **GitHub Actio
 
 ## Backend e autenticação
 
-O login está preparado para Supabase Auth e o esquema da base de dados já existe
+O login e o registo estão preparados para Supabase Auth e o esquema da base de dados já existe
 em [`supabase/migrations/`](supabase/migrations/). O guia completo está em
 [`docs/BACKEND.md`](docs/BACKEND.md).
 
@@ -340,7 +342,7 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) mostram as cinco vistas 
 
 ## Limitações
 
-- O schema e o login Supabase estão preparados, mas a aplicação demo ainda não persiste os registos na base de dados.
+- O schema, o login e o registo com Supabase estão preparados, mas a aplicação demo ainda não persiste os registos na base de dados.
 - Os dados da demonstração ficam no browser. Limpar o armazenamento elimina o histórico local.
 - A sincronização entre dispositivos e o multiutilizador ainda não estão ligados à interface.
 - O perfil é demonstrativo e não editável na interface.

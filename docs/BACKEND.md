@@ -113,7 +113,9 @@ npm run db:seed
 
 ## Estado atual da integração
 
-- A landing page e o ecrã de login já estão preparados para Supabase Auth.
+- A landing page, o login e o registo já estão preparados para Supabase Auth.
+- O registo usa `signUp`, guarda o nome em `user_metadata.full_name` e redireciona a confirmação para `login.html`.
+- Com confirmação de email ativa, o utilizador tem de confirmar a conta antes de entrar. Configura o SMTP e as URLs permitidas no dashboard do Supabase.
 - Sem `SUPABASE_URL` e `SUPABASE_ANON_KEY`, o login mostra um aviso e a aplicação
   continua disponível em modo de demonstração local.
 - A aplicação (`app.html`) ainda usa `localStorage` para os dados de
