@@ -1,0 +1,13 @@
+{
+  "name": "equilibr.io",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Protótipo web do equilibr.io (ISEP Study-Life Balance Tracker)",
+  "scripts": {
+    "test": "node tests/core.test.js",
+    "test:integration": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0"
+  }
+}
