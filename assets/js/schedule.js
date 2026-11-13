@@ -26,6 +26,8 @@
   let user = null;
   let courses = [];
 
+  const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
+
   document.getElementById('classDay').innerHTML = dayOptions();
   document.getElementById('studyDay').innerHTML = dayOptions();
 
@@ -113,8 +115,8 @@
 
     const start = document.getElementById('classStart').value;
     const end = document.getElementById('classEnd').value;
-    if (!start || !end || end <= start) {
-      setStatus(classStatus, 'O fim tem de ser depois do início.', 'error');
+    if (!TIME_PATTERN.test(start) || !TIME_PATTERN.test(end) || end <= start) {
+      setStatus(classStatus, 'Usa o formato 24h HH:MM e garante que o fim é depois do início.', 'error');
       return;
     }
 
@@ -143,8 +145,8 @@
 
     const start = document.getElementById('studyStart').value;
     const end = document.getElementById('studyEnd').value;
-    if (!start || !end || end <= start) {
-      setStatus(studyStatus, 'O fim tem de ser depois do início.', 'error');
+    if (!TIME_PATTERN.test(start) || !TIME_PATTERN.test(end) || end <= start) {
+      setStatus(studyStatus, 'Usa o formato 24h HH:MM e garante que o fim é depois do início.', 'error');
       return;
     }
 
