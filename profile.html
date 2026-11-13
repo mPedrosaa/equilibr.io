@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Perfil do utilizador no equilibr.io." />
+    <meta name="theme-color" content="#d9d9d9" />
+    <title>Perfil · equilibr.io</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ffffff' stroke='%23000000' stroke-width='4'/%3E%3Ctext x='32' y='43' font-family='Times New Roman' font-size='30' text-anchor='middle' fill='%23000000'%3Eeq%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="assets/css/landing.css" />
+  </head>
+  <body>
+    <div class="page page-narrow">
+      <header class="site-header">
+        <a class="brand" href="index.html" aria-label="equilibr.io — início">
+          <span class="brand-box">eq</span>
+          <span>equilibr.io</span>
+        </a>
+        <nav class="site-nav" aria-label="Navegação principal">
+          <a href="app.html#dashboard">Aplicação</a>
+          <a href="login.html">Entrar</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="form-card">
+          <p class="kicker">Conta</p>
+          <h1>Perfil</h1>
+          <p class="small" id="profileWho">A carregar sessão…</p>
+
+          <p id="profileStatus" class="status" role="status" aria-live="polite" hidden></p>
+
+          <div id="profileForms" hidden>
+            <form id="profileNameForm" class="stack" novalidate>
+              <label for="profileName">Nome</label>
+              <input id="profileName" name="name" type="text" minlength="2" maxlength="80" required />
+              <button class="button" type="submit">Guardar nome</button>
+            </form>
+
+            <hr />
+
+            <form id="profileEmailForm" class="stack" novalidate>
+              <label for="profileEmail">Email</label>
+              <input id="profileEmail" name="email" type="email" autocomplete="email" required />
+              <button class="button" type="submit">Atualizar email</button>
+            </form>
+
+            <hr />
+
+            <form id="profilePasswordForm" class="stack" novalidate>
+              <label for="profileNewPassword">Nova palavra-passe</label>
+              <input
+                id="profileNewPassword"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              />
+              <label for="profileConfirmPassword">Confirmar palavra-passe</label>
+              <input
+                id="profileConfirmPassword"
+                name="confirm"
+                type="password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              />
+              <button class="button" type="submit">Alterar palavra-passe</button>
+            </form>
+
+            <hr />
+
+            <button class="button" type="button" id="logoutBtn">Sair da conta</button>
+          </div>
+
+          <div id="profileLoginPrompt" hidden>
+            <p class="small">Sem sessão ativa. Entra para editares o teu perfil.</p>
+            <p class="small">
+              <a href="login.html">Entrar</a> ·
+              <a href="app.html#dashboard">Continuar em demonstração</a>
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <a href="index.html">Voltar à página inicial</a>
+        <span>Nuno Sousa · Miguel Pedrosa · Rodrigo Pinheiro · Sofia de Souza</span>
+      </footer>
+    </div>
+
+    <script src="assets/vendor/supabase/supabase.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/profile.js"></script>
+  </body>
+</html>

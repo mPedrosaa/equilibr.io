@@ -72,6 +72,10 @@ code {
   text-decoration: none;
 }
 
+a.avatar {
+  text-decoration: none;
+}
+
 .brand:visited {
   color: var(--ink);
 }
