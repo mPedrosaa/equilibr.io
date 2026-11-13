@@ -5,7 +5,9 @@
   "description": "Protótipo web do equilibr.io (ISEP Study-Life Balance Tracker)",
   "scripts": {
     "config": "node scripts/generate-config.mjs",
+    "db:migrate": "node scripts/apply-migrations.mjs",
     "db:seed": "node scripts/seed-courses.mjs",
+    "db:setup": "npm run db:migrate && npm run db:seed",
     "test": "node tests/core.test.js",
     "test:integration": "playwright test"
   },
