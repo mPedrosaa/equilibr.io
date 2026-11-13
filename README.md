@@ -213,10 +213,17 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │       ├── bootstrap/             # Bootstrap 5.3.3 local
 │       └── bootstrap-icons/       # Ícones locais
 ├── tests/
-│   └── core.test.js               # 13 testes de domínio com Node.js
+│   ├── core.test.js               # 13 testes de domínio com Node.js
+│   └── integration/
+│       └── app.spec.js            # 4 testes de integração com Playwright
+├── .github/
+│   └── workflows/
+│       └── pr-tests.yml           # Testes automáticos em Pull Requests
 ├── docs/
 │   ├── PROCESSO.md                # Processo de desenvolvimento e rastreabilidade
 │   └── screenshots/               # Evidências visuais desktop e mobile
+├── package.json                   # Dependências de desenvolvimento e scripts
+├── playwright.config.js           # Configuração dos testes de integração
 ├── README.md
 └── Relatório 1 - SPRINT 1 (1).pdf # Relatório de origem
 ```
@@ -244,14 +251,33 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 ### Testes de domínio
 
 ```bash
-node tests/core.test.js
+npm test
 ```
 
 Resultado atual: **13 testes concluídos com sucesso**.
 
 Cobrem datas e janela móvel, conversão ECTS, metas por UC, dados iniciais, cenários, sequência de estudo, limites da pontuação e casos de meta zero.
 
-### Validação funcional no browser
+### Testes de integração
+
+Os testes de integração usam Playwright com Chromium e validam a aplicação no browser:
+
+```bash
+npm ci
+npx playwright install chromium
+npm run test:integration
+```
+
+Cobrem atualmente quatro fluxos:
+
+- dashboard com marca e indicadores base;
+- navegação entre vistas e totais das UCs;
+- criação de um registo e persistência após recarregar;
+- aplicação do cenário de sobrecarga e atualização do risco.
+
+Os testes de domínio e de integração correm automaticamente em **GitHub Actions** em cada Pull Request para `main`, através de [`.github/workflows/pr-tests.yml`](.github/workflows/pr-tests.yml).
+
+### Validação funcional histórica
 
 Durante o desenvolvimento foi executada uma suite de **30 verificações Selenium** em Firefox headless, com **0 erros JavaScript**. A suite validou:
 
@@ -264,7 +290,7 @@ Durante o desenvolvimento foi executada uma suite de **30 verificações Seleniu
 - validação de formulário;
 - menu offcanvas e navegação em viewport mobile (500 × 758 px efetivos).
 
-A suite Selenium foi uma ferramenta de QA do ambiente de desenvolvimento e não faz parte do runtime da aplicação.
+A suite Selenium foi uma ferramenta de QA do ambiente de desenvolvimento e não foi versionada. A cobertura de integração atual é assegurada pela suite Playwright referida acima.
 
 ### Verificação visual
 
@@ -280,7 +306,7 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) mostram as cinco vistas 
 - Não existem exportação, notificações, integração com calendário ou lembretes.
 - Não existem migrações de dados além da leitura tolerante do formato atual.
 - O protótipo não implementa a aplicação de consola descrita no relatório; valida os fluxos numa interface web.
-- A suite Selenium não está incluída no repositório e não corre em CI.
+- A suite Selenium histórica não está incluída no repositório; a suite Playwright atual cobre apenas os fluxos principais e corre em CI.
 
 ## Documentação e equipa
 

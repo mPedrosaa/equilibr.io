@@ -659,7 +659,7 @@ A ordem abaixo reflecte a sequência efetiva de construção, sem tempos estimad
 Comando:
 
 ```bash
-node tests/core.test.js
+npm test
 ```
 
 Resultado: **13/13 aprovados**.
@@ -680,7 +680,28 @@ Resultado: **13/13 aprovados**.
 | 12 | Meta zero | UC com contacto superior à carga total tem meta 0 |
 | 13 | Rácios dos cenários | Todos os rácios são não negativos |
 
-### 10.2 QA funcional
+### 10.2 Testes de integração
+
+Comandos:
+
+```bash
+npm ci
+npx playwright install chromium
+npm run test:integration
+```
+
+Resultado: **4/4 aprovados** em Chromium headless.
+
+| # | Teste | O que verifica |
+| ---: | --- | --- |
+| 1 | Dashboard base | Marca, risco 39/100, metas de estudo e descanso e sequência de 7 dias |
+| 2 | Navegação e ECTS | Rotas principais, 30 ECTS, 19 h de contacto, 21,5 h autónomas e 5 UCs |
+| 3 | Registo e persistência | Criação de um registo e manutenção após recarregar a página |
+| 4 | Cenário de sobrecarga | Aplicação do cenário e atualização do risco para 90/100 · Crítico |
+
+Os testes usam Playwright com Chromium e um servidor HTTP local. O workflow [`.github/workflows/pr-tests.yml`](../.github/workflows/pr-tests.yml) executa os testes de domínio e de integração em cada Pull Request para `main`.
+
+### 10.3 QA funcional histórica
 
 Foi executada uma suite Selenium em Firefox headless, com janela desktop de 1440 × 1200 px e uma redução posterior para 390 × 844 px. O Firefox headless aplicou um viewport efetivo de 1440 × 1114 px em desktop e 500 × 758 px em mobile; os testes de layout mobile correram, portanto, abaixo do breakpoint de 576 px.
 
@@ -697,9 +718,9 @@ Resultado: **30/30 verificações aprovadas, 0 erros JavaScript**.
 | Mobile | 3 | Botão de menu, abertura do offcanvas e navegação |
 | Erros JS | 1 | Nenhum erro por sessão |
 
-A suite foi usada como ferramenta de QA do ambiente de desenvolvimento e não está incluída no repositório. Os testes de domínio em `tests/core.test.js` são os únicos que podem ser executados apenas com Node.js.
+A suite foi usada como ferramenta de QA do ambiente de desenvolvimento e não foi versionada. A cobertura de integração atual é assegurada pela suite Playwright descrita em 10.2.
 
-### 10.3 Revisão visual
+### 10.4 Revisão visual
 
 Foram capturadas as cinco vistas em desktop e duas vistas representativas em mobile:
 
@@ -723,12 +744,12 @@ A revisão visual confirmou que:
 - a tabela de registos permanece utilizável com scroll horizontal;
 - os estados de risco usam cor, texto e ícone, não apenas cor.
 
-### 10.4 Limites da validação
+### 10.5 Limites da validação
 
 - Não foi feito um teste formal de acessibilidade com leitor de ecrã ou auditoria WCAG completa.
 - Não foram testados Safari, Edge ou browsers móveis reais.
-- Não existem testes end-to-end versionados no repositório.
-- A suite Selenium não corre em CI.
+- A suite Playwright cobre apenas quatro fluxos principais, não a totalidade da interface.
+- A suite Selenium histórica não foi versionada e não corre em CI.
 - A calibração do risco não foi validada clinicamente.
 
 ---
@@ -795,7 +816,7 @@ A revisão visual confirmou que:
 - O risco é uma heurística e não foi validado clinicamente.
 - Não há migrações de estado além da leitura tolerante.
 - A aplicação de consola do relatório não foi implementada.
-- A suite Selenium não está no repositório nem em CI.
+- A suite Playwright cobre apenas os fluxos principais; a suite Selenium histórica não foi versionada.
 - A acessibilidade foi tratada por boas práticas, sem auditoria formal.
 
 ### 13.2 Roadmap sugerido
@@ -857,6 +878,10 @@ node tests/core.test.js
 | `assets/js/data.js` | UCs, plano de aulas, seed e cenários |
 | `assets/js/app.js` | Rotas, estado, renderização, CRUD e feedback |
 | `tests/core.test.js` | Testes de domínio em Node.js |
+| `tests/integration/app.spec.js` | Testes de integração com Playwright |
+| `playwright.config.js` | Configuração dos testes de integração |
+| `package.json` | Scripts e dependências de desenvolvimento |
+| `.github/workflows/pr-tests.yml` | Testes automáticos em Pull Requests |
 | `assets/vendor/` | Bootstrap 5.3.3 e Bootstrap Icons locais |
 
 ---
