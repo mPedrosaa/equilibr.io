@@ -6,6 +6,18 @@
 - Não é permitido fazer merge direto na branch `main`.
 - Cada Pull Request deve ser revisto e aprovado antes do merge.
 
+## Regras aplicadas no GitHub
+
+O branch `main` do repositório oficial está protegido pelo ruleset `requer-pull-request`:
+
+- Pull Request obrigatório antes do merge;
+- uma aprovação obrigatória;
+- merge permitido por merge, squash ou rebase;
+- eliminação do branch e force-push bloqueados;
+- administradores podem contornar a regra apenas em manutenção excecional.
+
+O trabalho deve ser realizado em branches criadas a partir da `main`, como se descreve abaixo.
+
 ## Branches
 
 - O trabalho deve ser realizado em branches criadas a partir da `main`.
