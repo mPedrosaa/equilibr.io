@@ -355,7 +355,7 @@
 
   function seedState(now) {
     return {
-      version: 1,
+      version: 2,
       settings: { ...SLTCore.DEFAULTS },
       profile: {
         name: 'Nuno Sousa',

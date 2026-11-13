@@ -8,7 +8,7 @@
 
   const CORE = window.SLTCore;
   const DATA = window.SLTData;
-  const STORAGE_KEY = 'slbt.state.v1';
+  const STORAGE_KEY = 'equilibra.state.v2';
 
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
