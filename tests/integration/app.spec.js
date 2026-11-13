@@ -24,6 +24,13 @@ test.describe('equilibr.io', () => {
     await expect(page.locator('#ectsStatContact')).toHaveText('19');
     await expect(page.locator('#ectsStatAutonomous')).toHaveText('21,5');
     await expect(page.locator('#courseCountBadge')).toHaveText('5');
+    await expect(page.locator('.course-code')).toHaveText([
+      'ALGAN',
+      'APROG',
+      'AMATA',
+      'LAPR1',
+      'PRCMP',
+    ]);
 
     await page.locator('[data-route="registo"]').first().click();
     await expect(page).toHaveTitle('Registo de atividade · equilibr.io');

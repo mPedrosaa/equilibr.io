@@ -29,7 +29,7 @@
     {
       id: 'alga',
       name: 'Álgebra Linear e Geometria Analítica',
-      code: 'ALGA',
+      code: 'ALGAN',
       ects: 5,
       contactHours: 3,
       color: '#000080',
@@ -37,7 +37,7 @@
     {
       id: 'ap',
       name: 'Algoritmia e Programação',
-      code: 'AP',
+      code: 'APROG',
       ects: 6,
       contactHours: 4,
       color: '#800080',
@@ -45,14 +45,14 @@
     {
       id: 'am',
       name: 'Análise Matemática',
-      code: 'AM',
+      code: 'AMATA',
       ects: 5,
       contactHours: 3,
       color: '#008000',
     },
     {
       id: 'lapr1',
-      name: 'Laboratório de Engenharia I',
+      name: 'Laboratório/Projeto 1',
       code: 'LAPR1',
       ects: 8,
       contactHours: 5,
@@ -61,7 +61,7 @@
     {
       id: 'pc',
       name: 'Princípios da Computação',
-      code: 'PC',
+      code: 'PRCMP',
       ects: 6,
       contactHours: 4,
       color: '#b8860b',
