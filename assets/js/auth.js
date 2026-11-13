@@ -5,12 +5,7 @@
 (function () {
   'use strict';
 
-  const config = window.SLT_CONFIG || {};
-  const configured = Boolean(config.supabaseUrl && config.supabaseAnonKey);
-  const client =
-    configured && window.supabase && typeof window.supabase.createClient === 'function'
-      ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey)
-      : null;
+  const client = window.SLT_CLIENT || null;
 
   function setStatus(element, message, kind) {
     if (!element) return;
