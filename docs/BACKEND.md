@@ -17,10 +17,12 @@ cp .env.example .env
 | `SUPABASE_URL` | Frontend, scripts | Sim |
 | `SUPABASE_ANON_KEY` | Frontend, scripts públicos | Sim, desde que o RLS esteja ativo |
 | `SUPABASE_SERVICE_ROLE_KEY` | Apenas scripts administrativos e seed | **Não** |
+| `SUPABASE_ACCESS_TOKEN` | Aplicar migrations via Management API (`sbp_...`) | **Não** |
 
 A `SUPABASE_SERVICE_ROLE_KEY` ignora o Row Level Security. Nunca deve ser
 colocada em `assets/js/config.js`, em HTML, em commits ou em variáveis expostas
-ao browser.
+ao browser. O `SUPABASE_ACCESS_TOKEN` é um token pessoal da Management API
+(`sbp_...`) e também nunca deve ir para o frontend.
 
 Depois de configurar o `.env`:
 
@@ -40,10 +42,22 @@ RLS definidas na base de dados.
    [`supabase/migrations/202611130001_init.sql`](../supabase/migrations/202611130001_init.sql).
 4. Preencher `SUPABASE_URL`, `SUPABASE_ANON_KEY` e `SUPABASE_SERVICE_ROLE_KEY`
    no `.env`.
-5. Executar o seed do catálogo:
+5. Aplicar as migrations:
+
+```bash
+npm run db:migrate
+```
+
+6. Executar o seed do catálogo:
 
 ```bash
 npm run db:seed
+```
+
+Ou ambos de uma vez:
+
+```bash
+npm run db:setup
 ```
 
 ### Deploy estático (Vercel)

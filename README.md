@@ -221,6 +221,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │       └── bootstrap-icons/       # Ícones locais
 ├── scripts/
 │   ├── env.mjs                    # Leitura simples do ficheiro .env
+│   ├── apply-migrations.mjs       # Aplica as migrations via Management API
 │   ├── generate-config.mjs        # Gera assets/js/config.js a partir do ambiente
 │   └── seed-courses.mjs           # Semeia as UCs de LEI no Supabase
 ├── supabase/
@@ -306,9 +307,10 @@ Fluxo rápido:
 
 ```bash
 cp .env.example .env
-# preencher SUPABASE_URL, SUPABASE_ANON_KEY e SUPABASE_SERVICE_ROLE_KEY
+# preencher SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+# e SUPABASE_ACCESS_TOKEN
 npm run config
-npm run db:seed
+npm run db:setup
 ```
 
 O seed insere as UCs de LEI — 1.º ano, 1.º semestre:
