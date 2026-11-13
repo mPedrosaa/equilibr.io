@@ -35,12 +35,12 @@ test('1 ECTS = 27 h e a meta autónoma desconta as horas de contacto', () => {
   assert.equal(core.courseAutonomousTarget(course, core.DEFAULTS), 4.1);
 });
 
-test('metas das UCs mock somam 30 ECTS e 22,5 h autónomas', () => {
+test('metas das UCs mock somam 30 ECTS e 21,5 h autónomas', () => {
   const state = data.seedState(NOW);
   const metrics = core.metrics(state, NOW);
   assert.equal(metrics.totalEcts, 30);
-  assert.equal(metrics.contactHours, 18);
-  assert.equal(metrics.targetHours, 22.5);
+  assert.equal(metrics.contactHours, 19);
+  assert.equal(metrics.targetHours, 21.5);
   assert.equal(metrics.totalWeeklyHours, 40.5);
 });
 
