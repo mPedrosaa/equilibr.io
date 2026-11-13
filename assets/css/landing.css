@@ -240,14 +240,18 @@ h3 {
   margin-top: 10px;
 }
 
-.status:empty {
-  display: none;
-}
-
 .status {
   padding: 7px 9px;
   background: #ffffcc;
   border: 1px solid var(--line);
+}
+
+.status[data-kind="error"] {
+  background: #ffcccc;
+}
+
+.status[data-kind="success"] {
+  background: #ccffcc;
 }
 
 hr {
