@@ -97,13 +97,6 @@
             </a>
           </nav>
 
-          <div class="sidebar-tip">
-            <i class="bi bi-lightbulb"></i>
-            <p>
-              <strong>Dica de protótipo</strong>
-              Regista as horas ao fim do dia. A análise usa uma janela móvel de 7 dias.
-            </p>
-          </div>
 
           <div class="sidebar-profile">
             <div class="avatar avatar-sm js-avatar">NS</div>
@@ -329,9 +322,14 @@
                 <h2>Unidades curriculares</h2>
                 <p>Define as UCs, os créditos e as horas de contacto para calcular a meta autónoma.</p>
               </div>
-              <button class="btn btn-primary" id="newCourseBtn" type="button">
-                <i class="bi bi-plus-lg"></i> Nova UC
-              </button>
+              <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-soft" id="restoreCoursesBtn" type="button">
+                  <i class="bi bi-arrow-counterclockwise"></i> Repor UCs
+                </button>
+                <button class="btn btn-primary" id="newCourseBtn" type="button">
+                  <i class="bi bi-plus-lg"></i> Nova UC
+                </button>
+              </div>
             </div>
 
             <div class="row g-3 mb-3">

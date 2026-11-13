@@ -175,7 +175,10 @@
     }
     if (!raw) {
       const seeded = DATA.seedState(new Date());
-      if (hasStoredSession()) seeded.logs = [];
+      if (hasStoredSession()) {
+        seeded.logs = [];
+        seeded.courses = [];
+      }
       return seeded;
     }
 
@@ -197,7 +200,10 @@
       parsed.logs = parsed.logs.filter(
         (log) => log && log.date && log.type && Number.isFinite(Number(log.minutes))
       );
-      if (hasStoredSession()) parsed.logs = [];
+      if (hasStoredSession()) {
+        parsed.logs = [];
+        parsed.courses = [];
+      }
       return parsed;
     } catch (error) {
       console.warn('Não foi possível ler o estado guardado. A repor demonstração.', error);
@@ -353,7 +359,7 @@
       client.from('user_courses').select('course_id').eq('user_id', remoteUser.id),
       client
         .from('profiles')
-        .select('semester')
+        .select('degree_code, year, semester')
         .eq('id', remoteUser.id)
         .maybeSingle(),
     ]);
@@ -376,25 +382,27 @@
       const ids = linksResult.data.map((link) => link.course_id);
       const { data: courses } = await client
         .from('courses')
-        .select('id, code, name, ects, contact_hours, color')
+        .select('id, code, name, ects, contact_hours, color, owner_id')
         .in('id', ids);
 
-      if (courses && courses.length) {
-        state.courses = courses.map((course) => ({
-          id: course.id,
-          code: course.code,
-          name: course.name,
-          ects: Number(course.ects),
-          contactHours: Number(course.contact_hours),
-          color: course.color,
-        }));
-      }
-    } else if (profileResult.data && Number(profileResult.data.semester) === 2) {
+      state.courses = (courses || []).map((course) => ({
+        id: course.id,
+        code: course.code,
+        name: course.name,
+        ects: Number(course.ects),
+        contactHours: Number(course.contact_hours),
+        color: course.color,
+        ownerId: course.owner_id,
+      }));
+    } else {
       state.courses = [];
     }
 
     if (profileResult.data && profileResult.data.semester) {
       state.profile.semester = `2026/27 · ${profileResult.data.semester}.º semestre`;
+      state.profile.semesterNumber = Number(profileResult.data.semester);
+      state.profile.degreeCode = profileResult.data.degree_code || 'LEI';
+      state.profile.year = Number(profileResult.data.year) || 1;
     }
 
     state.meta = { ...(state.meta || {}), demo: false };
@@ -632,7 +640,8 @@
           <div class="panel empty-state">
             <span class="empty-icon"><i class="bi bi-journal-plus"></i></span>
             <h4>Ainda não tens unidades curriculares</h4>
-            <p>Cria a primeira UC para calcular a meta semanal de estudo autónomo.</p>
+            <p>Cria a primeira UC ou escolhe as UCs do teu curso.</p>
+            <p><a class="panel-link" href="semester.html">Escolher UCs do curso</a></p>
             <button type="button" class="btn btn-primary" data-new-course>
               <i class="bi bi-plus-lg"></i> Criar primeira UC
             </button>
@@ -1017,7 +1026,7 @@
     courseModal.show();
   }
 
-  function saveCourse(event) {
+  async function saveCourse(event) {
     event.preventDefault();
     const form = $('#courseForm');
     const errorBox = $('#courseFormError');
@@ -1051,28 +1060,101 @@
       return;
     }
 
-    if (editingId) {
-      const course = CORE.courseById(state.courses, editingId);
-      if (!course) {
-        showFormError(errorBox, 'A UC já não existe. Fecha e tenta novamente.');
-        return;
+    if (remoteUser && window.SLT_CLIENT) {
+      const client = window.SLT_CLIENT;
+
+      if (editingId) {
+        const course = CORE.courseById(state.courses, editingId);
+        if (!course) {
+          showFormError(errorBox, 'A UC já não existe. Fecha e tenta novamente.');
+          return;
+        }
+        if (course.ownerId !== remoteUser.id) {
+          showFormError(errorBox, 'As UCs do curso não podem ser editadas. Podes removê-las do teu plano.');
+          return;
+        }
+
+        const { error } = await client
+          .from('courses')
+          .update({ name, code, ects, contact_hours: contactHours, color })
+          .eq('id', editingId)
+          .eq('owner_id', remoteUser.id);
+
+        if (error) {
+          showFormError(errorBox, error.message);
+          return;
+        }
+
+        Object.assign(course, { name, code, ects, contactHours, color });
+        showToast('UC atualizada', `${name} foi atualizada.`, 'success');
+      } else {
+        const id = makeId('course');
+        const { error } = await client.from('courses').insert({
+          id,
+          code,
+          name,
+          ects,
+          contact_hours: contactHours,
+          color,
+          degree_code: state.profile.degreeCode || 'LEI',
+          year: state.profile.year || 1,
+          semester: state.profile.semesterNumber || 1,
+          active: true,
+          owner_id: remoteUser.id,
+        });
+
+        if (error) {
+          showFormError(errorBox, error.message);
+          return;
+        }
+
+        const { error: linkError } = await client.from('user_courses').insert({
+          user_id: remoteUser.id,
+          course_id: id,
+        });
+
+        if (linkError) {
+          await client.from('courses').delete().eq('id', id).eq('owner_id', remoteUser.id);
+          showFormError(errorBox, linkError.message);
+          return;
+        }
+
+        state.courses.push({
+          id,
+          name,
+          code,
+          ects,
+          contactHours,
+          color,
+          ownerId: remoteUser.id,
+        });
+        showToast('UC criada', `${name} entrou no teu plano.`, 'success');
       }
-      Object.assign(course, { name, code, ects, contactHours, color });
-      showToast('UC atualizada', `${name} foi atualizada.`, 'success');
     } else {
-      state.courses.push({
-        id: makeId('course'),
-        name,
-        code,
-        ects,
-        contactHours,
-        color,
-      });
-      showToast('UC criada', `${name} entrou no teu plano.`, 'success');
+      if (editingId) {
+        const course = CORE.courseById(state.courses, editingId);
+        if (!course) {
+          showFormError(errorBox, 'A UC já não existe. Fecha e tenta novamente.');
+          return;
+        }
+        Object.assign(course, { name, code, ects, contactHours, color });
+        showToast('UC atualizada', `${name} foi atualizada.`, 'success');
+      } else {
+        state.courses.push({
+          id: makeId('course'),
+          name,
+          code,
+          ects,
+          contactHours,
+          color,
+        });
+        showToast('UC criada', `${name} entrou no teu plano.`, 'success');
+      }
+
+      markCustom();
+      saveState();
     }
 
-    markCustom();
-    saveState();
     courseModal.hide();
     render();
   }
@@ -1088,12 +1170,52 @@
         : `“${course.name}” será removida do plano. Esta ação não pode ser anulada.`,
       confirmLabel: 'Eliminar UC',
       danger: true,
-      onConfirm: () => {
+      onConfirm: async () => {
+        if (remoteUser && window.SLT_CLIENT) {
+          const client = window.SLT_CLIENT;
+
+          const { error: logsError } = await client
+            .from('activity_logs')
+            .delete()
+            .eq('user_id', remoteUser.id)
+            .eq('course_id', courseId);
+
+          if (logsError) {
+            showToast('Erro ao eliminar UC', logsError.message, 'danger');
+            return;
+          }
+
+          if (course.ownerId === remoteUser.id) {
+            const { error } = await client
+              .from('courses')
+              .delete()
+              .eq('id', courseId)
+              .eq('owner_id', remoteUser.id);
+
+            if (error) {
+              showToast('Erro ao eliminar UC', error.message, 'danger');
+              return;
+            }
+          } else {
+            const { error } = await client
+              .from('user_courses')
+              .delete()
+              .eq('user_id', remoteUser.id)
+              .eq('course_id', courseId);
+
+            if (error) {
+              showToast('Erro ao eliminar UC', error.message, 'danger');
+              return;
+            }
+          }
+        } else {
+          markCustom();
+          saveState();
+        }
+
         state.courses = state.courses.filter((item) => item.id !== courseId);
         state.logs = state.logs.filter((log) => log.courseId !== courseId);
         if (logFilters.courseId === courseId) logFilters.courseId = 'all';
-        markCustom();
-        saveState();
         render();
         showToast('UC eliminada', `${course.name} foi removida.`, 'success');
       },
@@ -1214,6 +1336,90 @@
     });
   }
 
+  function restoreCourseUcs() {
+    askConfirm({
+      title: 'Repor UCs do curso?',
+      message:
+        'As UCs atuais e as UCs personalizadas serão substituídas pelas UCs do teu curso e semestre. Os registos das UCs removidas serão eliminados.',
+      confirmLabel: 'Repor UCs',
+      danger: true,
+      onConfirm: async () => {
+        if (remoteUser && window.SLT_CLIENT) {
+          const client = window.SLT_CLIENT;
+          const degree = state.profile.degreeCode || 'LEI';
+          const year = state.profile.year || 1;
+          const semester = state.profile.semesterNumber || 1;
+
+          const { data: catalog, error: catalogError } = await client
+            .from('courses')
+            .select('id')
+            .eq('degree_code', degree)
+            .eq('year', year)
+            .eq('semester', semester)
+            .eq('active', true)
+            .is('owner_id', null);
+
+          if (catalogError) {
+            showToast('Erro ao repor UCs', catalogError.message, 'danger');
+            return;
+          }
+
+          if (!catalog || !catalog.length) {
+            showToast('Sem UCs do curso', 'Não existem UCs de catálogo para este semestre.', 'warning');
+            return;
+          }
+
+          const catalogIds = new Set(catalog.map((course) => course.id));
+          const removedIds = state.courses
+            .map((course) => course.id)
+            .filter((id) => !catalogIds.has(id));
+
+          if (removedIds.length) {
+            await client
+              .from('activity_logs')
+              .delete()
+              .eq('user_id', remoteUser.id)
+              .in('course_id', removedIds);
+          }
+
+          const { error: clearError } = await client
+            .from('user_courses')
+            .delete()
+            .eq('user_id', remoteUser.id);
+
+          if (clearError) {
+            showToast('Erro ao repor UCs', clearError.message, 'danger');
+            return;
+          }
+
+          await client.from('courses').delete().eq('owner_id', remoteUser.id);
+
+          const { error: insertError } = await client.from('user_courses').insert(
+            catalog.map((course) => ({ user_id: remoteUser.id, course_id: course.id }))
+          );
+
+          if (insertError) {
+            showToast('Erro ao repor UCs', insertError.message, 'danger');
+            return;
+          }
+
+          await loadRemoteWorkspace();
+          showToast('UCs repostas', `${catalog.length} UCs do curso foram repostas.`, 'success');
+          return;
+        }
+
+        state.courses = DATA.BASE_COURSES.map((course) => ({ ...course }));
+        state.logs = state.logs.filter(
+          (log) => log.type === 'descanso' || state.courses.some((course) => course.id === log.courseId)
+        );
+        markCustom();
+        saveState();
+        render();
+        showToast('UCs repostas', 'As UCs de demonstração foram repostas.', 'success');
+      },
+    });
+  }
+
   function applyScenario(scenarioKey) {
     const scenario = DATA.SCENARIOS[scenarioKey];
     if (!scenario) return;
@@ -1305,6 +1511,8 @@
     $('#resetDemoBtn').addEventListener('click', resetDemo);
     $('#aboutResetBtn').addEventListener('click', resetDemo);
     $('#newCourseBtn').addEventListener('click', () => openCourseModal(null));
+    const restoreButton = $('#restoreCoursesBtn');
+    if (restoreButton) restoreButton.addEventListener('click', restoreCourseUcs);
     $('#courseForm').addEventListener('submit', saveCourse);
 
     $('#courseModal').addEventListener('hidden.bs.modal', () => {
