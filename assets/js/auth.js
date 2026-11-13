@@ -25,6 +25,10 @@
     if (text.includes('invalid login credentials')) return 'Email ou palavra-passe incorretos.';
     if (text.includes('already registered')) return 'Já existe uma conta com este email.';
     if (text.includes('email not confirmed')) return 'Confirma o email antes de entrares.';
+    if (text.includes('rate limit')) return 'Demasiadas tentativas. Tenta novamente mais tarde.';
+    if (text.includes('email_address_invalid') || text.includes('invalid email')) {
+      return 'Email inválido.';
+    }
     if (text.includes('password')) return 'A palavra-passe não cumpre os requisitos mínimos.';
     if (text.includes('email')) return 'Verifica o endereço de email.';
 
