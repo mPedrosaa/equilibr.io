@@ -29,7 +29,7 @@ O resultado é uma aplicação estática em HTML5, Bootstrap 5.3.3 e JavaScript 
 
 ### Entregáveis
 
-- `index.html` — interface completa.
+- `index.html` — landing page; `login.html` — acesso; `app.html` — interface completa.
 - `assets/css/styles.css` — design system e responsividade.
 - `assets/js/core.js` — regras de negócio puras.
 - `assets/js/data.js` — UCs, dados demo e cenários.
@@ -330,7 +330,7 @@ Não há cookies, IndexedDB ou chamadas de rede. O estado é carregado no arranq
   "courses": [
     {
       "id": "lapr1",
-      "name": "Laboratório de Engenharia I",
+      "name": "Laboratório/Projeto 1",
       "code": "LAPR1",
       "ects": 8,
       "contactHours": 5,
@@ -433,7 +433,7 @@ Exemplos:
 | Álgebra Linear e Geometria Analítica | 5 | 3 h | 6,75 h | 3,75 h |
 | Algoritmia e Programação | 6 | 4 h | 8,1 h | 4,1 h |
 | Análise Matemática | 5 | 3 h | 6,75 h | 3,75 h |
-| Laboratório de Engenharia I | 8 | 5 h | 10,8 h | 5,8 h |
+| Laboratório/Projeto 1 | 8 | 5 h | 10,8 h | 5,8 h |
 | Princípios da Computação | 6 | 4 h | 8,1 h | 4,1 h |
 | Caso sem tempo autónomo | 3 | 10 h | 4,1 h | 0 h |
 
@@ -576,7 +576,7 @@ A ordem abaixo reflecte a sequência efetiva de construção, sem tempos estimad
 | 3. Domínio | Fórmulas ECTS, janela móvel, métricas, risco e recomendações | `core.js` |
 | 4. Dados | UCs mock, plano de aulas, seed relativo e três cenários | `data.js` |
 | 5. Testes de domínio | Casos de datas, metas, cenários e limites | `tests/core.test.js` |
-| 6. Interface | Shell, sidebar, topbar, cinco vistas, modais e toasts | `index.html` |
+| 6. Interface | Shell, sidebar, topbar, cinco vistas, modais e toasts | `app.html` |
 | 7. Design | Tokens, componentes, gráficos CSS e breakpoints | `styles.css` |
 | 8. Ligação | Rotas, estado, localStorage, CRUD, filtros e renderização | `app.js` |
 | 9. QA | Testes de domínio, suite Selenium e revisão visual | Resultados e capturas |
@@ -872,7 +872,9 @@ node tests/core.test.js
 
 | Ficheiro | Responsabilidade |
 | --- | --- |
-| `index.html` | Shell, cinco vistas, modais e conteúdo estático |
+| `index.html` | Landing page |
+| `login.html` | Ecrã de login com Supabase e modo demonstração |
+| `app.html` | Shell, cinco vistas, modais e conteúdo estático |
 | `assets/css/styles.css` | Design system, componentes, gráficos e responsividade |
 | `assets/js/core.js` | Regras puras, metas, métricas, risco e recomendações |
 | `assets/js/data.js` | UCs, plano de aulas, seed e cenários |
@@ -900,11 +902,11 @@ O trabalho deixa uma base clara para a próxima fase: backend, configurações, 
 
 | UC | Código | ECTS | Contacto | Carga semanal | Meta autónoma |
 | --- | --- | ---: | ---: | ---: | ---: |
-| Álgebra Linear e Geometria Analítica | ALGA | 5 | 3 h | 6,75 h | 3,75 h |
-| Algoritmia e Programação | AP | 6 | 4 h | 8,1 h | 4,1 h |
-| Análise Matemática | AM | 5 | 3 h | 6,75 h | 3,75 h |
-| Laboratório de Engenharia I | LAPR1 | 8 | 5 h | 10,8 h | 5,8 h |
-| Princípios da Computação | PC | 6 | 4 h | 8,1 h | 4,1 h |
+| Álgebra Linear e Geometria Analítica | ALGAN | 5 | 3 h | 6,75 h | 3,75 h |
+| Algoritmia e Programação | APROG | 6 | 4 h | 8,1 h | 4,1 h |
+| Análise Matemática | AMATA | 5 | 3 h | 6,75 h | 3,75 h |
+| Laboratório/Projeto 1 | LAPR1 | 8 | 5 h | 10,8 h | 5,8 h |
+| Princípios da Computação | PRCMP | 6 | 4 h | 8,1 h | 4,1 h |
 | **Total** | — | **30** | **19 h** | **40,5 h** | **21,5 h** |
 
 ## Apêndice B — Glossário
