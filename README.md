@@ -104,6 +104,8 @@ Depois abrir:
 http://localhost:8000
 ```
 
+A raiz apresenta a landing page. A aplicação está em `app.html` e o acesso em `login.html`.
+
 Também pode ser usado qualquer outro servidor estático, por exemplo:
 
 ```bash
@@ -112,7 +114,7 @@ npx serve .
 
 ### Abrir diretamente
 
-O ficheiro `index.html` também pode ser aberto no browser. Ainda assim, o servidor local é recomendado para garantir um comportamento consistente do `localStorage` entre sessões.
+Os ficheiros `index.html`, `login.html` e `app.html` também podem ser abertos diretamente no browser. Ainda assim, o servidor local é recomendado para garantir um comportamento consistente do `localStorage` entre sessões.
 
 ### Requisitos
 
@@ -201,21 +203,29 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 
 ```text
 .
-├── index.html                     # Shell, vistas, modais e conteúdo estático
+├── index.html                     # Landing page
+├── login.html                     # Ecrã de entrada
+├── app.html                       # Shell, vistas, modais e conteúdo estático
 ├── assets/
 │   ├── css/
+│   │   ├── landing.css            # Estilo mínimo da landing e do login
 │   │   └── styles.css             # Design system, componentes e responsividade
 │   ├── js/
 │   │   ├── core.js                # Regras de negócio puras e motor de risco
 │   │   ├── data.js                # UCs mock, dados demo e cenários
-│   │   └── app.js                 # Rotas, estado, renderização e CRUD
+│   │   ├── app.js                 # Rotas, estado, renderização e CRUD
+│   │   ├── auth.js                # Entrada com Supabase e modo demonstração
+│   │   └── config.js              # Configuração pública gerada a partir do .env
 │   └── vendor/
 │       ├── bootstrap/             # Bootstrap 5.3.3 local
 │       └── bootstrap-icons/       # Ícones locais
+├── scripts/
+│   └── generate-config.mjs        # Gera assets/js/config.js a partir do ambiente
 ├── tests/
 │   ├── core.test.js               # 13 testes de domínio com Node.js
 │   └── integration/
-│       └── app.spec.js            # 4 testes de integração com Playwright
+│       ├── app.spec.js            # 4 testes de integração da aplicação
+│       └── landing.spec.js        # 2 testes da landing e do login
 ├── .github/
 │   └── workflows/
 │       └── pr-tests.yml           # Testes automáticos em Pull Requests
@@ -224,6 +234,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   └── screenshots/               # Evidências visuais desktop e mobile
 ├── package.json                   # Dependências de desenvolvimento e scripts
 ├── playwright.config.js           # Configuração dos testes de integração
+├── .env.example                   # Variáveis de ambiente do Supabase
 ├── README.md
 └── Relatório 1 - SPRINT 1 (1).pdf # Relatório de origem
 ```
