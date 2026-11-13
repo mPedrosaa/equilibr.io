@@ -55,6 +55,15 @@
   let state = loadState();
   let logFilters = { period: '7', courseId: 'all', type: 'all' };
   let confirmCallback = null;
+  let remoteUser = null;
+
+  function hasStoredSession() {
+    try {
+      return Object.keys(localStorage).some((key) => key.includes('-auth-token'));
+    } catch (error) {
+      return false;
+    }
+  }
 
   const courseModal = new bootstrap.Modal($('#courseModal'));
   const confirmModal = new bootstrap.Modal($('#confirmModal'));
@@ -164,7 +173,11 @@
     } catch (error) {
       raw = null;
     }
-    if (!raw) return DATA.seedState(new Date());
+    if (!raw) {
+      const seeded = DATA.seedState(new Date());
+      if (hasStoredSession()) seeded.logs = [];
+      return seeded;
+    }
 
     try {
       const parsed = JSON.parse(raw);
@@ -184,6 +197,7 @@
       parsed.logs = parsed.logs.filter(
         (log) => log && log.date && log.type && Number.isFinite(Number(log.minutes))
       );
+      if (hasStoredSession()) parsed.logs = [];
       return parsed;
     } catch (error) {
       console.warn('Não foi possível ler o estado guardado. A repor demonstração.', error);
@@ -192,6 +206,7 @@
   }
 
   function saveState() {
+    if (remoteUser) return;
     state.meta = state.meta || {};
     state.meta.lastUpdated = new Date().toISOString();
     try {
@@ -304,6 +319,7 @@
     const name = String(metadata.full_name || metadata.name || fallbackName).trim();
     if (!name) return;
 
+    remoteUser = user;
     state.profile = {
       ...state.profile,
       name,
@@ -312,6 +328,76 @@
       email: user.email || '',
     };
 
+    const storageNotice = document.getElementById('storageNotice');
+    if (storageNotice) storageNotice.hidden = true;
+    ['resetDemoBtn', 'aboutResetBtn', 'scenarioPanel'].forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) element.hidden = true;
+    });
+
+    render();
+    loadRemoteWorkspace();
+  }
+
+  async function loadRemoteWorkspace() {
+    const client = window.SLT_CLIENT;
+    if (!client || !remoteUser) return;
+
+    const [logsResult, linksResult, profileResult] = await Promise.all([
+      client
+        .from('activity_logs')
+        .select('id, course_id, type, minutes, log_date, note, created_at')
+        .eq('user_id', remoteUser.id)
+        .order('log_date', { ascending: false })
+        .order('created_at', { ascending: false }),
+      client.from('user_courses').select('course_id').eq('user_id', remoteUser.id),
+      client
+        .from('profiles')
+        .select('semester')
+        .eq('id', remoteUser.id)
+        .maybeSingle(),
+    ]);
+
+    if (logsResult.error) {
+      showToast('Erro ao carregar registos', logsResult.error.message, 'danger');
+    }
+
+    state.logs = (logsResult.data || []).map((log) => ({
+      id: log.id,
+      date: log.log_date,
+      courseId: log.course_id,
+      type: log.type,
+      minutes: Number(log.minutes),
+      note: log.note || '',
+      createdAt: log.created_at,
+    }));
+
+    if (linksResult.data && linksResult.data.length) {
+      const ids = linksResult.data.map((link) => link.course_id);
+      const { data: courses } = await client
+        .from('courses')
+        .select('id, code, name, ects, contact_hours, color')
+        .in('id', ids);
+
+      if (courses && courses.length) {
+        state.courses = courses.map((course) => ({
+          id: course.id,
+          code: course.code,
+          name: course.name,
+          ects: Number(course.ects),
+          contactHours: Number(course.contact_hours),
+          color: course.color,
+        }));
+      }
+    } else if (profileResult.data && Number(profileResult.data.semester) === 2) {
+      state.courses = [];
+    }
+
+    if (profileResult.data && profileResult.data.semester) {
+      state.profile.semester = `2026/27 · ${profileResult.data.semester}.º semestre`;
+    }
+
+    state.meta = { ...(state.meta || {}), demo: false };
     render();
   }
 
@@ -1014,7 +1100,7 @@
     });
   }
 
-  function addLog(event) {
+  async function addLog(event) {
     event.preventDefault();
     const form = $('#logForm');
     const errorBox = $('#logFormError');
@@ -1045,20 +1131,50 @@
       return;
     }
 
-    state.logs.push({
-      id: makeId('log'),
-      date,
-      courseId,
-      type,
-      minutes,
-      note,
-      createdAt: new Date().toISOString(),
-    });
+    if (remoteUser && window.SLT_CLIENT) {
+      const { data, error } = await window.SLT_CLIENT
+        .from('activity_logs')
+        .insert({
+          user_id: remoteUser.id,
+          course_id: courseId,
+          type,
+          minutes,
+          log_date: date,
+          note: note || null,
+        })
+        .select()
+        .single();
+
+      if (error) {
+        showFormError(errorBox, error.message);
+        return;
+      }
+
+      state.logs.push({
+        id: data.id,
+        date: data.log_date,
+        courseId: data.course_id,
+        type: data.type,
+        minutes: Number(data.minutes),
+        note: data.note || '',
+        createdAt: data.created_at,
+      });
+    } else {
+      state.logs.push({
+        id: makeId('log'),
+        date,
+        courseId,
+        type,
+        minutes,
+        note,
+        createdAt: new Date().toISOString(),
+      });
+      markCustom();
+      saveState();
+    }
 
     logFilters = { period: '7', courseId: 'all', type: 'all' };
     syncLogFilterControls();
-    markCustom();
-    saveState();
     setLogFormDefaults();
     render();
     showToast('Registo adicionado', `${durationText(minutes)} de ${typeMeta(type).label.toLowerCase()}.`, 'success');
@@ -1074,10 +1190,24 @@
       message: `${typeMeta(log.type).label} · ${durationText(log.minutes)} · ${label} (${dateLabel(log.date)}). Esta ação não pode ser anulada.`,
       confirmLabel: 'Eliminar registo',
       danger: true,
-      onConfirm: () => {
+      onConfirm: async () => {
+        if (remoteUser && window.SLT_CLIENT) {
+          const { error } = await window.SLT_CLIENT
+            .from('activity_logs')
+            .delete()
+            .eq('id', logId)
+            .eq('user_id', remoteUser.id);
+
+          if (error) {
+            showToast('Erro ao eliminar', error.message, 'danger');
+            return;
+          }
+        } else {
+          markCustom();
+          saveState();
+        }
+
         state.logs = state.logs.filter((item) => item.id !== logId);
-        markCustom();
-        saveState();
         render();
         showToast('Registo eliminado', 'O histórico foi atualizado.', 'success');
       },
