@@ -96,9 +96,9 @@
             <div class="avatar avatar-sm js-avatar">NS</div>
             <div class="sidebar-profile-copy">
               <strong class="js-profile-name">Nuno Sousa</strong>
-              <small>Estudante demo</small>
+              <small class="js-profile-subtitle">Estudante demo</small>
             </div>
-            <a href="#sobre" class="sidebar-profile-link" aria-label="Sobre o protótipo">
+            <a href="profile.html" class="sidebar-profile-link" aria-label="Editar perfil">
               <i class="bi bi-three-dots"></i>
             </a>
           </div>
@@ -131,7 +131,7 @@
               <i class="bi bi-arrow-counterclockwise"></i>
               <span class="d-none d-sm-inline ms-1">Repor demo</span>
             </button>
-            <div class="avatar js-avatar" aria-hidden="true">NS</div>
+            <a class="avatar js-avatar" href="profile.html" title="Abrir perfil" aria-label="Abrir perfil">NS</a>
           </div>
         </header>
 
@@ -933,8 +933,12 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/supabase/supabase.js"></script>
     <script src="assets/js/core.js"></script>
     <script src="assets/js/data.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/account.js"></script>
     <script src="assets/js/app.js"></script>
   </body>
 </html>

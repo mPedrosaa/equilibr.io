@@ -34,6 +34,15 @@ test.describe('landing e acesso', () => {
     await expect(page).toHaveURL(/\/app\.html#dashboard$/);
   });
 
+
+  test('a página de perfil pede sessão quando não há utilizador autenticado', async ({ page }) => {
+    await page.goto('/profile.html');
+
+    await expect(page).toHaveTitle('Perfil · equilibr.io');
+    await expect(page.locator('#profileLoginPrompt')).toBeVisible();
+    await expect(page.locator('#profileForms')).toBeHidden();
+  });
+
   test('o ecrã de registo valida a confirmação da palavra-passe', async ({ page }) => {
     await page.goto('/register.html');
 

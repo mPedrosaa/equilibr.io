@@ -206,6 +206,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 ├── index.html                     # Landing page
 ├── login.html                     # Ecrã de entrada
 ├── register.html                  # Criação de conta
+├── profile.html                   # Edição do perfil autenticado
 ├── app.html                       # Shell, vistas, modais e conteúdo estático
 ├── assets/
 │   ├── css/
@@ -216,10 +217,14 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   │   ├── data.js                # UCs mock, dados demo e cenários
 │   │   ├── app.js                 # Rotas, estado, renderização e CRUD
 │   │   ├── auth.js                # Login e registo com Supabase
+│   │   ├── supabase-client.js     # Cliente Supabase partilhado
+│   │   ├── account.js             # Utilizador autenticado na aplicação
+│   │   ├── profile.js             # Edição de nome, email e palavra-passe
 │   │   └── config.js              # Configuração pública gerada a partir do .env
 │   └── vendor/
 │       ├── bootstrap/             # Bootstrap 5.3.3 local
-│       └── bootstrap-icons/       # Ícones locais
+│       ├── bootstrap-icons/       # Ícones locais
+│       └── supabase/              # Cliente Supabase local
 ├── scripts/
 │   ├── env.mjs                    # Leitura simples do ficheiro .env
 │   ├── apply-migrations.mjs       # Aplica as migrations via Management API
@@ -232,7 +237,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   ├── core.test.js               # 13 testes de domínio com Node.js
 │   └── integration/
 │       ├── app.spec.js            # 4 testes de integração da aplicação
-│       └── landing.spec.js        # 3 testes da landing, login e registo
+│       └── landing.spec.js        # 4 testes da landing, login, perfil e registo
 ├── .github/
 │   └── workflows/
 │       └── pr-tests.yml           # Testes automáticos em Pull Requests
@@ -287,10 +292,11 @@ npx playwright install chromium
 npm run test:integration
 ```
 
-Cobrem atualmente sete fluxos:
+Cobrem atualmente oito fluxos:
 
 - landing page com marca e entradas;
 - ecrã de login sem logs de configuração e passagem para a demonstração local;
+- ecrã de perfil sem sessão;
 - ecrã de registo com validação de palavra-passe;
 - dashboard com marca e indicadores base;
 - navegação entre vistas e totais das UCs;
@@ -301,7 +307,7 @@ Os testes de domínio e de integração correm automaticamente em **GitHub Actio
 
 ## Backend e autenticação
 
-O login e o registo estão preparados para Supabase Auth e o esquema da base de dados já existe
+O login, o registo e o perfil estão preparados para Supabase Auth e o esquema da base de dados já existe
 em [`supabase/migrations/`](supabase/migrations/). O guia completo está em
 [`docs/BACKEND.md`](docs/BACKEND.md).
 
@@ -342,7 +348,7 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) mostram as cinco vistas 
 
 ## Limitações
 
-- O schema, o login e o registo com Supabase estão preparados, mas a aplicação demo ainda não persiste os registos na base de dados.
+- O schema, o login, o registo e o perfil com Supabase estão preparados, mas a aplicação demo ainda não persiste os registos na base de dados.
 - Os dados da demonstração ficam no browser. Limpar o armazenamento elimina o histórico local.
 - A sincronização entre dispositivos e o multiutilizador ainda não estão ligados à interface.
 - O perfil é demonstrativo e não editável na interface.

@@ -266,10 +266,22 @@
     element.hidden = true;
   }
 
+  function initialsFromName(name) {
+    const parts = String(name || '')
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    const initials = parts.slice(0, 2).map((part) => part[0]).join('');
+    return (initials || 'NS').toUpperCase();
+  }
+
   function renderProfile() {
     const profile = state.profile;
     $$('.js-profile-name').forEach((element) => {
       element.textContent = profile.name;
+    });
+    $$('.js-profile-subtitle').forEach((element) => {
+      element.textContent = profile.email || 'Estudante demo';
     });
     $$('.js-degree').forEach((element) => {
       element.textContent = profile.degree;
@@ -285,6 +297,27 @@
     });
     $('#topbarDate').innerHTML = `<i class="bi bi-calendar3"></i> ${esc(longDate(new Date()))}`;
   }
+
+  function applyAuthenticatedUser(user) {
+    const metadata = user.user_metadata || {};
+    const fallbackName = (user.email || '').split('@')[0] || 'Estudante';
+    const name = String(metadata.full_name || metadata.name || fallbackName).trim();
+    if (!name) return;
+
+    state.profile = {
+      ...state.profile,
+      name,
+      firstName: name.split(/\s+/)[0],
+      initials: initialsFromName(name),
+      email: user.email || '',
+    };
+
+    render();
+  }
+
+  document.addEventListener('slt:user', (event) => {
+    if (event.detail && event.detail.user) applyAuthenticatedUser(event.detail.user);
+  });
 
   function renderSidebarRisk(risk) {
     $$('.js-risk-dot').forEach((dot) => {
@@ -1236,6 +1269,7 @@
     bindEvents();
     syncLogFilterControls();
     applyRoute();
+    if (window.SLT_USER) applyAuthenticatedUser(window.SLT_USER);
     render();
   }
 

@@ -113,7 +113,9 @@ npm run db:seed
 
 ## Estado atual da integração
 
-- A landing page, o login e o registo já estão preparados para Supabase Auth.
+- A landing page, o login, o registo e o perfil já estão preparados para Supabase Auth.
+- A aplicação lê a sessão e substitui o perfil demo pelo nome e email do utilizador autenticado.
+- O perfil permite atualizar nome, email e palavra-passe.
 - O registo usa `signUp`, guarda o nome em `user_metadata.full_name` e redireciona a confirmação para `login.html`.
 - Com confirmação de email ativa, o utilizador tem de confirmar a conta antes de entrar. Configura o SMTP e as URLs permitidas no dashboard do Supabase.
 - Sem `SUPABASE_URL` e `SUPABASE_ANON_KEY`, o login mostra um aviso e a aplicação
