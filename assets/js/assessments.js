@@ -15,6 +15,7 @@
   const form = document.getElementById('assessmentForm');
   const status = document.getElementById('assessmentStatusMessage');
   const list = document.getElementById('assessmentList');
+  const receivedList = document.getElementById('receivedGradeList');
   const statusSelect = document.getElementById('assessmentStatus');
   const fields = document.querySelectorAll('.assessment-fields');
   const expectedInput = document.getElementById('assessmentExpected');
@@ -116,6 +117,57 @@
     `;
   }
 
+  function renderReceived(rows) {
+    const completed = rows.filter((row) => row.status === 'completed');
+
+    if (!completed.length) {
+      receivedList.innerHTML =
+        '<p class="empty-note">Ainda não há avaliações realizadas para registar nota.</p>';
+      return;
+    }
+
+    receivedList.innerHTML = `
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>UC</th>
+            <th>Avaliação</th>
+            <th>Nota recebida</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${completed
+            .map(
+              (row) => `
+                <tr>
+                  <td>${esc(row.assessment_date)}</td>
+                  <td>${esc(courseText(row.course_id))}</td>
+                  <td>${esc(row.title)}</td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      max="20"
+                      step="0.1"
+                      value="${row.received_grade == null ? '' : esc(row.received_grade)}"
+                      data-grade-input="${esc(row.id)}"
+                      aria-label="Nota recebida em ${esc(row.title)}"
+                    />
+                  </td>
+                  <td class="row-actions">
+                    <button type="button" data-save-received="${esc(row.id)}">Guardar</button>
+                  </td>
+                </tr>
+              `
+            )
+            .join('')}
+        </tbody>
+      </table>
+    `;
+  }
+
   async function loadRows() {
     const { data, error } = await client
       .from('assessments')
@@ -129,6 +181,7 @@
     }
 
     render(data || []);
+    renderReceived(data || []);
   }
 
   statusSelect.addEventListener('change', updateFields);
@@ -190,6 +243,34 @@
       return;
     }
 
+    await loadRows();
+  });
+
+  receivedList.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-save-received]');
+    if (!button) return;
+
+    const id = button.dataset.saveReceived;
+    const input = receivedList.querySelector(`[data-grade-input="${id}"]`);
+    const value = Number(input.value);
+
+    if (!Number.isFinite(value) || value < 0 || value > 20) {
+      setStatus(status, 'A nota recebida deve estar entre 0 e 20.', 'error');
+      return;
+    }
+
+    const { error } = await client
+      .from('assessments')
+      .update({ received_grade: value })
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) {
+      setStatus(status, friendlyError(error.message), 'error');
+      return;
+    }
+
+    setStatus(status, 'Nota recebida guardada.', 'success');
     await loadRows();
   });
 
