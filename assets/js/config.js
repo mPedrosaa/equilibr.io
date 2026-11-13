@@ -1,10 +1,9 @@
 /**
  * Configuração pública do Supabase.
  *
- * Este ficheiro é gerado por `npm run config` a partir das variáveis de
- * ambiente. Os valores abaixo são apenas placeholders seguros.
+ * Gerado por scripts/generate-config.mjs. Não colocar aqui a service role key.
  */
-window.SLT_CONFIG = window.SLT_CONFIG || {
-  supabaseUrl: '',
-  supabaseAnonKey: '',
+window.SLT_CONFIG = {
+  supabaseUrl: "",
+  supabaseAnonKey: "",
 };

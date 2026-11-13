@@ -5,10 +5,12 @@
   "description": "Protótipo web do equilibr.io (ISEP Study-Life Balance Tracker)",
   "scripts": {
     "config": "node scripts/generate-config.mjs",
+    "db:seed": "node scripts/seed-courses.mjs",
     "test": "node tests/core.test.js",
     "test:integration": "playwright test"
   },
   "devDependencies": {
-    "@playwright/test": "^1.65.0"
+    "@playwright/test": "^1.65.0",
+    "@supabase/supabase-js": "^2.119.0"
   }
 }
