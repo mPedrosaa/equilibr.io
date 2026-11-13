@@ -1,6 +1,6 @@
 # Modelo de cálculo do risco de burnout
 
-**Equilibra (ISEP Study-Life Balance Tracker)** · LAPR1 2026/27  
+**equilibr.io (ISEP Study-Life Balance Tracker)** · LAPR1 2026/27  
 Documento de fundamentação do modelo · 13 de novembro de 2026
 
 [← Voltar ao README](../README.md) · [Processo de desenvolvimento](PROCESSO.md)
@@ -11,7 +11,7 @@ Documento de fundamentação do modelo · 13 de novembro de 2026
 
 Este documento explica:
 
-1. qual é o modelo usado pelo Equilibra para calcular o risco de burnout;
+1. qual é o modelo usado pelo equilibr.io para calcular o risco de burnout;
 2. como a fórmula foi construída;
 3. porque pode ser considerada uma aproximação aceitável da realidade académica;
 4. em que condições a ferramenta é útil;
@@ -23,7 +23,7 @@ O modelo não é um instrumento clínico. É um **indicador heurístico de bem-e
 
 ## 2. Natureza do modelo
 
-O Equilibra usa um **modelo aditivo ponderado com saturação**:
+O equilibr.io usa um **modelo aditivo ponderado com saturação**:
 
 - cada fator produz uma pontuação parcial;
 - as pontuações parciais são somadas;
@@ -321,7 +321,7 @@ Para passar de heurística a instrumento com maior validade, seria necessário:
 
 ## 9. Conclusão
 
-A fórmula do Equilibra é uma **heurística aditiva, transparente e explicável**, construída a partir de indicadores observáveis de carga, continuidade, descanso e intensidade.
+A fórmula do equilibr.io é uma **heurística aditiva, transparente e explicável**, construída a partir de indicadores observáveis de carga, continuidade, descanso e intensidade.
 
 Não pode ser apresentada como um modelo clínico validado. Pode, no entanto, ser apresentada como uma **aproximação razoável e útil** para um protótipo académico, desde que sejam explicitados os seus pressupostos e limites. A sua principal qualidade não está na precisão estatística, mas na capacidade de tornar visível um problema real — a acumulação de esforço sem recuperação — e de o comunicar de forma compreensível e acionável.
 

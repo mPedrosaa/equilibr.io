@@ -1,6 +1,6 @@
 # Processo de desenvolvimento
 
-**Equilibra** (ISEP Study-Life Balance Tracker) · protótipo web
+**equilibr.io** (ISEP Study-Life Balance Tracker) · protótipo web
 LAPR1 2026/27 · turma LAPR1-2627-DKL01-Skills · grupo “Quarteto Maravilha”
 Documento de processo · 2 de novembro de 2026
 
@@ -305,7 +305,7 @@ A tipografia usa a pilha nativa do sistema (`system-ui`, Segoe UI, Roboto, etc.)
 O estado é um único objeto JSON guardado em `localStorage` com a chave:
 
 ```text
-equilibra.state.v2
+equilibr.io.state.v2
 ```
 
 Não há cookies, IndexedDB ou chamadas de rede. O estado é carregado no arranque, validado de forma tolerante e guardado após cada alteração.
@@ -845,7 +845,7 @@ node tests/core.test.js
 ### 14.3 Repor o estado
 
 - Na interface: **Repor demo** na topbar ou na vista “Sobre”.
-- No browser: apagar a chave `equilibra.state.v2` no `localStorage` e recarregar.
+- No browser: apagar a chave `equilibr.io.state.v2` no `localStorage` e recarregar.
 
 ### 14.4 Estrutura dos ficheiros
 

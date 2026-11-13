@@ -1,6 +1,6 @@
 /* global module, globalThis */
 /**
- * SLTCore — regras de negócio puras do Equilibra (ISEP Study-Life Balance Tracker).
+ * SLTCore — regras de negócio puras do equilibr.io (ISEP Study-Life Balance Tracker).
  *
  * Este ficheiro não depende do DOM nem do Bootstrap. É usado pela interface
  * (window.SLTCore) e pelos testes automatizados (module.exports).
