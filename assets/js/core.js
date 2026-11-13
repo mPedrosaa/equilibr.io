@@ -20,10 +20,10 @@
   });
 
   const TYPE_META = Object.freeze({
-    aula: { label: 'Aula', short: 'Aulas', icon: 'bi-easel2', accent: '#2563eb' },
-    estudo: { label: 'Estudo autónomo', short: 'Estudo', icon: 'bi-book', accent: '#0f9d8a' },
-    projeto: { label: 'Projeto / reunião', short: 'Projeto', icon: 'bi-people', accent: '#7c3aed' },
-    descanso: { label: 'Descanso / lazer', short: 'Descanso', icon: 'bi-cup-hot', accent: '#16a34a' },
+    aula: { label: 'Aula', short: 'Aulas', icon: 'bi-easel2', accent: '#000080' },
+    estudo: { label: 'Estudo autónomo', short: 'Estudo', icon: 'bi-book', accent: '#008000' },
+    projeto: { label: 'Projeto / reunião', short: 'Projeto', icon: 'bi-people', accent: '#800080' },
+    descanso: { label: 'Descanso / lazer', short: 'Descanso', icon: 'bi-cup-hot', accent: '#008080' },
   });
 
   const STUDY_TYPES = Object.freeze(['aula', 'estudo', 'projeto']);
@@ -33,28 +33,28 @@
     low: {
       key: 'low',
       label: 'Baixo',
-      color: '#0f9d8a',
+      color: '#008000',
       tone: 'success',
       message: 'Ritmo sustentável. Mantém as pausas e o descanso.',
     },
     moderate: {
       key: 'moderate',
       label: 'Moderado',
-      color: '#f59e0b',
+      color: '#b8860b',
       tone: 'warning',
       message: 'Há sinais de desgaste acumulado. Vale a pena abrandar nas próximas 48 horas.',
     },
     high: {
       key: 'high',
       label: 'Elevado',
-      color: '#f97316',
+      color: '#cc5500',
       tone: 'danger',
       message: 'A carga está acima do sustentável. Reduz o ritmo e protege o descanso.',
     },
     critical: {
       key: 'critical',
       label: 'Crítico',
-      color: '#dc2626',
+      color: '#c00000',
       tone: 'danger',
       message: 'Sinal de alerta elevado. Faz uma pausa real e procura apoio se este padrão continuar.',
     },

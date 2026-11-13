@@ -15,14 +15,14 @@
   'use strict';
 
   const COURSE_COLORS = [
-    '#0f9d8a',
-    '#2563eb',
-    '#7c3aed',
-    '#ea580c',
-    '#db2777',
-    '#0891b2',
-    '#65a30d',
-    '#475569',
+    '#000080',
+    '#800080',
+    '#008000',
+    '#c00000',
+    '#b8860b',
+    '#008080',
+    '#808000',
+    '#000000',
   ];
 
   const BASE_COURSES = [
@@ -32,7 +32,7 @@
       code: 'ALGA',
       ects: 5,
       contactHours: 3,
-      color: '#0f9d8a',
+      color: '#000080',
     },
     {
       id: 'ap',
@@ -40,7 +40,7 @@
       code: 'AP',
       ects: 6,
       contactHours: 4,
-      color: '#2563eb',
+      color: '#800080',
     },
     {
       id: 'am',
@@ -48,7 +48,7 @@
       code: 'AM',
       ects: 5,
       contactHours: 3,
-      color: '#7c3aed',
+      color: '#008000',
     },
     {
       id: 'lapr1',
@@ -56,7 +56,7 @@
       code: 'LAPR1',
       ects: 8,
       contactHours: 5,
-      color: '#ea580c',
+      color: '#c00000',
     },
     {
       id: 'pc',
@@ -64,7 +64,7 @@
       code: 'PC',
       ects: 6,
       contactHours: 4,
-      color: '#db2777',
+      color: '#b8860b',
     },
   ];
 
