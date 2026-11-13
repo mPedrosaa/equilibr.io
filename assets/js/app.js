@@ -1,6 +1,6 @@
 /* global bootstrap */
 /**
- * Interface do protótipo Equilibra (ISEP Study-Life Balance Tracker).
+ * Interface do protótipo equilibr.io (ISEP Study-Life Balance Tracker).
  * Estado em localStorage, renderização declarativa em HTML e Bootstrap 5.
  */
 (function () {
@@ -8,7 +8,7 @@
 
   const CORE = window.SLTCore;
   const DATA = window.SLTData;
-  const STORAGE_KEY = 'equilibra.state.v2';
+  const STORAGE_KEY = 'equilibr.io.state.v2';
 
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -224,7 +224,7 @@
     const meta = ROUTES[route];
     $('#pageTitle').textContent = meta.title;
     $('#pageBreadcrumb').textContent = meta.breadcrumb;
-    document.title = `${meta.title} · Equilibra`;
+    document.title = `${meta.title} · equilibr.io`;
     closeOffcanvas();
     window.scrollTo(0, 0);
   }
