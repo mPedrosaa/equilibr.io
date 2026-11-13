@@ -2958,13 +2958,16 @@ a:hover {
 }
 
 .sidebar-inner {
-  padding: 24px 22px 18px;
+  padding: 30px 24px 18px;
 }
 
 .brand {
-  gap: 8px;
-  margin-bottom: 14px;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 18px;
+  padding: 4px 0 14px;
   color: #000;
+  border-bottom: 1px dotted #777;
 }
 
 .brand:hover {
