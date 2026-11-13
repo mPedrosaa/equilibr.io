@@ -473,6 +473,8 @@ A média diária usa sempre **7** no denominador, incluindo dias sem registo. Is
 
 ### 8.4 Motor de risco
 
+A fundamentação detalhada do modelo — origem da fórmula, pressupostos, utilidade e limites — está em [`MODELO_BURNOUT.md`](MODELO_BURNOUT.md).
+
 A pontuação é a soma de cinco fatores independentes, limitada a 100:
 
 ```text

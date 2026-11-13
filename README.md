@@ -285,6 +285,7 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) mostram as cinco vistas 
 ## Documentação e equipa
 
 - [`docs/PROCESSO.md`](docs/PROCESSO.md) — análise do relatório, requisitos, decisões, modelo de dados, implementação, QA e roadmap.
+- [`docs/MODELO_BURNOUT.md`](docs/MODELO_BURNOUT.md) — fundamentação do modelo de risco, pressupostos, utilidade e limites.
 - [`docs/screenshots/`](docs/screenshots/) — evidências visuais.
 
 Trabalho desenvolvido no âmbito de **LAPR1 2026/27**, turma **LAPR1-2627-DKL01-Skills**, pelo grupo **“Quarteto Maravilha”**: Nuno Sousa, Miguel Pedrosa, Rodrigo Pinheiro e Sofia de Souza.
