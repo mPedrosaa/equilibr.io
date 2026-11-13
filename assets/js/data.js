@@ -71,23 +71,23 @@
   const CLASS_PLAN = {
     1: [
       { courseId: 'lapr1', minutes: 120, note: 'Aula laboratorial · LAPR1' },
-      { courseId: 'prog1', minutes: 120, note: 'Aula teórica · Programação I' },
+      { courseId: 'ap', minutes: 120, note: 'Aula teórica · Algoritmia e Programação' },
     ],
     2: [
       { courseId: 'am', minutes: 120, note: 'Aula teórica · Análise Matemática' },
-      { courseId: 'md', minutes: 120, note: 'Aula teórica · Matemática Discreta' },
+      { courseId: 'pc', minutes: 120, note: 'Aula teórica · Princípios da Computação' },
     ],
     3: [
-      { courseId: 'prog1', minutes: 120, note: 'Aula laboratorial · Programação I' },
-      { courseId: 'ac', minutes: 120, note: 'Aula teórica · Arquitetura de Computadores' },
+      { courseId: 'ap', minutes: 120, note: 'Aula laboratorial · Algoritmia e Programação' },
+      { courseId: 'alga', minutes: 120, note: 'Aula teórica · Álgebra Linear e Geometria Analítica' },
     ],
     4: [
       { courseId: 'am', minutes: 120, note: 'Aula prática · Análise Matemática' },
       { courseId: 'lapr1', minutes: 120, note: 'Aula de projeto · LAPR1' },
     ],
     5: [
-      { courseId: 'md', minutes: 120, note: 'Aula prática · Matemática Discreta' },
-      { courseId: 'ac', minutes: 120, note: 'Aula laboratorial · Arquitetura de Computadores' },
+      { courseId: 'pc', minutes: 120, note: 'Aula prática · Princípios da Computação' },
+      { courseId: 'alga', minutes: 120, note: 'Aula prática · Álgebra Linear e Geometria Analítica' },
     ],
   };
 
