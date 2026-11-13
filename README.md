@@ -238,6 +238,8 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 ├── scripts/
 │   ├── env.mjs                    # Leitura simples do ficheiro .env
 │   ├── apply-migrations.mjs       # Aplica as migrations via Management API
+│   ├── build-static.mjs           # Gera dist/ e a config para Vercel
+│   ├── config.mjs                 # Conteúdo da configuração pública
 │   ├── generate-config.mjs        # Gera assets/js/config.js a partir do ambiente
 │   └── seed-courses.mjs           # Semeia as UCs de LEI no Supabase
 ├── supabase/
@@ -262,6 +264,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   └── screenshots/               # Evidências visuais desktop e mobile
 ├── package.json                   # Dependências de desenvolvimento e scripts
 ├── playwright.config.js           # Configuração dos testes de integração
+├── vercel.json                    # Build e output do deploy estático
 ├── .env.example                   # Variáveis de ambiente do Supabase
 ├── README.md
 └── Relatório 1 - SPRINT 1 (1).pdf # Relatório de origem
@@ -341,7 +344,8 @@ O seed insere as UCs de LEI — 1.º ano, 1.º semestre:
 **ALGAN**, **APROG**, **AMATA**, **LAPR1** e **PRCMP**.
 
 A `SUPABASE_SERVICE_ROLE_KEY` é usada apenas pelo script de seed e nunca deve
-ser colocada no frontend.
+ser colocada no frontend. O deploy da Vercel gera `dist/assets/js/config.js`
+automaticamente a partir das variáveis de ambiente do projeto.
 
 ### Validação funcional histórica
 

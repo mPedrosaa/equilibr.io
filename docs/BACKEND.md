@@ -62,12 +62,19 @@ npm run db:setup
 
 ### Deploy estático (Vercel)
 
-Como o frontend é servido como site estático, `assets/js/config.js` tem de ser
-gerado durante o build. No painel da Vercel:
+O repositório inclui um `vercel.json` que executa `npm run build` e publica a
+pasta `dist/`. O build copia os ficheiros públicos e gera `assets/js/config.js`
+a partir das variáveis de ambiente, sem alterar o ficheiro versionado.
 
-1. Definir `SUPABASE_URL` e `SUPABASE_ANON_KEY` nas variáveis de ambiente.
-2. Configurar o **Build Command** como `npm run config`.
-3. Configurar o **Output Directory** como `.`.
+Basta definir na Vercel:
+
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+
+Também são aceites os nomes usados por integrações comuns:
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `SUPABASE_PUBLISHABLE_KEY` e
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 
 A `SUPABASE_SERVICE_ROLE_KEY` não deve ser adicionada ao projeto da Vercel.
 
