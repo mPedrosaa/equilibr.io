@@ -39,7 +39,26 @@ if (!files.length) {
   process.exit(1);
 }
 
-for (const file of files) {
+const historyResponse = await fetch(
+  `https://api.supabase.com/v1/projects/${projectRef}/database/migrations`,
+  { headers: { Authorization: `Bearer ${accessToken}` } }
+);
+
+if (!historyResponse.ok) {
+  console.error(`Não foi possível ler o histórico de migrations (HTTP ${historyResponse.status}).`);
+  process.exit(1);
+}
+
+const history = await historyResponse.json();
+const applied = new Set(history.map((migration) => migration.name));
+const pending = files.filter((file) => !applied.has(basename(file, '.sql')));
+
+if (!pending.length) {
+  console.log('Não há migrations novas para aplicar.');
+  process.exit(0);
+}
+
+for (const file of pending) {
   const query = readFileSync(resolve(migrationsDir, file), 'utf8');
   console.log(`A aplicar ${basename(file)}…`);
 
@@ -65,4 +84,4 @@ for (const file of files) {
   console.log(`OK: ${file}`);
 }
 
-console.log(`\n${files.length} migration(s) aplicada(s) com sucesso.`);
+console.log(`\n${pending.length} migration(s) aplicada(s) com sucesso.`);
