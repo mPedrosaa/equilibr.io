@@ -68,7 +68,7 @@
   }
 
   function safeColor(value) {
-    return /^#[0-9a-f]{6}$/i.test(String(value || '')) ? value : '#0f9d8a';
+    return /^#[0-9a-f]{6}$/i.test(String(value || '')) ? value : '#000080';
   }
 
   function hexToSoft(hex, alpha) {
@@ -145,7 +145,7 @@
   }
 
   function typeMeta(type) {
-    return CORE.TYPE_META[type] || { label: type, icon: 'bi-dot', accent: '#64748b' };
+    return CORE.TYPE_META[type] || { label: type, icon: 'bi-dot', accent: '#000000' };
   }
 
   function severityIcon(severity) {
@@ -313,7 +313,7 @@
     setProgressBar(
       $('#kpiAutonomousBar'),
       autonomousPercent,
-      autonomousPercent > 120 ? '#f59e0b' : '#0f9d8a'
+      autonomousPercent > 120 ? '#b8860b' : '#000080'
     );
 
     $('#kpiRest').innerHTML = `${hoursNumber(metrics.restMinutes)} <small>h</small>`;
@@ -322,7 +322,7 @@
     setProgressBar(
       $('#kpiRestBar'),
       restPercent,
-      restPercent < 50 ? '#f59e0b' : '#22c55e'
+      restPercent < 50 ? '#b8860b' : '#008000'
     );
 
     $('#kpiStreak').textContent = String(metrics.consecutiveDays);
@@ -355,7 +355,7 @@
     if (streakTrack) {
       $$('span', streakTrack).forEach((segment, index) => {
         const active = index < Math.min(7, metrics.consecutiveDays);
-        segment.style.backgroundColor = active ? risk.level.color : '#e2e8f0';
+        segment.style.backgroundColor = active ? risk.level.color : '#d9d9d9';
         segment.style.opacity = active ? '1' : '0.55';
       });
     }
@@ -694,7 +694,7 @@
         const meta = typeMeta(log.type);
         const course = log.type === 'descanso' ? null : CORE.courseById(state.courses, log.courseId);
         const courseName = log.type === 'descanso' ? 'Bem-estar' : course ? course.name : 'UC removida';
-        const courseColor = log.type === 'descanso' ? '#16a34a' : course ? safeColor(course.color) : '#94a3b8';
+        const courseColor = log.type === 'descanso' ? '#008080' : course ? safeColor(course.color) : '#666666';
         return `
           <tr>
             <td><span class="log-date">${esc(dateLabel(log.date))}</span></td>
