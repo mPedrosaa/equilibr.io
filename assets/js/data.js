@@ -111,7 +111,7 @@
       {
         autonomy: [
           ['lapr1', 90, 'projeto', 'Reunião de projeto do quarteto'],
-          ['alga', 60, 'estudo', 'Leitura sobre memória e CPU'],
+          ['alga', 60, 'estudo', 'Leitura de Álgebra Linear'],
         ],
         rest: [60, 'Caminhada curta'],
       },
@@ -128,8 +128,8 @@
       },
       {
         autonomy: [
-          ['pc', 150, 'estudo', 'Exercícios de relações e funções'],
-          ['alga', 60, 'estudo', 'Revisão de arquitetura'],
+          ['pc', 150, 'estudo', 'Exercícios de Princípios da Computação'],
+          ['alga', 60, 'estudo', 'Revisão de Álgebra Linear'],
         ],
         rest: [60, 'Pausa sem ecrãs'],
       },
@@ -153,7 +153,7 @@
       {
         autonomy: [
           ['am', 120, 'estudo', 'Fichas de Análise Matemática'],
-          ['pc', 60, 'estudo', 'Resumo de Matemática Discreta'],
+          ['pc', 60, 'estudo', 'Resumo de Princípios da Computação'],
         ],
         rest: [120, 'Tempo offline'],
       },
@@ -171,7 +171,7 @@
       {
         autonomy: [
           ['pc', 120, 'estudo', 'Exercícios de lógica'],
-          ['alga', 60, 'estudo', 'Leitura leve de arquitetura'],
+          ['alga', 60, 'estudo', 'Leitura leve de Álgebra'],
         ],
         rest: [120, 'Passeio ao fim do dia'],
       },
@@ -216,7 +216,7 @@
       {
         autonomy: [
           ['ap', 180, 'estudo', 'Sessão dupla de programação'],
-          ['alga', 150, 'estudo', 'Preparar laboratório'],
+          ['alga', 150, 'estudo', 'Preparar exercícios de Álgebra'],
         ],
         rest: null,
       },
