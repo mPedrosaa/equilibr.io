@@ -73,20 +73,17 @@
                 </div>
                 <div class="assessment-fields" hidden>
                   <label for="assessmentMin">Nota mínima esperada</label>
-                  <input id="assessmentMin" type="number" min="0" max="20" step="0.1" />
+                  <select id="assessmentMin" required></select>
                 </div>
                 <div class="assessment-fields" hidden>
                   <label for="assessmentMax">Nota máxima esperada</label>
-                  <input id="assessmentMax" type="number" min="0" max="20" step="0.1" />
+                  <select id="assessmentMax" required></select>
                 </div>
                 <div class="assessment-fields" hidden>
-                  <label for="assessmentConfidence">Confiança</label>
-                  <select id="assessmentConfidence">
-                    <option value="">Seleciona</option>
-                    <option value="baixa">Baixa</option>
-                    <option value="media">Média</option>
-                    <option value="alta">Alta</option>
-                  </select>
+                  <label for="assessmentConfidence">
+                    Confiança <output id="assessmentConfidenceValue">5</output>/10
+                  </label>
+                  <input id="assessmentConfidence" type="range" min="0" max="10" step="1" value="5" />
                 </div>
                 <div class="span-all">
                   <label for="assessmentNote">Nota</label>
