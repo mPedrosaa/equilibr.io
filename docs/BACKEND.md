@@ -81,7 +81,7 @@ A `SUPABASE_SERVICE_ROLE_KEY` não deve ser adicionada ao projeto da Vercel.
 | `activity_logs` | Registos diários de aula, estudo, projeto e descanso |
 | `class_sessions` | Aulas semanais por UC, dia e intervalo |
 | `study_blocks` | Blocos de estudo autónomo por dia e intervalo |
-| `assessments` | Testes, avaliações e exames, com nota esperada (0–20, passo 2) e confiança (0–10) |
+| `assessments` | Testes, avaliações e exames, com nota esperada por intervalos e confiança (0–10) |
 
 O perfil é criado automaticamente por um trigger em `auth.users`.
 
@@ -123,7 +123,7 @@ npm run db:seed
 - Com sessão iniciada, o registo diário da aplicação começa vazio e usa `activity_logs`.
 - O semestre e as UCs selecionadas são guardados em `profiles` e `user_courses`.
 - `schedule.html` guarda aulas em `class_sessions` e estudo em `study_blocks`.
-- `assessments.html` guarda avaliações em `assessments`; a nota esperada usa intervalos de 2 valores e a confiança uma escala 0–10.
+- `assessments.html` guarda avaliações em `assessments`; a nota esperada usa intervalos realistas (0–5, 5–7, 7–9, 9–11, 11–14, 14–16, 16–18, 18–20) e a confiança uma régua de 0 a 10.
 - Com confirmação de email ativa, o utilizador tem de confirmar a conta antes de entrar. Configura o SMTP e as URLs permitidas no dashboard do Supabase.
 - Sem `SUPABASE_URL` e `SUPABASE_ANON_KEY`, o login mostra um aviso e a aplicação
   continua disponível em modo de demonstração local.
