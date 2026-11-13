@@ -332,8 +332,8 @@ Não há cookies, IndexedDB ou chamadas de rede. O estado é carregado no arranq
       "id": "lapr1",
       "name": "Laboratório de Engenharia I",
       "code": "LAPR1",
-      "ects": 6,
-      "contactHours": 4,
+      "ects": 8,
+      "contactHours": 5,
       "color": "#0f9d8a"
     }
   ],
@@ -430,9 +430,11 @@ Exemplos:
 
 | UC | ECTS | Contacto | Carga semanal | Meta autónoma |
 | --- | ---: | ---: | ---: | ---: |
-| Laboratório de Engenharia I | 6 | 4 h | 8,1 h | 4,1 h |
-| Programação I | 6 | 4 h | 8,1 h | 4,1 h |
-| Matemática Discreta | 6 | 3 h | 8,1 h | 5,1 h |
+| Álgebra Linear e Geometria Analítica | 5 | 3 h | 6,75 h | 3,75 h |
+| Algoritmia e Programação | 6 | 4 h | 8,1 h | 4,1 h |
+| Análise Matemática | 5 | 3 h | 6,75 h | 3,75 h |
+| Laboratório de Engenharia I | 8 | 5 h | 10,8 h | 5,8 h |
+| Princípios da Computação | 6 | 4 h | 8,1 h | 4,1 h |
 | Caso sem tempo autónomo | 3 | 10 h | 4,1 h | 0 h |
 
 O arredondamento é feito a uma casa decimal apenas para apresentação e para os valores derivados usados na interface. O cálculo interno trabalha em minutos para as métricas de registo.
@@ -664,7 +666,7 @@ Resultado: **13/13 aprovados**.
 | ---: | --- | --- |
 | 1 | `dateKey` e `lastNDays` | Datas locais e janela terminada hoje |
 | 2 | Conversão ECTS | 6 ECTS + 4 h = 8,1 h totais e 4,1 h autónomas |
-| 3 | Metas do seed | 30 ECTS, 18 h de contacto, 22,5 h e 40,5 h |
+| 3 | Metas do seed | 30 ECTS, 19 h de contacto, 21,5 h e 40,5 h |
 | 4 | Indicadores do seed | 21 h autónomas, 6,5 h de descanso, 7 dias, sessão de 3 h |
 | 5 | Soma por UC | Metas e registos por UC somam os totais globais |
 | 6 | Risco base | 39/100, moderado, streak 22 e descanso 12 |
@@ -871,12 +873,12 @@ O trabalho deixa uma base clara para a próxima fase: backend, configurações, 
 
 | UC | Código | ECTS | Contacto | Carga semanal | Meta autónoma |
 | --- | --- | ---: | ---: | ---: | ---: |
-| Laboratório de Engenharia I | LAPR1 | 6 | 4 h | 8,1 h | 4,1 h |
-| Programação I | PROG1 | 6 | 4 h | 8,1 h | 4,1 h |
-| Análise Matemática | AM | 6 | 4 h | 8,1 h | 4,1 h |
-| Matemática Discreta | MD | 6 | 3 h | 8,1 h | 5,1 h |
-| Arquitetura de Computadores | AC | 6 | 3 h | 8,1 h | 5,1 h |
-| **Total** | — | **30** | **18 h** | **40,5 h** | **22,5 h** |
+| Álgebra Linear e Geometria Analítica | ALGA | 5 | 3 h | 6,75 h | 3,75 h |
+| Algoritmia e Programação | AP | 6 | 4 h | 8,1 h | 4,1 h |
+| Análise Matemática | AM | 5 | 3 h | 6,75 h | 3,75 h |
+| Laboratório de Engenharia I | LAPR1 | 8 | 5 h | 10,8 h | 5,8 h |
+| Princípios da Computação | PC | 6 | 4 h | 8,1 h | 4,1 h |
+| **Total** | — | **30** | **19 h** | **40,5 h** | **21,5 h** |
 
 ## Apêndice B — Glossário
 
