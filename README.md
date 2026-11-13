@@ -207,10 +207,14 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 ├── login.html                     # Ecrã de entrada
 ├── register.html                  # Criação de conta
 ├── profile.html                   # Edição do perfil autenticado
+├── semester.html                  # Escolha de semestre e UCs
+├── schedule.html                  # Horário de aulas e estudo
+├── assessments.html               # Avaliações e exames
 ├── app.html                       # Shell, vistas, modais e conteúdo estático
 ├── assets/
 │   ├── css/
 │   │   ├── landing.css            # Estilo mínimo da landing e do login
+│   │   ├── workspace.css          # Grelhas de horário e tabelas
 │   │   └── styles.css             # Design system, componentes e responsividade
 │   ├── js/
 │   │   ├── core.js                # Regras de negócio puras e motor de risco
@@ -220,6 +224,10 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   │   ├── supabase-client.js     # Cliente Supabase partilhado
 │   │   ├── account.js             # Utilizador autenticado na aplicação
 │   │   ├── profile.js             # Edição de nome, email e palavra-passe
+│   │   ├── semester.js            # Escolha de semestre e UCs
+│   │   ├── schedule.js            # Aulas e estudo autónomo
+│   │   ├── assessments.js         # Avaliações e exames
+│   │   ├── workspace-common.js    # Sessão e catálogo comuns
 │   │   └── config.js              # Configuração pública gerada a partir do .env
 │   └── vendor/
 │       ├── bootstrap/             # Bootstrap 5.3.3 local
@@ -232,12 +240,13 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   └── seed-courses.mjs           # Semeia as UCs de LEI no Supabase
 ├── supabase/
 │   └── migrations/
-│       └── 202611130001_init.sql  # Esquema, triggers e políticas RLS
+│       ├── 202611130001_init.sql  # Esquema, triggers e políticas RLS
+│       └── 202611130002_planner.sql # Horário, estudo e avaliações
 ├── tests/
 │   ├── core.test.js               # 13 testes de domínio com Node.js
 │   └── integration/
 │       ├── app.spec.js            # 4 testes de integração da aplicação
-│       └── landing.spec.js        # 4 testes da landing, login, perfil e registo
+│       └── landing.spec.js        # 5 testes da landing, login, perfil e registo
 ├── .github/
 │   └── workflows/
 │       └── pr-tests.yml           # Testes automáticos em Pull Requests
@@ -292,11 +301,12 @@ npx playwright install chromium
 npm run test:integration
 ```
 
-Cobrem atualmente oito fluxos:
+Cobrem atualmente nove fluxos:
 
 - landing page com marca e entradas;
 - ecrã de login sem logs de configuração e passagem para a demonstração local;
 - ecrã de perfil sem sessão;
+- páginas de planeamento sem sessão;
 - ecrã de registo com validação de palavra-passe;
 - dashboard com marca e indicadores base;
 - navegação entre vistas e totais das UCs;
@@ -348,7 +358,9 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) mostram as cinco vistas 
 
 ## Limitações
 
-- O schema, o login, o registo e o perfil com Supabase estão preparados, mas a aplicação demo ainda não persiste os registos na base de dados.
+- Com sessão Supabase, o registo diário começa vazio e é lido/escrito em `activity_logs`.
+- O modo demonstração continua a usar dados mock em `localStorage`.
+- O semestre, o horário e as avaliações ficam preparados para a próxima fase de cálculos.
 - Os dados da demonstração ficam no browser. Limpar o armazenamento elimina o histórico local.
 - A sincronização entre dispositivos e o multiutilizador ainda não estão ligados à interface.
 - O perfil é demonstrativo e não editável na interface.

@@ -35,6 +35,15 @@ test.describe('landing e acesso', () => {
   });
 
 
+
+  test('as páginas de planeamento pedem sessão', async ({ page }) => {
+    for (const path of ['/semester.html', '/schedule.html', '/assessments.html']) {
+      await page.goto(path);
+      await expect(page.locator('#authPrompt')).toBeVisible();
+      await expect(page.locator('#workspace')).toBeHidden();
+    }
+  });
+
   test('a página de perfil pede sessão quando não há utilizador autenticado', async ({ page }) => {
     await page.goto('/profile.html');
 

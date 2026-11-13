@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Testes, avaliações e exames no equilibr.io." />
+    <meta name="theme-color" content="#d9d9d9" />
+    <title>Avaliações · equilibr.io</title>
+    <link rel="stylesheet" href="assets/css/landing.css" />
+    <link rel="stylesheet" href="assets/css/workspace.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="site-header">
+        <a class="brand" href="index.html" aria-label="equilibr.io — início">
+          <span class="brand-box">eq</span>
+          <span>equilibr.io</span>
+        </a>
+        <nav class="site-nav" aria-label="Navegação principal">
+          <a href="app.html#dashboard">Aplicação</a>
+          <a href="semester.html">Semestre</a>
+          <a href="schedule.html">Horário</a>
+          <a href="profile.html">Perfil</a>
+        </nav>
+      </header>
+
+      <main>
+        <div id="authPrompt" hidden>
+          <div class="workspace-box">
+            <h1>Avaliações</h1>
+            <p class="small">Entra na tua conta para registares avaliações.</p>
+            <p><a class="button" href="login.html">Entrar</a></p>
+          </div>
+        </div>
+
+        <section id="workspace" class="workspace" hidden>
+          <div class="workspace-bar">
+            <h1>Avaliações</h1>
+            <p class="small">Testes, avaliações e exames.</p>
+          </div>
+
+          <div class="workspace-box">
+            <h2>Nova avaliação</h2>
+
+            <form id="assessmentForm" novalidate>
+              <div class="form-grid">
+                <div>
+                  <label for="assessmentCourse">UC</label>
+                  <select id="assessmentCourse" required></select>
+                </div>
+                <div>
+                  <label for="assessmentTitle">Título</label>
+                  <input id="assessmentTitle" type="text" maxlength="120" required />
+                </div>
+                <div>
+                  <label for="assessmentKind">Tipo</label>
+                  <select id="assessmentKind" required>
+                    <option value="teste">Teste</option>
+                    <option value="avaliacao">Avaliação</option>
+                    <option value="exame">Exame</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="assessmentDate">Data</label>
+                  <input id="assessmentDate" type="date" required />
+                </div>
+                <div>
+                  <label for="assessmentStatus">Estado</label>
+                  <select id="assessmentStatus" required>
+                    <option value="scheduled">Agendado</option>
+                    <option value="completed">Realizado</option>
+                  </select>
+                </div>
+                <div class="assessment-fields" hidden>
+                  <label for="assessmentMin">Nota mínima esperada</label>
+                  <input id="assessmentMin" type="number" min="0" max="20" step="0.1" />
+                </div>
+                <div class="assessment-fields" hidden>
+                  <label for="assessmentMax">Nota máxima esperada</label>
+                  <input id="assessmentMax" type="number" min="0" max="20" step="0.1" />
+                </div>
+                <div class="assessment-fields" hidden>
+                  <label for="assessmentConfidence">Confiança</label>
+                  <select id="assessmentConfidence">
+                    <option value="">Seleciona</option>
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                  </select>
+                </div>
+                <div class="span-all">
+                  <label for="assessmentNote">Nota</label>
+                  <input id="assessmentNote" type="text" maxlength="500" />
+                </div>
+              </div>
+
+              <p class="small">
+                <button class="button" type="submit">Adicionar avaliação</button>
+              </p>
+            </form>
+
+            <p id="assessmentStatusMessage" class="status" role="status" aria-live="polite" hidden></p>
+          </div>
+
+          <div class="workspace-box" style="margin-top: 8px">
+            <h2>Registos</h2>
+            <div id="assessmentList"></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <a href="app.html#dashboard">Voltar à aplicação</a>
+        <span>Nuno Sousa · Miguel Pedrosa · Rodrigo Pinheiro · Sofia de Souza</span>
+      </footer>
+    </div>
+
+    <script src="assets/vendor/supabase/supabase.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/workspace-common.js"></script>
+    <script src="assets/js/assessments.js"></script>
+  </body>
+</html>

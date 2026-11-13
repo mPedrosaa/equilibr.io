@@ -79,6 +79,9 @@ A `SUPABASE_SERVICE_ROLE_KEY` não deve ser adicionada ao projeto da Vercel.
 | `courses` | Catálogo de UCs com ECTS, horas de contacto, cor e semestre |
 | `user_courses` | Inscrição de cada utilizador nas UCs |
 | `activity_logs` | Registos diários de aula, estudo, projeto e descanso |
+| `class_sessions` | Aulas semanais por UC, dia e intervalo |
+| `study_blocks` | Blocos de estudo autónomo por dia e intervalo |
+| `assessments` | Testes, avaliações e exames, com nota esperada e confiança |
 
 O perfil é criado automaticamente por um trigger em `auth.users`.
 
@@ -117,17 +120,22 @@ npm run db:seed
 - A aplicação lê a sessão e substitui o perfil demo pelo nome e email do utilizador autenticado.
 - O perfil permite atualizar nome, email e palavra-passe.
 - O registo usa `signUp`, guarda o nome em `user_metadata.full_name` e redireciona a confirmação para `login.html`.
+- Com sessão iniciada, o registo diário da aplicação começa vazio e usa `activity_logs`.
+- O semestre e as UCs selecionadas são guardados em `profiles` e `user_courses`.
+- `schedule.html` guarda aulas em `class_sessions` e estudo em `study_blocks`.
+- `assessments.html` guarda avaliações em `assessments`.
 - Com confirmação de email ativa, o utilizador tem de confirmar a conta antes de entrar. Configura o SMTP e as URLs permitidas no dashboard do Supabase.
 - Sem `SUPABASE_URL` e `SUPABASE_ANON_KEY`, o login mostra um aviso e a aplicação
   continua disponível em modo de demonstração local.
-- A aplicação (`app.html`) ainda usa `localStorage` para os dados de
-  demonstração. A migração do estado para `activity_logs` é o passo seguinte.
-- O catálogo e o esquema já estão prontos para essa migração.
+- A aplicação (`app.html`) usa `localStorage` apenas em modo de demonstração.
+- Com sessão Supabase, o registo diário é lido e escrito em `activity_logs`.
+- O semestre, o horário e as avaliações já têm páginas e tabelas próprias; os
+  cálculos sobre estes dados ficam para a fase seguinte.
 
 ## Próximos passos
 
-1. Criar o fluxo de recuperação de password e confirmação de email.
-2. Substituir o estado demo por chamadas ao Supabase.
-3. Criar as inscrições do utilizador no primeiro login.
-4. Adicionar logout e proteção de rota em `app.html`.
-5. Cobrir os fluxos de autenticação com testes de integração.
+1. Criar o fluxo de recuperação de password.
+2. Migrar as UCs e os cenários demo para dados remotos.
+3. Usar o horário e as avaliações nos cálculos de carga e risco.
+4. Adicionar testes de integração autenticados com um utilizador de teste.
+5. Proteger `app.html` com verificação de sessão.
