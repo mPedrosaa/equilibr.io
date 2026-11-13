@@ -105,7 +105,7 @@ Os critérios de aceitação são verificáveis e foram escritos para o protóti
 | RF03 | Criar, editar e eliminar UCs com validação | Derivação de RF01 | Must | Implementado |
 | RF04 | Registar aulas, estudo autónomo, projeto e descanso | Relatório 3.2, módulo 2 | Must | Implementado |
 | RF05 | Associar registos a UCs, exceto descanso | Relatório 3.2, módulo 2 | Must | Implementado |
-| RF06 | Persistir UCs e registos no browser | Derivação de RF04 | Must | Implementado |
+| RF06 | Persistir UCs e registos por utilizador | Derivação de RF04 | Must | Implementado com Supabase |
 | RF07 | Mostrar histórico com filtros por período, UC e tipo | Derivação de RF04 | Should | Implementado |
 | RF08 | Apresentar indicadores agregados dos últimos sete dias | Relatório 3.2, módulo 3 | Must | Implementado |
 | RF09 | Calcular um risco de burnout de 0 a 100 com cinco fatores | Relatório 3.2, módulo 3 | Must | Implementado |
@@ -302,7 +302,7 @@ A tipografia usa a pilha nativa do sistema (`system-ui`, Segoe UI, Roboto, etc.)
 
 ### 7.1 Persistência
 
-O estado é um único objeto JSON guardado em `localStorage` com a chave:
+No modo de demonstração, o estado é um único objeto JSON guardado em `localStorage` com a chave:
 
 ```text
 equilibr.io.state.v2
@@ -578,7 +578,7 @@ A ordem abaixo reflecte a sequência efetiva de construção, sem tempos estimad
 | 5. Testes de domínio | Casos de datas, metas, cenários e limites | `tests/core.test.js` |
 | 6. Interface | Shell, sidebar, topbar, cinco vistas, modais e toasts | `app.html` |
 | 7. Design | Tokens, componentes, gráficos CSS e breakpoints | `styles.css` |
-| 8. Ligação | Rotas, estado, localStorage, CRUD, filtros e renderização | `app.js` |
+| 8. Ligação | Rotas, estado local/remoto, CRUD, filtros e renderização | `app.js` |
 | 9. QA | Testes de domínio, suite Selenium e revisão visual | Resultados e capturas |
 | 10. Documentação | README, processo, rastreabilidade e screenshots | `README.md`, `docs/` |
 
@@ -617,7 +617,7 @@ A ordem abaixo reflecte a sequência efetiva de construção, sem tempos estimad
 | --- | --- | --- |
 | JavaScript vanilla | React/Vue | Sem build, menos peso e mais transparência para um protótipo académico |
 | Hash routing | History API | Funciona em qualquer servidor estático sem rewrites |
-| localStorage | IndexedDB | Simplicidade suficiente para um único utilizador e dados pequenos |
+| localStorage (demo) | IndexedDB | Simplicidade suficiente para os dados mock; o login usa Supabase |
 | Seed relativo à data | Dataset fixo | A demo mantém-se coerente em qualquer dia |
 | Gráficos em CSS | Chart.js | Menos dependências e controlo visual total |
 | Domínio separado | Regras dentro de `app.js` | Testabilidade e reutilização |
@@ -759,7 +759,7 @@ A revisão visual confirmou que:
 | Referência no relatório | Promessa ou requisito | Implementação | Evidência |
 | --- | --- | --- | --- |
 | 1.2, objetivos específicos | Automatizar a carga semanal e semestral com ECTS | Carga semanal no módulo ECTS; semestral derivável (×20), sem cartão dedicado | Testes 2–5; vista `#ects` |
-| 1.2, objetivos específicos | Registo diário persistente por UC | Formulário, histórico e localStorage | QA de registo; vista `#registo` |
+| 1.2, objetivos específicos | Registo diário persistente por UC | Formulário, histórico e Supabase | QA de registo; vista `#registo` |
 | 1.2, objetivos específicos | Monitorização proativa de fadiga | Motor de cinco fatores e níveis | Testes 6–8; vista `#burnout` |
 | 2.3, pilar 1 | Cálculo automático por ECTS | Meta total e meta autónoma por UC | Cartões de UC e fórmula visível |
 | 2.3, pilar 2 | Algoritmo anti-burnout proativo | Score, fatores, sinais e recomendações | Gauge, radar e decomposição |
