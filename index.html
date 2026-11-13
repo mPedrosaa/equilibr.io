@@ -25,6 +25,7 @@
         <nav class="site-nav" aria-label="Navegação principal">
           <a href="#funcionalidades">Funcionalidades</a>
           <a href="#sobre">Sobre</a>
+          <a href="register.html">Criar conta</a>
           <a class="button" href="login.html">Entrar</a>
         </nav>
       </header>
@@ -33,18 +34,13 @@
         <section class="hero">
           <p class="kicker">LAPR1 · ISEP · 2026/27</p>
           <h1>equilibr.io</h1>
-          <p class="lead">
-            Um sítio simples para acompanhar ECTS, horas de estudo e descanso ao longo do
-            semestre — e para perceber mais cedo quando o ritmo começa a pesar.
-          </p>
+          <p class="lead">ECTS, estudo e descanso num só sítio.</p>
           <p class="actions">
             <a class="button" href="login.html">Entrar</a>
-            <a class="button" href="app.html#dashboard">Abrir demonstração</a>
+            <a class="button" href="register.html">Criar conta</a>
+            <a class="button" href="app.html#dashboard">Demonstração</a>
           </p>
-          <p class="small">
-            O protótipo funciona localmente no browser. O acesso com conta será suportado por
-            Supabase.
-          </p>
+          <p class="small">Protótipo local. O acesso com conta usa Supabase.</p>
         </section>
 
         <section id="funcionalidades" class="section">
@@ -52,24 +48,15 @@
           <div class="box-grid">
             <article class="box">
               <h3>ECTS e metas</h3>
-              <p>
-                Registo das unidades curriculares, créditos e horas de contacto. A meta de estudo
-                autónomo é calculada automaticamente.
-              </p>
+              <p>Registo de UCs, créditos e metas de estudo calculadas automaticamente.</p>
             </article>
             <article class="box">
               <h3>Registo diário</h3>
-              <p>
-                Aulas, estudo, projeto e descanso num histórico simples, com filtros por período,
-                unidade curricular e tipo de atividade.
-              </p>
+              <p>Aulas, estudo, projeto e descanso num histórico simples e filtrável.</p>
             </article>
             <article class="box">
               <h3>Anti-burnout</h3>
-              <p>
-                Uma leitura preventiva da carga acumulada, do descanso e dos dias consecutivos de
-                estudo, com recomendações práticas.
-              </p>
+              <p>Uma leitura preventiva da carga, do descanso e dos dias seguidos de estudo.</p>
             </article>
           </div>
         </section>
@@ -78,20 +65,18 @@
           <h2>Sobre o protótipo</h2>
           <div class="box">
             <p>
-              O equilibr.io nasceu no âmbito de LAPR1 como resposta a um problema concreto:
-              transformar a gestão do semestre num processo visível, quantificável e preventivo.
+              Projeto de LAPR1 para tornar a gestão do semestre visível, quantificável e preventiva.
             </p>
             <p>
-              Esta versão é uma interface web estática. A estrutura para autenticação e persistência
-              remota já está preparada para Supabase, mas os dados da demonstração continuam a ser
-              guardados no <code>localStorage</code> do browser.
+              A autenticação usa Supabase. Os dados da demonstração continuam no
+              <code>localStorage</code>.
             </p>
           </div>
         </section>
       </main>
 
       <footer class="site-footer">
-        <span>Protótipo académico · LAPR1 2026/27 · Quarteto Maravilha</span>
+        <span>Nuno Sousa · Miguel Pedrosa · Rodrigo Pinheiro · Sofia de Souza</span>
         <a href="login.html">Entrar</a>
       </footer>
     </div>
