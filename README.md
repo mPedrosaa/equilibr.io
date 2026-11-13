@@ -28,7 +28,7 @@ O relatório do Sprint 1 descreve uma aplicação de consola com três módulos:
 2. **Registo diário** — regista aulas, estudo autónomo, projeto e descanso por unidade curricular.
 3. **Anti-burnout** — analisa a atividade recente e sinaliza sobrecarga e falta de descanso.
 
-Este protótipo mantém as mesmas regras de negócio, mas adapta os fluxos a uma interface web navegável. O objetivo é validar a experiência, a hierarquia da informação e o motor de risco antes de uma implementação com backend. A justificação desta adaptação está documentada em [`docs/PROCESSO.md`](docs/PROCESSO.md).
+Este protótipo mantém as mesmas regras de negócio, mas adapta os fluxos a uma interface web navegável. A versão atual já inclui Supabase para autenticação, perfil, UCs, registos, horário e avaliações. A justificação desta adaptação está documentada em [`docs/PROCESSO.md`](docs/PROCESSO.md).
 
 ### Contexto
 
@@ -58,6 +58,8 @@ Este protótipo mantém as mesmas regras de negócio, mas adapta os fluxos a uma
 - Totais de ECTS, carga semanal, horas de contacto e estudo autónomo.
 - Validação de códigos duplicados e de valores inválidos.
 - Eliminação de uma UC remove também os registos associados, após confirmação.
+- UCs do catálogo e UCs personalizadas por utilizador.
+- Reposição das UCs oficiais do curso e semestre.
 
 ### Registo diário
 
@@ -78,6 +80,34 @@ Este protótipo mantém as mesmas regras de negócio, mas adapta os fluxos a uma
 - Radar de hábitos, mapa semanal e aviso de que o indicador é uma heurística de bem-estar.
 - Laboratório de cenários para testar rapidamente situações de equilíbrio, sobrecarga e recuperação.
 
+### Autenticação e perfil
+
+- Login e criação de conta com Supabase Auth.
+- Perfil com nome, email e alteração de palavra-passe.
+- Sessão persistente e dados por utilizador.
+- Modo de demonstração local sem conta.
+
+### Semestre e UCs
+
+- Escolha de semestre e UCs a partir do catálogo.
+- UCs personalizadas por utilizador, com criação, edição e eliminação.
+- Reposição das UCs definidas para o curso e semestre.
+- Registo diário vazio no primeiro login, dependente de preenchimento.
+
+### Horário
+
+- Aulas por UC, dia e intervalo.
+- Blocos de estudo autónomo por dia e intervalo.
+- Vista semanal de segunda a domingo.
+- Horas em formato 24h.
+
+### Avaliações
+
+- Testes, avaliações e exames agendados ou realizados.
+- Nota esperada por intervalos realistas.
+- Barra de confiança de 0 a 10.
+- Registo posterior da nota recebida.
+
 ### Experiência de utilização
 
 - Navegação SPA por rotas de hash (`#dashboard`, `#ects`, `#registo`, `#burnout`, `#sobre`).
@@ -89,7 +119,7 @@ Este protótipo mantém as mesmas regras de negócio, mas adapta os fluxos a uma
 
 ## Como executar
 
-Não há processo de build, instalação de dependências ou backend. O Bootstrap 5.3.3 e os Bootstrap Icons estão incluídos localmente em `assets/vendor/`.
+A execução local não exige build. O deploy usa um build estático para `dist/` e não existe backend próprio: a autenticação e a persistência usam Supabase. Bootstrap, Bootstrap Icons e o cliente Supabase estão incluídos em `assets/vendor/`.
 
 ### Opção recomendada: servidor HTTP local
 
@@ -282,8 +312,9 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 
 ## Decisões técnicas
 
-- **HTML + Bootstrap 5.3.3 + JavaScript vanilla.** Não há React, Vue ou outra framework de UI. O objetivo é manter o protótipo leve, sem build e fácil de inspecionar.
-- **Assets locais.** Bootstrap e Bootstrap Icons estão guardados em `assets/vendor/`, permitindo executar o protótipo sem CDN.
+- **HTML + Bootstrap 5.3.3 + JavaScript vanilla.** Não há React, Vue ou outra framework de UI. O protótipo mantém-se leve e fácil de inspecionar.
+- **Build estático.** O deploy gera `dist/` e a configuração pública do Supabase a partir das variáveis de ambiente.
+- **Assets locais.** Bootstrap, Bootstrap Icons e o cliente Supabase estão em `assets/vendor/`, permitindo executar o protótipo sem depender de CDNs.
 - **SPA com hash routing.** Funciona em qualquer servidor estático, sem regras de rewrite.
 - **`localStorage` com a chave `equilibr.io.state.v2`.** Só é usado no modo de demonstração; com login, registos, UCs, horário e avaliações vêm do Supabase.
 - **Separar domínio de interface.** As fórmulas e o motor de risco vivem em `core.js` e podem ser testados sem browser.

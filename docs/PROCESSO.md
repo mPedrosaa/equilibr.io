@@ -2,7 +2,7 @@
 
 **equilibr.io** (ISEP Study-Life Balance Tracker) · protótipo web
 LAPR1 2026/27 · turma LAPR1-2627-DKL01-Skills · grupo “Quarteto Maravilha”
-Documento de processo · 2 de novembro de 2026
+Documento de processo · 13 de novembro de 2026
 
 [← Voltar ao README](../README.md)
 
@@ -12,7 +12,7 @@ Documento de processo · 2 de novembro de 2026
 
 Este documento descreve como o relatório do Sprint 1 foi transformado num protótipo web navegável, quais foram as decisões de âmbito e de arquitetura, como o modelo de dados e as regras de cálculo foram definidos, o que foi implementado e que evidências de qualidade foram recolhidas.
 
-O resultado é uma aplicação estática em HTML5, Bootstrap 5.3.3 e JavaScript vanilla, com cinco vistas, persistência local no browser e dados de demonstração. Não existe backend nesta iteração.
+O resultado é uma aplicação web em HTML5, Bootstrap 5.3.3, JavaScript vanilla e Supabase, com cinco vistas principais e páginas de autenticação, perfil, semestre, horário e avaliações. O modo de demonstração usa `localStorage`; com login, os dados são persistidos no Supabase.
 
 ### Resultado em números
 
@@ -76,7 +76,7 @@ O público primordial são estudantes do 1.º ano da Licenciatura em Engenharia 
 
 ### 2.5 Âmbito original vs. protótipo
 
-O relatório propõe uma **aplicação em consola**. O pedido desta iteração foi um protótipo **HTML + Bootstrap**, sem backend. Esta diferença é uma decisão de âmbito assumida, não uma omissão acidental.
+O relatório propõe uma **aplicação em consola**. O pedido inicial desta iteração foi um protótipo **HTML + Bootstrap**; a versão atual já acrescenta um backend Supabase com autenticação e persistência. Esta diferença é uma decisão de âmbito assumida, não uma omissão acidental.
 
 **Justificação:** a interface web permite validar mais cedo a hierarquia da informação, os fluxos de registo e a legibilidade do risco. As regras de cálculo e o modelo de dados foram isolados em `core.js` e `data.js` para poderem ser reutilizados numa futura implementação em consola ou numa aplicação com backend.
 
@@ -119,10 +119,10 @@ Os critérios de aceitação são verificáveis e foram escritos para o protóti
 
 | ID | Requisito | Decisão |
 | --- | --- | --- |
-| RNF01 | Sem backend nesta iteração | Estado e persistência apenas no browser |
-| RNF02 | Executar sem build e sem CDN | HTML, CSS e JS estáticos; Bootstrap vendorizado |
+| RNF01 | Backend e autenticação | Supabase Auth, PostgreSQL e RLS por utilizador |
+| RNF02 | Build estático e assets locais | `dist/` para deploy; Bootstrap, ícones e cliente Supabase vendorizados |
 | RNF03 | Domínio testável fora do browser | `core.js` sem dependências do DOM |
-| RNF04 | Privacidade por omissão | Dados guardados localmente, sem envio para servidores |
+| RNF04 | Privacidade e isolamento | RLS por utilizador; modo demo local sem conta |
 | RNF05 | Interface em pt-PT | Textos, datas e formatação `Intl` em português |
 | RNF06 | Feedback claro para ações destrutivas | Modais de confirmação e toasts |
 | RNF07 | Acessibilidade básica | Landmarks, `aria-*`, foco visível e `prefers-reduced-motion` |
@@ -130,10 +130,10 @@ Os critérios de aceitação são verificáveis e foram escritos para o protóti
 
 ### 3.4 Fora do âmbito desta iteração
 
-- Backend, base de dados, autenticação e perfis reais.
-- Sincronização entre dispositivos.
+- Sincronização em tempo real entre dispositivos.
 - Exportação de dados e importação de calendário.
 - Notificações push, email ou lembretes.
+- Cálculo do risco a partir do horário e das avaliações.
 - Aplicação de consola.
 - Validação clínica do risco de burnout.
 - Painel de administração, docentes ou instituição.
@@ -572,7 +572,7 @@ A ordem abaixo reflecte a sequência efetiva de construção, sem tempos estimad
 | Etapa | Trabalho realizado | Artefactos |
 | --- | --- | --- |
 | 1. Análise | Leitura do PDF, extração dos módulos, objetivos e condicionantes | Notas de requisitos |
-| 2. Âmbito | Decisão de adaptar a consola a um protótipo web, sem backend | Secção 2.5 |
+| 2. Âmbito | Adaptar a consola a um protótipo web; backend Supabase adicionado depois | Secção 2.5 |
 | 3. Domínio | Fórmulas ECTS, janela móvel, métricas, risco e recomendações | `core.js` |
 | 4. Dados | UCs mock, plano de aulas, seed relativo e três cenários | `data.js` |
 | 5. Testes de domínio | Casos de datas, metas, cenários e limites | `tests/core.test.js` |
@@ -748,7 +748,7 @@ A revisão visual confirmou que:
 
 - Não foi feito um teste formal de acessibilidade com leitor de ecrã ou auditoria WCAG completa.
 - Não foram testados Safari, Edge ou browsers móveis reais.
-- A suite Playwright cobre apenas quatro fluxos principais, não a totalidade da interface.
+- A suite Playwright cobre nove fluxos principais, não a totalidade da interface.
 - A suite Selenium histórica não foi versionada e não corre em CI.
 - A calibração do risco não foi validada clinicamente.
 
@@ -778,9 +778,8 @@ A revisão visual confirmou que:
 | Desvio | Motivo | Impacto |
 | --- | --- | --- |
 | Web em vez de consola | Pedido da iteração e validação de UX | A ergonomia da CLI não é testada |
-| Sem backend | Âmbito “apenas HTML + Bootstrap” | Dados limitados ao browser |
 | Modelo de risco próprio | O relatório não define fórmula | Heurística precisa de validação futura |
-| Perfil fixo | Não há autenticação | Não há personalização real |
+| Horário e avaliações ainda fora do risco | Integração incremental | Dados recolhidos para fase seguinte |
 | Sem notificações | Fora do âmbito | O utilizador tem de abrir a aplicação |
 | Sem exportação | Fora do âmbito | Histórico não é portátil |
 
@@ -807,12 +806,11 @@ A revisão visual confirmou que:
 
 ### 13.1 Limitações atuais
 
-- Não há backend, autenticação, sincronização ou multiutilizador.
-- O perfil é fixo e demonstrativo.
+- O horário e as avaliações ainda não entram no cálculo do risco.
 - As configurações de ECTS, semanas e descanso não têm interface.
-- A carga semestral é derivável, mas não tem indicador próprio na interface.
 - O histórico não pode ser exportado ou importado.
 - Não há lembretes, notificações ou integração com calendário.
+- A sincronização em tempo real entre dispositivos não está implementada.
 - O risco é uma heurística e não foi validado clinicamente.
 - Não há migrações de estado além da leitura tolerante.
 - A aplicação de consola do relatório não foi implementada.
@@ -829,13 +827,18 @@ A revisão visual confirmou que:
 4. Auditoria de acessibilidade com teclado e leitor de ecrã.
 5. Mais testes de limites do motor de risco.
 
-**Iteração com backend**
+**Backend e autenticação — concluído**
 
-6. API e base de dados para UCs, registos e preferências.
-7. Autenticação e sincronização entre dispositivos.
-8. Notificações e lembretes de registo.
-9. Integração com calendário académico.
-10. Migrações de dados e backups.
+6. API e base de dados para UCs, registos, horário e avaliações.
+7. Autenticação, perfil e isolamento por utilizador com RLS.
+8. Reposição das UCs do curso e UCs personalizadas.
+9. Migrações de dados e seed do catálogo.
+
+**Próxima fase**
+
+10. Integrar horário e avaliações no cálculo do risco.
+11. Notificações e lembretes de registo.
+12. Integração com calendário académico.
 
 **Produto**
 
@@ -894,7 +897,7 @@ O protótipo cobre os três módulos do relatório e acrescenta os elementos nec
 
 A principal decisão foi adaptar a proposta de consola para uma interface web, mantendo as regras de negócio isoladas e testáveis. Esta adaptação permite validar a experiência e a comunicação do risco, mas não substitui a implementação de consola nem uma validação clínica do modelo.
 
-O trabalho deixa uma base clara para a próxima fase: backend, configurações, exportação, notificações e testes end-to-end. As limitações estão explicitadas para que o protótipo seja lido pelo que é: uma ferramenta académica de exploração e validação, não um produto clínico nem uma aplicação oficial do ISEP.
+O trabalho deixa uma base clara para a próxima fase: integrar o horário e as avaliações no motor de risco, acrescentar configurações, exportação, notificações e testes autenticados. As limitações estão explicitadas para que o protótipo seja lido pelo que é: uma ferramenta académica de exploração e validação, não um produto clínico nem uma aplicação oficial do ISEP.
 
 ---
 

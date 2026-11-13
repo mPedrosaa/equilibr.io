@@ -724,7 +724,7 @@
               <div>
                 <span class="eyebrow">Documentação</span>
                 <h2>Sobre o protótipo</h2>
-                <p>Do relatório do Sprint 1 a uma interface navegável para validar os fluxos do produto.</p>
+                <p>Estado atual do protótipo, funcionalidades e limites conhecidos.</p>
               </div>
               <span class="badge badge-soft-neutral px-3 py-2" id="aboutVersion">v1.0 · protótipo</span>
             </div>
@@ -745,7 +745,7 @@
                       identificou três módulos: gestão de ECTS, registo diário e monitorização anti-burnout.
                     </p>
                     <p>
-                      O protótipo web usa Supabase para autenticação e para guardar UCs, registos,
+                      O protótipo web usa Supabase para autenticação, perfil, UCs, registos,
                       horário e avaliações. O modo de demonstração continua disponível sem conta.
                     </p>
                     <div class="about-pills">
@@ -806,20 +806,48 @@
             </div>
 
             <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <article class="info-card h-100">
+                  <span class="info-icon tone-green"><i class="bi bi-journal-bookmark"></i></span>
+                  <h4>Semestre e UCs</h4>
+                  <p>Escolhe o semestre e as UCs do curso. As UCs personalizadas podem ser criadas, editadas e repostas.</p>
+                  <span class="info-tag">Implementado</span>
+                </article>
+              </div>
+              <div class="col-md-4">
+                <article class="info-card h-100">
+                  <span class="info-icon tone-amber"><i class="bi bi-calendar-week"></i></span>
+                  <h4>Horário</h4>
+                  <p>Define aulas e blocos de estudo autónomo por dia, em intervalos de 24 horas.</p>
+                  <span class="info-tag">Implementado</span>
+                </article>
+              </div>
+              <div class="col-md-4">
+                <article class="info-card h-100">
+                  <span class="info-icon tone-blue"><i class="bi bi-graph-up-arrow"></i></span>
+                  <h4>Avaliações</h4>
+                  <p>Regista testes e exames, nota esperada, confiança e nota recebida.</p>
+                  <span class="info-tag">Implementado</span>
+                </article>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
               <div class="col-lg-7">
                 <section class="panel h-100">
                   <div class="panel-head">
                     <div>
-                      <h3>Como testar em cinco passos</h3>
-                      <p>Um percurso rápido para validar o protótipo.</p>
+                      <h3>Como testar em seis passos</h3>
+                      <p>Um percurso rápido para validar o estado atual.</p>
                     </div>
                   </div>
                   <ol class="test-steps">
-                    <li><span>1</span><div><strong>Explora a visão geral.</strong> Confirma as metas, o gráfico de 7 dias e os sinais de atenção.</div></li>
-                    <li><span>2</span><div><strong>Edita uma UC.</strong> Muda as horas de contacto e observa a meta autónoma a ser recalculada.</div></li>
-                    <li><span>3</span><div><strong>Adiciona um registo.</strong> Regista estudo ou descanso e vê os indicadores atualizarem.</div></li>
-                    <li><span>4</span><div><strong>Testa o cenário de sobrecarga.</strong> Em Anti-burnout, aplica o cenário e verifica o risco crítico.</div></li>
-                    <li><span>5</span><div><strong>Repõe a demonstração.</strong> Usa o botão no topo para voltar ao estado inicial.</div></li>
+                    <li><span>1</span><div><strong>Entra ou usa a demonstração.</strong> Confirma o perfil, a visão geral e os indicadores.</div></li>
+                    <li><span>2</span><div><strong>Escolhe o semestre e as UCs.</strong> Seleciona as UCs ou repõe as do curso; cria uma UC personalizada se quiseres.</div></li>
+                    <li><span>3</span><div><strong>Preenche o horário.</strong> Adiciona aulas e blocos de estudo autónomo com horas em formato 24h.</div></li>
+                    <li><span>4</span><div><strong>Regista avaliações.</strong> Cria um teste ou exame, indica a nota esperada e, depois de realizado, a nota recebida.</div></li>
+                    <li><span>5</span><div><strong>Adiciona registos diários.</strong> Regista estudo ou descanso e confirma a atualização dos resumos.</div></li>
+                    <li><span>6</span><div><strong>Consulta o anti-burnout.</strong> Verifica fatores, recomendações e o mapa semanal.</div></li>
                   </ol>
                 </section>
               </div>
