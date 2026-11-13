@@ -17,20 +17,38 @@
   const list = document.getElementById('assessmentList');
   const statusSelect = document.getElementById('assessmentStatus');
   const fields = document.querySelectorAll('.assessment-fields');
-  const minInput = document.getElementById('assessmentMin');
-  const maxInput = document.getElementById('assessmentMax');
+  const expectedInput = document.getElementById('assessmentExpected');
   const confidenceInput = document.getElementById('assessmentConfidence');
   const confidenceValue = document.getElementById('assessmentConfidenceValue');
+  const confidenceMarks = document.getElementById('confidenceMarks');
+
+  const GRADE_RANGES = [
+    { label: '0–5', min: 0, max: 5 },
+    { label: '5–7', min: 5, max: 7 },
+    { label: '7–9', min: 7, max: 9 },
+    { label: '9–11', min: 9, max: 11 },
+    { label: '11–14', min: 11, max: 14 },
+    { label: '14–16', min: 14, max: 16 },
+    { label: '16–18', min: 16, max: 18 },
+    { label: '18–20', min: 18, max: 20 },
+  ];
 
   let user = null;
   let courses = [];
 
-  function fillGradeOptions(select) {
-    select.innerHTML =
+  function fillExpectedOptions() {
+    expectedInput.innerHTML =
       '<option value="">Seleciona</option>' +
-      Array.from({ length: 11 }, (_, index) => index * 2)
-        .map((value) => `<option value="${value}">${value}</option>`)
-        .join('');
+      GRADE_RANGES.map(
+        (range) => `<option value="${range.min}-${range.max}">${range.label}</option>`
+      ).join('');
+  }
+
+  function fillConfidenceMarks() {
+    confidenceMarks.innerHTML = Array.from(
+      { length: 11 },
+      (_, index) => `<span>${index}</span>`
+    ).join('');
   }
 
   function updateFields() {
@@ -38,9 +56,7 @@
     fields.forEach((field) => {
       field.hidden = !completed;
     });
-    [minInput, maxInput].forEach((field) => {
-      field.required = completed;
-    });
+    expectedInput.required = completed;
     confidenceValue.textContent = confidenceInput.value;
   }
 
@@ -131,11 +147,14 @@
     if (!form.reportValidity()) return;
 
     const completed = statusSelect.value === 'completed';
-    const min = completed ? Number(minInput.value) : null;
-    const max = completed ? Number(maxInput.value) : null;
+    const selectedRange = completed
+      ? GRADE_RANGES.find(
+          (range) => `${range.min}-${range.max}` === expectedInput.value
+        )
+      : null;
 
-    if (completed && (min < 0 || max > 20 || min > max)) {
-      setStatus(status, 'O intervalo de notas deve estar entre 0 e 20 e a nota mínima não pode exceder a máxima.', 'error');
+    if (completed && !selectedRange) {
+      setStatus(status, 'Seleciona a nota esperada.', 'error');
       return;
     }
 
@@ -146,8 +165,8 @@
       kind: document.getElementById('assessmentKind').value,
       assessment_date: document.getElementById('assessmentDate').value,
       status: statusSelect.value,
-      expected_min: completed ? min : null,
-      expected_max: completed ? max : null,
+      expected_min: selectedRange ? selectedRange.min : null,
+      expected_max: selectedRange ? selectedRange.max : null,
       confidence: completed ? Number(confidenceInput.value) : null,
       note: document.getElementById('assessmentNote').value.trim() || null,
     });
@@ -185,8 +204,8 @@
     user = sessionUser;
     courses = await loadCourses();
     fillCourseSelect(document.getElementById('assessmentCourse'), courses);
-    fillGradeOptions(minInput);
-    fillGradeOptions(maxInput);
+    fillExpectedOptions();
+    fillConfidenceMarks();
     updateFields();
     document.getElementById('assessmentDate').value = new Date().toISOString().slice(0, 10);
     await loadRows();
