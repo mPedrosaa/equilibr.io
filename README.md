@@ -233,7 +233,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 - **HTML + Bootstrap 5.3.3 + JavaScript vanilla.** Não há React, Vue ou outra framework de UI. O objetivo é manter o protótipo leve, sem build e fácil de inspecionar.
 - **Assets locais.** Bootstrap e Bootstrap Icons estão guardados em `assets/vendor/`, permitindo executar o protótipo sem CDN.
 - **SPA com hash routing.** Funciona em qualquer servidor estático, sem regras de rewrite.
-- **`localStorage` com a chave `slbt.state.v1`.** Não existe backend, conta de utilizador ou sincronização.
+- **`localStorage` com a chave `equilibra.state.v2`.** Não existe backend, conta de utilizador ou sincronização.
 - **Separar domínio de interface.** As fórmulas e o motor de risco vivem em `core.js` e podem ser testados sem browser.
 - **Gráficos em CSS.** Não foi adicionada uma biblioteca de charts; os gráficos são barras, gauge, heatmap e progressos construídos com HTML/CSS.
 - **Dados demo relativos à data atual.** O cenário inicial é recalculado no arranque para que a demonstração continue coerente em qualquer dia.

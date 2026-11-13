@@ -305,7 +305,7 @@ A tipografia usa a pilha nativa do sistema (`system-ui`, Segoe UI, Roboto, etc.)
 O estado é um único objeto JSON guardado em `localStorage` com a chave:
 
 ```text
-slbt.state.v1
+equilibra.state.v2
 ```
 
 Não há cookies, IndexedDB ou chamadas de rede. O estado é carregado no arranque, validado de forma tolerante e guardado após cada alteração.
@@ -314,7 +314,7 @@ Não há cookies, IndexedDB ou chamadas de rede. O estado é carregado no arranq
 
 ```json
 {
-  "version": 1,
+  "version": 2,
   "settings": {
     "ectsHours": 27,
     "semesterWeeks": 20,
@@ -843,7 +843,7 @@ node tests/core.test.js
 ### 14.3 Repor o estado
 
 - Na interface: **Repor demo** na topbar ou na vista “Sobre”.
-- No browser: apagar a chave `slbt.state.v1` no `localStorage` e recarregar.
+- No browser: apagar a chave `equilibra.state.v2` no `localStorage` e recarregar.
 
 ### 14.4 Estrutura dos ficheiros
 
