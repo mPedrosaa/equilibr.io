@@ -334,8 +334,6 @@
       email: user.email || '',
     };
 
-    const storageNotice = document.getElementById('storageNotice');
-    if (storageNotice) storageNotice.hidden = true;
     ['resetDemoBtn', 'aboutResetBtn', 'scenarioPanel'].forEach((id) => {
       const element = document.getElementById(id);
       if (element) element.hidden = true;

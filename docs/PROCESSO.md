@@ -898,6 +898,22 @@ O trabalho deixa uma base clara para a próxima fase: backend, configurações, 
 
 ---
 
+## 16. Transparência sobre IA generativa
+
+Foram usadas ferramentas de IA generativa como apoio ao desenvolvimento, de
+forma regulada e controlada, para acelerar tarefas de implementação,
+documentação e revisão. As sugestões foram revistas, testadas e adaptadas pela
+equipa antes de serem integradas.
+
+Todas as ferramentas e frameworks usados no projeto — HTML, CSS, JavaScript,
+Bootstrap, Supabase, PostgreSQL, Playwright, Git/GitHub e Vercel — são
+conhecidos e compreendidos pelos developers. A responsabilidade final pelo
+código, pelas decisões técnicas e pela validação dos resultados é humana.
+
+Detalhes adicionais em [`IA_GENERATIVA.md`](IA_GENERATIVA.md).
+
+---
+
 ## Apêndice A — UCs de demonstração
 
 | UC | Código | ECTS | Contacto | Carga semanal | Meta autónoma |
@@ -925,5 +941,5 @@ O trabalho deixa uma base clara para a próxima fase: backend, configurações, 
 
 ---
 
-*Documento produzido para o protótipo académico de LAPR1 2026/27. Última atualização: 2 de novembro de 2026.*
+*Documento produzido para o protótipo académico de LAPR1 2026/27. Última atualização: 13 de novembro de 2026.*
 

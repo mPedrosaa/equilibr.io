@@ -457,9 +457,6 @@
                       <button type="submit" class="btn btn-primary w-100">
                         <i class="bi bi-check2-circle"></i> Adicionar registo
                       </button>
-                      <p class="form-hint mt-3">
-                        <i class="bi bi-shield-lock"></i> Os dados ficam apenas neste browser.
-                      </p>
                     </form>
                   </div>
                 </section>
@@ -748,15 +745,13 @@
                       identificou três módulos: gestão de ECTS, registo diário e monitorização anti-burnout.
                     </p>
                     <p>
-                      Para validar a experiência antes da implementação em consola, este protótipo adapta os
-                      mesmos fluxos a uma interface web. As regras de cálculo, o modelo de dados e os cenários
-                      de teste são partilhados com a futura aplicação; o backend e a persistência definitiva
-                      ficam para a próxima fase.
+                      O protótipo web usa Supabase para autenticação e para guardar UCs, registos,
+                      horário e avaliações. O modo de demonstração continua disponível sem conta.
                     </p>
                     <div class="about-pills">
                       <span><i class="bi bi-code-slash"></i> HTML + Bootstrap 5</span>
                       <span><i class="bi bi-filetype-js"></i> JavaScript vanilla</span>
-                      <span><i class="bi bi-hdd"></i> localStorage</span>
+                      <span><i class="bi bi-hdd"></i> Supabase</span>
                       <span><i class="bi bi-phone"></i> Responsivo</span>
                     </div>
                   </div>
@@ -767,7 +762,7 @@
                   <div class="panel-head">
                     <div>
                       <h3>Estado dos dados</h3>
-                      <p>Informação guardada neste browser.</p>
+                      <p>Informação da sessão atual.</p>
                     </div>
                   </div>
                   <div class="about-stats">
@@ -837,14 +832,35 @@
                     </div>
                   </div>
                   <ul class="limit-list">
-                    <li><i class="bi bi-x-circle"></i> Sem backend, autenticação ou sincronização entre dispositivos.</li>
-                    <li><i class="bi bi-x-circle"></i> Dados limitados ao browser; limpar o armazenamento apaga o histórico.</li>
+                    <li><i class="bi bi-x-circle"></i> O modo de demonstração mantém os dados no browser; com login, os dados ficam no Supabase.</li>
+                    <li><i class="bi bi-x-circle"></i> A sincronização em tempo real entre dispositivos ainda não está implementada.</li>
                     <li><i class="bi bi-x-circle"></i> O risco é uma heurística, não uma avaliação clínica.</li>
                     <li><i class="bi bi-x-circle"></i> Não há exportação, notificações ou integração com calendário.</li>
                   </ul>
                 </section>
               </div>
             </div>
+
+            <section class="panel mb-3">
+              <div class="panel-head">
+                <div>
+                  <h3>Transparência sobre IA generativa</h3>
+                  <p>Uso controlado de ferramentas de apoio ao desenvolvimento.</p>
+                </div>
+              </div>
+              <div class="about-copy">
+                <p>
+                  Foram usadas ferramentas de IA generativa para acelerar tarefas de implementação,
+                  documentação e revisão, sempre de forma regulada e supervisionada.
+                </p>
+                <p class="mb-0">
+                  As sugestões foram revistas, testadas e adaptadas pela equipa. Todas as ferramentas
+                  e frameworks usados — HTML, CSS, JavaScript, Bootstrap, Supabase, Playwright e
+                  Git/GitHub — são conhecidos e compreendidos pelos developers. A responsabilidade
+                  final pelo código e pelas decisões é humana.
+                </p>
+              </div>
+            </section>
 
             <section class="panel">
               <div class="panel-head">
@@ -870,7 +886,6 @@
 
         <footer class="app-footer">
           <span>Nuno Sousa · Miguel Pedrosa · Rodrigo Pinheiro · Sofia de Souza</span>
-          <span id="storageNotice"><i class="bi bi-hdd"></i> Dados locais no browser</span>
         </footer>
       </div>
     </div>
