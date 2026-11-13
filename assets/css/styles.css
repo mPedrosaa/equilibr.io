@@ -4307,3 +4307,8 @@ a:hover {
     padding: 8px;
   }
 }
+
+/* Avatar como ligação para o perfil */
+a.avatar {
+  text-decoration: none;
+}
