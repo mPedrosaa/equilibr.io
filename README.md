@@ -241,7 +241,8 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 ├── supabase/
 │   └── migrations/
 │       ├── 202611130001_init.sql  # Esquema, triggers e políticas RLS
-│       └── 202611130002_planner.sql # Horário, estudo e avaliações
+│       ├── 202611130002_planner.sql # Horário, estudo e avaliações
+│       └── 202611130003_assessment_confidence.sql # Confiança 0–10
 ├── tests/
 │   ├── core.test.js               # 13 testes de domínio com Node.js
 │   └── integration/
@@ -354,7 +355,7 @@ A suite Selenium foi uma ferramenta de QA do ambiente de desenvolvimento e não 
 
 ### Verificação visual
 
-As capturas em [`docs/screenshots/`](docs/screenshots/) mostram as cinco vistas em desktop (1440 × 1114 px) e duas vistas em mobile (500 × 758 px).
+As capturas em [`docs/screenshots/`](docs/screenshots/) incluem as cinco vistas da aplicação, as versões mobile, a landing, login, registo, perfil, semestre, horário e avaliações.
 
 ## Limitações
 
