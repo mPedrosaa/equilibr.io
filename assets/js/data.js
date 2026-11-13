@@ -103,15 +103,15 @@
       },
       {
         autonomy: [
-          ['prog1', 150, 'estudo', 'Exercícios de programação'],
-          ['md', 30, 'estudo', 'Resumo de lógica proposicional'],
+          ['ap', 150, 'estudo', 'Exercícios de programação'],
+          ['pc', 30, 'estudo', 'Resumo de lógica proposicional'],
         ],
         rest: [90, 'Jantar com amigos'],
       },
       {
         autonomy: [
           ['lapr1', 90, 'projeto', 'Reunião de projeto do quarteto'],
-          ['ac', 60, 'estudo', 'Leitura sobre memória e CPU'],
+          ['alga', 60, 'estudo', 'Leitura sobre memória e CPU'],
         ],
         rest: [60, 'Caminhada curta'],
       },
@@ -121,22 +121,22 @@
       },
       {
         autonomy: [
-          ['prog1', 120, 'estudo', 'Prática de estruturas de dados'],
+          ['ap', 120, 'estudo', 'Prática de estruturas de dados'],
           ['lapr1', 60, 'projeto', 'Escrita do relatório'],
         ],
         rest: [60, 'Tempo com a família'],
       },
       {
         autonomy: [
-          ['md', 150, 'estudo', 'Exercícios de relações e funções'],
-          ['ac', 60, 'estudo', 'Revisão de arquitetura'],
+          ['pc', 150, 'estudo', 'Exercícios de relações e funções'],
+          ['alga', 60, 'estudo', 'Revisão de arquitetura'],
         ],
         rest: [60, 'Pausa sem ecrãs'],
       },
       {
         autonomy: [
           ['lapr1', 120, 'estudo', 'Afinar protótipo e relatório'],
-          ['prog1', 60, 'projeto', 'Sessão rápida de projeto'],
+          ['ap', 60, 'projeto', 'Sessão rápida de projeto'],
         ],
         rest: null,
       },
@@ -147,13 +147,13 @@
         rest: [120, 'Caminhada e café'],
       },
       {
-        autonomy: [['prog1', 150, 'estudo', 'Exercícios ao ritmo próprio']],
+        autonomy: [['ap', 150, 'estudo', 'Exercícios ao ritmo próprio']],
         rest: [120, 'Jantar sem pressas'],
       },
       {
         autonomy: [
           ['am', 120, 'estudo', 'Fichas de Análise Matemática'],
-          ['md', 60, 'estudo', 'Resumo de Matemática Discreta'],
+          ['pc', 60, 'estudo', 'Resumo de Matemática Discreta'],
         ],
         rest: [120, 'Tempo offline'],
       },
@@ -165,13 +165,13 @@
         rest: [120, 'Série e descanso'],
       },
       {
-        autonomy: [['prog1', 150, 'estudo', 'Prática de programação']],
+        autonomy: [['ap', 150, 'estudo', 'Prática de programação']],
         rest: [150, 'Encontro com amigos'],
       },
       {
         autonomy: [
-          ['md', 120, 'estudo', 'Exercícios de lógica'],
-          ['ac', 60, 'estudo', 'Leitura leve de arquitetura'],
+          ['pc', 120, 'estudo', 'Exercícios de lógica'],
+          ['alga', 60, 'estudo', 'Leitura leve de arquitetura'],
         ],
         rest: [120, 'Passeio ao fim do dia'],
       },
@@ -190,15 +190,15 @@
       },
       {
         autonomy: [
-          ['prog1', 180, 'estudo', 'Prática intensiva de programação'],
-          ['md', 150, 'estudo', 'Revisão de última hora'],
+          ['ap', 180, 'estudo', 'Prática intensiva de programação'],
+          ['pc', 150, 'estudo', 'Revisão de última hora'],
         ],
         rest: null,
       },
       {
         autonomy: [
           ['lapr1', 180, 'projeto', 'Correr contra o prazo do relatório'],
-          ['ac', 120, 'estudo', 'Leitura de véspera'],
+          ['alga', 120, 'estudo', 'Leitura de véspera'],
         ],
         rest: null,
       },
@@ -209,14 +209,14 @@
       {
         autonomy: [
           ['lapr1', 180, 'projeto', 'Nova ronda de revisões do projeto'],
-          ['md', 120, 'estudo', 'Fichas e mais fichas'],
+          ['pc', 120, 'estudo', 'Fichas e mais fichas'],
         ],
         rest: null,
       },
       {
         autonomy: [
-          ['prog1', 180, 'estudo', 'Sessão dupla de programação'],
-          ['ac', 150, 'estudo', 'Preparar laboratório'],
+          ['ap', 180, 'estudo', 'Sessão dupla de programação'],
+          ['alga', 150, 'estudo', 'Preparar laboratório'],
         ],
         rest: null,
       },
@@ -234,7 +234,7 @@
         rest: [180, 'Tarde livre sem ecrãs'],
       },
       {
-        autonomy: [['prog1', 90, 'estudo', 'Um exercício de cada vez']],
+        autonomy: [['ap', 90, 'estudo', 'Um exercício de cada vez']],
         rest: [150, 'Caminhada longa'],
       },
       {
@@ -246,7 +246,7 @@
         rest: [120, 'Almoço demorado'],
       },
       {
-        autonomy: [['md', 90, 'estudo', 'Resumo leve']],
+        autonomy: [['pc', 90, 'estudo', 'Resumo leve']],
         rest: [180, 'Tempo com amigos'],
       },
       {
@@ -254,7 +254,7 @@
         rest: [240, 'Fim de semana tranquilo'],
       },
       {
-        autonomy: [['ac', 60, 'estudo', 'Leitura curta']],
+        autonomy: [['alga', 60, 'estudo', 'Leitura curta']],
         rest: [120, 'Passeio ao fim do dia'],
       },
     ],
