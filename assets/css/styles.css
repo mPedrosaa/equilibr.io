@@ -29,8 +29,8 @@
   --coral-soft: #f0dcd4;
   --radius: 0px;
   --shadow: 3px 3px 0 rgba(93, 79, 55, 0.08);
-  --sidebar-width: clamp(248px, 19vw, 276px);
-  --sidebar-gap: 18px;
+  --sidebar-width: clamp(260px, 20vw, 300px);
+  --sidebar-gap: 28px;
   --page-gutter: clamp(24px, 4vw, 56px);
   --font-serif: Georgia, "Times New Roman", "Palatino Linotype", serif;
   --font-mono: "Courier New", "Courier", monospace;
@@ -2958,7 +2958,7 @@ a:hover {
 }
 
 .sidebar-inner {
-  padding: 16px 12px 12px;
+  padding: 24px 22px 18px;
 }
 
 .brand {
@@ -3036,7 +3036,7 @@ a:hover {
 }
 
 .nav-label {
-  margin: 14px 0 3px 0;
+  margin: 14px 0 3px 8px;
   color: #000;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
@@ -3046,8 +3046,8 @@ a:hover {
 }
 
 .sidebar-link {
-  gap: 7px;
-  padding: 6px 5px;
+  gap: 8px;
+  padding: 7px 9px;
   color: #0000ee;
   background: transparent;
   border-bottom: 1px dotted #777;

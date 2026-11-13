@@ -157,11 +157,13 @@ Os cenários servem para validar os limites do motor de risco e não representam
 
 ### Meta de estudo autónomo
 
+A explicação completa está em [`docs/META_AUTONOMA.md`](docs/META_AUTONOMA.md).
+
 O modelo assume:
 
 - **1 ECTS = 27 horas** de trabalho total.
 - **Semestre = 20 semanas**.
-- A meta autónoma desconta as horas de contacto semanais.
+- A meta autónoma desconta as horas de contacto semanais (aulas, laboratórios e tutoriais), não uma estimativa de estudo autónomo.
 
 ```text
 carga semanal da UC = (ECTS × 27) ÷ 20
@@ -242,7 +244,9 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   └── migrations/
 │       ├── 202611130001_init.sql  # Esquema, triggers e políticas RLS
 │       ├── 202611130002_planner.sql # Horário, estudo e avaliações
-│       └── 202611130003_assessment_confidence.sql # Confiança 0–10
+│       ├── 202611130003_assessment_confidence.sql # Confiança 0–10
+│       ├── 202611130004_course_ownership.sql # UCs do catálogo e personalizadas
+│       └── 202611130005_received_grade.sql # Nota recebida
 ├── tests/
 │   ├── core.test.js               # 13 testes de domínio com Node.js
 │   └── integration/
@@ -253,6 +257,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │       └── pr-tests.yml           # Testes automáticos em Pull Requests
 ├── docs/
 │   ├── BACKEND.md                 # Configuração do Supabase e seed das UCs
+│   ├── META_AUTONOMA.md           # Cálculo da carga total e meta autónoma
 │   ├── PROCESSO.md                # Processo de desenvolvimento e rastreabilidade
 │   └── screenshots/               # Evidências visuais desktop e mobile
 ├── package.json                   # Dependências de desenvolvimento e scripts
@@ -274,7 +279,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 - **HTML + Bootstrap 5.3.3 + JavaScript vanilla.** Não há React, Vue ou outra framework de UI. O objetivo é manter o protótipo leve, sem build e fácil de inspecionar.
 - **Assets locais.** Bootstrap e Bootstrap Icons estão guardados em `assets/vendor/`, permitindo executar o protótipo sem CDN.
 - **SPA com hash routing.** Funciona em qualquer servidor estático, sem regras de rewrite.
-- **`localStorage` com a chave `equilibr.io.state.v2`.** A aplicação demo continua local; a estrutura de autenticação e persistência remota está preparada para Supabase.
+- **`localStorage` com a chave `equilibr.io.state.v2`.** Só é usado no modo de demonstração; com login, registos, UCs, horário e avaliações vêm do Supabase.
 - **Separar domínio de interface.** As fórmulas e o motor de risco vivem em `core.js` e podem ser testados sem browser.
 - **Gráficos em CSS.** Não foi adicionada uma biblioteca de charts; os gráficos são barras, gauge, heatmap e progressos construídos com HTML/CSS.
 - **Dados demo relativos à data atual.** O cenário inicial é recalculado no arranque para que a demonstração continue coerente em qualquer dia.
@@ -359,16 +364,13 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) incluem as cinco vistas 
 
 ## Limitações
 
-- Com sessão Supabase, o registo diário começa vazio e é lido/escrito em `activity_logs`.
+- Com sessão Supabase, o registo diário, as UCs, o horário e as avaliações são persistidos na base de dados.
 - O modo demonstração continua a usar dados mock em `localStorage`.
 - O semestre, o horário e as avaliações ficam preparados para a próxima fase de cálculos.
-- Os dados da demonstração ficam no browser. Limpar o armazenamento elimina o histórico local.
-- A sincronização entre dispositivos e o multiutilizador ainda não estão ligados à interface.
-- O perfil é demonstrativo e não editável na interface.
+- O perfil é editável na página de perfil.
 - A meta de descanso e as constantes ECTS estão no código; não há ecrã de configurações.
 - O risco é uma heurística de bem-estar, não uma avaliação clínica.
 - Não existem exportação, notificações, integração com calendário ou lembretes.
-- A migração dos dados locais para `activity_logs` ainda não foi implementada.
 - O protótipo não implementa a aplicação de consola descrita no relatório; valida os fluxos numa interface web.
 - A suite Selenium histórica não está incluída no repositório; a suite Playwright atual cobre apenas os fluxos principais e corre em CI.
 
@@ -376,6 +378,7 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) incluem as cinco vistas 
 
 - [`docs/PROCESSO.md`](docs/PROCESSO.md) — análise do relatório, requisitos, decisões, modelo de dados, implementação, QA e roadmap.
 - [`docs/MODELO_BURNOUT.md`](docs/MODELO_BURNOUT.md) — fundamentação do modelo de risco, pressupostos, utilidade e limites.
+- [`docs/META_AUTONOMA.md`](docs/META_AUTONOMA.md) — cálculo da carga total e da meta autónoma.
 - [`docs/screenshots/`](docs/screenshots/) — evidências visuais.
 
 Trabalho desenvolvido no âmbito de **LAPR1 2026/27**, turma **LAPR1-2627-DKL01-Skills**, pelo grupo **“Quarteto Maravilha”**: Nuno Sousa, Miguel Pedrosa, Rodrigo Pinheiro e Sofia de Souza.
