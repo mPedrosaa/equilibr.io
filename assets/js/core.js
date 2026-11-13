@@ -97,6 +97,10 @@
     return Math.round((Number(value) || 0) * 10) / 10;
   }
 
+  function round2(value) {
+    return Math.round((Number(value) || 0) * 100) / 100;
+  }
+
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
   }
@@ -113,11 +117,11 @@
 
   function courseTotalWeeklyHours(course, settings) {
     const config = { ...DEFAULTS, ...(settings || {}) };
-    return round1(((Number(course && course.ects) || 0) * config.ectsHours) / config.semesterWeeks);
+    return round2(((Number(course && course.ects) || 0) * config.ectsHours) / config.semesterWeeks);
   }
 
   function courseAutonomousTarget(course, settings) {
-    return Math.max(0, round1(courseTotalWeeklyHours(course, settings) - (Number(course && course.contactHours) || 0)));
+    return Math.max(0, round2(courseTotalWeeklyHours(course, settings) - (Number(course && course.contactHours) || 0)));
   }
 
   function totalEcts(courses) {
