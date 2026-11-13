@@ -1,6 +1,6 @@
 # Processo de desenvolvimento
 
-**ISEP Study-Life Balance Tracker** · protótipo web
+**Equilibra** (ISEP Study-Life Balance Tracker) · protótipo web
 LAPR1 2026/27 · turma LAPR1-2627-DKL01-Skills · grupo “Quarteto Maravilha”
 Documento de processo · 2 de novembro de 2026
 

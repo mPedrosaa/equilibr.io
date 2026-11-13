@@ -1,6 +1,6 @@
 /* global bootstrap */
 /**
- * Interface do protótipo ISEP Study-Life Balance Tracker.
+ * Interface do protótipo Equilibra (ISEP Study-Life Balance Tracker).
  * Estado em localStorage, renderização declarativa em HTML e Bootstrap 5.
  */
 (function () {
@@ -224,7 +224,7 @@
     const meta = ROUTES[route];
     $('#pageTitle').textContent = meta.title;
     $('#pageBreadcrumb').textContent = meta.breadcrumb;
-    document.title = `${meta.title} · Study-Life Balance Tracker`;
+    document.title = `${meta.title} · Equilibra`;
     closeOffcanvas();
     window.scrollTo(0, 0);
   }
