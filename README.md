@@ -220,7 +220,12 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │       ├── bootstrap/             # Bootstrap 5.3.3 local
 │       └── bootstrap-icons/       # Ícones locais
 ├── scripts/
-│   └── generate-config.mjs        # Gera assets/js/config.js a partir do ambiente
+│   ├── env.mjs                    # Leitura simples do ficheiro .env
+│   ├── generate-config.mjs        # Gera assets/js/config.js a partir do ambiente
+│   └── seed-courses.mjs           # Semeia as UCs de LEI no Supabase
+├── supabase/
+│   └── migrations/
+│       └── 202611130001_init.sql  # Esquema, triggers e políticas RLS
 ├── tests/
 │   ├── core.test.js               # 13 testes de domínio com Node.js
 │   └── integration/
@@ -230,6 +235,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │   └── workflows/
 │       └── pr-tests.yml           # Testes automáticos em Pull Requests
 ├── docs/
+│   ├── BACKEND.md                 # Configuração do Supabase e seed das UCs
 │   ├── PROCESSO.md                # Processo de desenvolvimento e rastreabilidade
 │   └── screenshots/               # Evidências visuais desktop e mobile
 ├── package.json                   # Dependências de desenvolvimento e scripts
@@ -251,7 +257,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 - **HTML + Bootstrap 5.3.3 + JavaScript vanilla.** Não há React, Vue ou outra framework de UI. O objetivo é manter o protótipo leve, sem build e fácil de inspecionar.
 - **Assets locais.** Bootstrap e Bootstrap Icons estão guardados em `assets/vendor/`, permitindo executar o protótipo sem CDN.
 - **SPA com hash routing.** Funciona em qualquer servidor estático, sem regras de rewrite.
-- **`localStorage` com a chave `equilibr.io.state.v2`.** Não existe backend, conta de utilizador ou sincronização.
+- **`localStorage` com a chave `equilibr.io.state.v2`.** A aplicação demo continua local; a estrutura de autenticação e persistência remota está preparada para Supabase.
 - **Separar domínio de interface.** As fórmulas e o motor de risco vivem em `core.js` e podem ser testados sem browser.
 - **Gráficos em CSS.** Não foi adicionada uma biblioteca de charts; os gráficos são barras, gauge, heatmap e progressos construídos com HTML/CSS.
 - **Dados demo relativos à data atual.** O cenário inicial é recalculado no arranque para que a demonstração continue coerente em qualquer dia.
@@ -279,14 +285,37 @@ npx playwright install chromium
 npm run test:integration
 ```
 
-Cobrem atualmente quatro fluxos:
+Cobrem atualmente seis fluxos:
 
+- landing page com marca e botão de entrada;
+- ecrã de login e passagem para a demonstração local;
 - dashboard com marca e indicadores base;
 - navegação entre vistas e totais das UCs;
 - criação de um registo e persistência após recarregar;
 - aplicação do cenário de sobrecarga e atualização do risco.
 
 Os testes de domínio e de integração correm automaticamente em **GitHub Actions** em cada Pull Request para `main`, através de [`.github/workflows/pr-tests.yml`](.github/workflows/pr-tests.yml).
+
+## Backend e autenticação
+
+O login está preparado para Supabase Auth e o esquema da base de dados já existe
+em [`supabase/migrations/`](supabase/migrations/). O guia completo está em
+[`docs/BACKEND.md`](docs/BACKEND.md).
+
+Fluxo rápido:
+
+```bash
+cp .env.example .env
+# preencher SUPABASE_URL, SUPABASE_ANON_KEY e SUPABASE_SERVICE_ROLE_KEY
+npm run config
+npm run db:seed
+```
+
+O seed insere as UCs de LEI — 1.º ano, 1.º semestre:
+**ALGAN**, **APROG**, **AMATA**, **LAPR1** e **PRCMP**.
+
+A `SUPABASE_SERVICE_ROLE_KEY` é usada apenas pelo script de seed e nunca deve
+ser colocada no frontend.
 
 ### Validação funcional histórica
 
@@ -309,13 +338,14 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) mostram as cinco vistas 
 
 ## Limitações
 
-- Não existe backend, autenticação, sincronização entre dispositivos ou multiutilizador.
-- Os dados ficam apenas no browser. Limpar o armazenamento elimina o histórico.
+- O schema e o login Supabase estão preparados, mas a aplicação demo ainda não persiste os registos na base de dados.
+- Os dados da demonstração ficam no browser. Limpar o armazenamento elimina o histórico local.
+- A sincronização entre dispositivos e o multiutilizador ainda não estão ligados à interface.
 - O perfil é demonstrativo e não editável na interface.
 - A meta de descanso e as constantes ECTS estão no código; não há ecrã de configurações.
 - O risco é uma heurística de bem-estar, não uma avaliação clínica.
 - Não existem exportação, notificações, integração com calendário ou lembretes.
-- Não existem migrações de dados além da leitura tolerante do formato atual.
+- A migração dos dados locais para `activity_logs` ainda não foi implementada.
 - O protótipo não implementa a aplicação de consola descrita no relatório; valida os fluxos numa interface web.
 - A suite Selenium histórica não está incluída no repositório; a suite Playwright atual cobre apenas os fluxos principais e corre em CI.
 
