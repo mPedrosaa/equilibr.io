@@ -20,18 +20,28 @@
   const minInput = document.getElementById('assessmentMin');
   const maxInput = document.getElementById('assessmentMax');
   const confidenceInput = document.getElementById('assessmentConfidence');
+  const confidenceValue = document.getElementById('assessmentConfidenceValue');
 
   let user = null;
   let courses = [];
+
+  function fillGradeOptions(select) {
+    select.innerHTML =
+      '<option value="">Seleciona</option>' +
+      Array.from({ length: 11 }, (_, index) => index * 2)
+        .map((value) => `<option value="${value}">${value}</option>`)
+        .join('');
+  }
 
   function updateFields() {
     const completed = statusSelect.value === 'completed';
     fields.forEach((field) => {
       field.hidden = !completed;
     });
-    [minInput, maxInput, confidenceInput].forEach((field) => {
+    [minInput, maxInput].forEach((field) => {
       field.required = completed;
     });
+    confidenceValue.textContent = confidenceInput.value;
   }
 
   function courseText(courseId) {
@@ -40,7 +50,7 @@
   }
 
   function confidenceLabel(value) {
-    return { baixa: 'Baixa', media: 'Média', alta: 'Alta' }[value] || '—';
+    return value == null ? '—' : `${Number(value)}/10`;
   }
 
   function kindLabel(value) {
@@ -113,6 +123,7 @@
   }
 
   statusSelect.addEventListener('change', updateFields);
+  confidenceInput.addEventListener('input', updateFields);
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -137,7 +148,7 @@
       status: statusSelect.value,
       expected_min: completed ? min : null,
       expected_max: completed ? max : null,
-      confidence: completed ? confidenceInput.value : null,
+      confidence: completed ? Number(confidenceInput.value) : null,
       note: document.getElementById('assessmentNote').value.trim() || null,
     });
 
@@ -174,6 +185,8 @@
     user = sessionUser;
     courses = await loadCourses();
     fillCourseSelect(document.getElementById('assessmentCourse'), courses);
+    fillGradeOptions(minInput);
+    fillGradeOptions(maxInput);
     updateFields();
     document.getElementById('assessmentDate').value = new Date().toISOString().slice(0, 10);
     await loadRows();
