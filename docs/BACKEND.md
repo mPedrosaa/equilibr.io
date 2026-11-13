@@ -123,7 +123,7 @@ npm run db:seed
 - Com sessão iniciada, o registo diário da aplicação começa vazio e usa `activity_logs`.
 - O semestre e as UCs selecionadas são guardados em `profiles` e `user_courses`.
 - `schedule.html` guarda aulas em `class_sessions` e estudo em `study_blocks`.
-- `assessments.html` guarda avaliações em `assessments`; a nota esperada usa intervalos realistas (0–5, 5–7, 7–9, 9–11, 11–14, 14–16, 16–18, 18–20) e a confiança uma régua de 0 a 10.
+- `assessments.html` guarda avaliações em `assessments`; a nota esperada usa intervalos realistas (0–5, 5–7, 7–9, 9–11, 11–14, 14–16, 16–18, 18–20) e a confiança um slider nativo de 0 a 10.
 - Com confirmação de email ativa, o utilizador tem de confirmar a conta antes de entrar. Configura o SMTP e as URLs permitidas no dashboard do Supabase.
 - Sem `SUPABASE_URL` e `SUPABASE_ANON_KEY`, o login mostra um aviso e a aplicação
   continua disponível em modo de demonstração local.

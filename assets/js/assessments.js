@@ -20,7 +20,6 @@
   const expectedInput = document.getElementById('assessmentExpected');
   const confidenceInput = document.getElementById('assessmentConfidence');
   const confidenceValue = document.getElementById('assessmentConfidenceValue');
-  const confidenceMarks = document.getElementById('confidenceMarks');
 
   const GRADE_RANGES = [
     { label: '0–5', min: 0, max: 5 },
@@ -44,12 +43,6 @@
       ).join('');
   }
 
-  function fillConfidenceMarks() {
-    confidenceMarks.innerHTML = Array.from(
-      { length: 11 },
-      (_, index) => `<span>${index}</span>`
-    ).join('');
-  }
 
   function updateFields() {
     const completed = statusSelect.value === 'completed';
@@ -205,7 +198,6 @@
     courses = await loadCourses();
     fillCourseSelect(document.getElementById('assessmentCourse'), courses);
     fillExpectedOptions();
-    fillConfidenceMarks();
     updateFields();
     document.getElementById('assessmentDate').value = new Date().toISOString().slice(0, 10);
     await loadRows();
