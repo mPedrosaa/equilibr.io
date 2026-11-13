@@ -4,6 +4,7 @@
   "private": true,
   "description": "Protótipo web do equilibr.io (ISEP Study-Life Balance Tracker)",
   "scripts": {
+    "config": "node scripts/generate-config.mjs",
     "test": "node tests/core.test.js",
     "test:integration": "playwright test"
   },

@@ -4,7 +4,7 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('equilibr.io', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/#dashboard');
+    await page.goto('/app.html#dashboard');
   });
 
   test('apresenta a marca e os indicadores base no dashboard', async ({ page }) => {

@@ -1,0 +1,303 @@
+/* Landing e login — CSS mínimo, no mesmo registo do protótipo. */
+
+:root {
+  color-scheme: light;
+  --page: #d9d9d9;
+  --paper: #ffffff;
+  --ink: #000000;
+  --muted: #333333;
+  --link: #0000ee;
+  --visited: #551a8b;
+  --line: #000000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--page);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+a {
+  color: var(--link);
+}
+
+a:visited {
+  color: var(--visited);
+}
+
+a:hover {
+  color: #ee0000;
+}
+
+code {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+}
+
+.page {
+  width: min(980px, calc(100% - 24px));
+  margin: 12px auto;
+  padding: 18px;
+  background: var(--paper);
+  border: 2px solid var(--line);
+}
+
+.page-narrow {
+  width: min(620px, calc(100% - 24px));
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+  border-bottom: 3px double var(--line);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.brand:visited {
+  color: var(--ink);
+}
+
+.brand-box {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  font-size: 14px;
+  border: 2px solid var(--line);
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+.site-nav a:not(.button) {
+  text-decoration: underline;
+}
+
+.hero {
+  margin-top: 18px;
+  padding: 22px;
+  border: 2px solid var(--line);
+}
+
+.kicker {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 25px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+.lead {
+  max-width: 680px;
+  margin: 0 0 16px;
+  font-size: 19px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+
+.button {
+  display: inline-block;
+  padding: 3px 9px;
+  color: var(--ink) !important;
+  background: #e6e6e6;
+  border: 2px outset #ffffff;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: var(--ink) !important;
+  background: #d0d0d0;
+}
+
+.button:active {
+  border-style: inset;
+}
+
+.small,
+.status {
+  color: var(--muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+}
+
+.section {
+  margin-top: 22px;
+}
+
+.box-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.box {
+  padding: 12px;
+  background: var(--paper);
+  border: 2px solid var(--line);
+}
+
+.box p {
+  margin: 0;
+}
+
+.section > .box {
+  padding: 14px;
+}
+
+.section p + p {
+  margin-top: 8px;
+}
+
+.form-card {
+  margin-top: 18px;
+  padding: 22px;
+  border: 2px solid var(--line);
+}
+
+.stack {
+  display: grid;
+  gap: 4px;
+  margin: 16px 0;
+}
+
+.stack label {
+  margin-top: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.stack input {
+  width: 100%;
+  padding: 5px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px inset #d4d0c8;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.stack input:focus {
+  border-color: var(--line);
+  outline: 1px dotted var(--line);
+  outline-offset: 0;
+}
+
+.stack .button {
+  justify-self: start;
+  margin-top: 10px;
+}
+
+.status:empty {
+  display: none;
+}
+
+.status {
+  padding: 7px 9px;
+  background: #ffffcc;
+  border: 1px solid var(--line);
+}
+
+hr {
+  margin: 16px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+}
+
+@media (max-width: 720px) {
+  .page {
+    width: calc(100% - 16px);
+    margin: 8px auto;
+    padding: 10px;
+  }
+
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .site-nav {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 34px;
+  }
+
+  .hero,
+  .form-card {
+    padding: 14px;
+  }
+
+  .box-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer {
+    flex-direction: column;
+  }
+}
