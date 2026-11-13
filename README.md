@@ -1,6 +1,6 @@
-# ISEP Study-Life Balance Tracker
+# Equilibra
 
-Protótipo web do **ISEP Study-Life Balance Tracker**, desenvolvido no âmbito de **LAPR1 2026/27** pelo grupo **“Quarteto Maravilha”**.
+Protótipo web do **Equilibra** (ISEP Study-Life Balance Tracker), desenvolvido no âmbito de **LAPR1 2026/27** pelo grupo **“Quarteto Maravilha”**.
 
 A aplicação transforma a carga letiva em metas semanais de estudo autónomo, permite registar a atividade diária e calcula um indicador preventivo de risco de burnout. É um protótipo académico: não é uma aplicação oficial do ISEP nem substitui acompanhamento clínico.
 
