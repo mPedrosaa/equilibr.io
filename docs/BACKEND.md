@@ -76,12 +76,12 @@ A `SUPABASE_SERVICE_ROLE_KEY` não deve ser adicionada ao projeto da Vercel.
 | Tabela | Objetivo |
 | --- | --- |
 | `profiles` | Dados do estudante: nome, curso, ano, semestre e metas semanais |
-| `courses` | Catálogo de UCs com ECTS, horas de contacto, cor e semestre |
+| `courses` | Catálogo de UCs e UCs personalizadas (`owner_id`) com ECTS, contacto, cor e semestre |
 | `user_courses` | Inscrição de cada utilizador nas UCs |
 | `activity_logs` | Registos diários de aula, estudo, projeto e descanso |
 | `class_sessions` | Aulas semanais por UC, dia e intervalo |
 | `study_blocks` | Blocos de estudo autónomo por dia e intervalo |
-| `assessments` | Testes, avaliações e exames, com nota esperada por intervalos e confiança (0–10) |
+| `assessments` | Testes, avaliações e exames, com nota esperada, confiança (0–10) e nota recebida |
 
 O perfil é criado automaticamente por um trigger em `auth.users`.
 
@@ -123,7 +123,7 @@ npm run db:seed
 - Com sessão iniciada, o registo diário da aplicação começa vazio e usa `activity_logs`.
 - O semestre e as UCs selecionadas são guardados em `profiles` e `user_courses`.
 - `schedule.html` guarda aulas em `class_sessions` e estudo em `study_blocks`.
-- `assessments.html` guarda avaliações em `assessments`; a nota esperada usa intervalos realistas (0–5, 5–7, 7–9, 9–11, 11–14, 14–16, 16–18, 18–20) e a confiança um slider nativo de 0 a 10.
+- `assessments.html` guarda avaliações em `assessments`; a nota esperada usa intervalos realistas (0–5, 5–7, 7–9, 9–11, 11–14, 14–16, 16–18, 18–20), a confiança um slider nativo de 0 a 10 e a nota recebida fica em `received_grade`.
 - Com confirmação de email ativa, o utilizador tem de confirmar a conta antes de entrar. Configura o SMTP e as URLs permitidas no dashboard do Supabase.
 - Sem `SUPABASE_URL` e `SUPABASE_ANON_KEY`, o login mostra um aviso e a aplicação
   continua disponível em modo de demonstração local.
@@ -135,7 +135,7 @@ npm run db:seed
 ## Próximos passos
 
 1. Criar o fluxo de recuperação de password.
-2. Migrar as UCs e os cenários demo para dados remotos.
+2. Migrar os cenários demo para dados remotos.
 3. Usar o horário e as avaliações nos cálculos de carga e risco.
 4. Adicionar testes de integração autenticados com um utilizador de teste.
 5. Proteger `app.html` com verificação de sessão.
