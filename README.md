@@ -17,6 +17,7 @@ A aplicação transforma a carga letiva em metas semanais de estudo autónomo, p
 - [Decisões técnicas](#decisões-técnicas)
 - [Testes](#testes)
 - [Limitações](#limitações)
+- [Transparência sobre IA generativa](#transparência-sobre-ia-generativa)
 - [Documentação e equipa](#documentação-e-equipa)
 
 ## Sobre o projeto
@@ -81,7 +82,7 @@ Este protótipo mantém as mesmas regras de negócio, mas adapta os fluxos a uma
 
 - Navegação SPA por rotas de hash (`#dashboard`, `#ects`, `#registo`, `#burnout`, `#sobre`).
 - Layout responsivo: barra lateral fixa em desktop e menu offcanvas em mobile.
-- Persistência no `localStorage` do browser.
+- Persistência no Supabase com login; `localStorage` apenas no modo de demonstração.
 - Toasts de feedback e modais de confirmação para ações destrutivas.
 - Reposição da demonstração a qualquer momento.
 - Conteúdo em português europeu (pt-PT).
@@ -248,7 +249,8 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │       ├── 202611130002_planner.sql # Horário, estudo e avaliações
 │       ├── 202611130003_assessment_confidence.sql # Confiança 0–10
 │       ├── 202611130004_course_ownership.sql # UCs do catálogo e personalizadas
-│       └── 202611130005_received_grade.sql # Nota recebida
+│       ├── 202611130005_received_grade.sql # Nota recebida
+│       └── 202611130006_daily_logs.sql # Registo diário por utilizador
 ├── tests/
 │   ├── core.test.js               # 13 testes de domínio com Node.js
 │   └── integration/
@@ -259,6 +261,7 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 │       └── pr-tests.yml           # Testes automáticos em Pull Requests
 ├── docs/
 │   ├── BACKEND.md                 # Configuração do Supabase e seed das UCs
+│   ├── IA_GENERATIVA.md           # Transparência sobre IA generativa
 │   ├── META_AUTONOMA.md           # Cálculo da carga total e meta autónoma
 │   ├── PROCESSO.md                # Processo de desenvolvimento e rastreabilidade
 │   └── screenshots/               # Evidências visuais desktop e mobile
@@ -378,11 +381,25 @@ As capturas em [`docs/screenshots/`](docs/screenshots/) incluem as cinco vistas 
 - O protótipo não implementa a aplicação de consola descrita no relatório; valida os fluxos numa interface web.
 - A suite Selenium histórica não está incluída no repositório; a suite Playwright atual cobre apenas os fluxos principais e corre em CI.
 
+## Transparência sobre IA generativa
+
+Foram usadas ferramentas de IA generativa como apoio ao desenvolvimento, de
+forma regulada e supervisionada, para acelerar implementação, documentação e
+revisão. As sugestões foram sempre revistas, testadas e adaptadas pela equipa.
+
+Todas as ferramentas e frameworks usados — HTML, CSS, JavaScript, Bootstrap,
+Supabase, PostgreSQL, Playwright, Git/GitHub e Vercel — são conhecidos e
+compreendidos pelos developers. A responsabilidade final pelo código e pelas
+decisões técnicas é humana.
+
+Detalhes em [`docs/IA_GENERATIVA.md`](docs/IA_GENERATIVA.md).
+
 ## Documentação e equipa
 
 - [`docs/PROCESSO.md`](docs/PROCESSO.md) — análise do relatório, requisitos, decisões, modelo de dados, implementação, QA e roadmap.
 - [`docs/MODELO_BURNOUT.md`](docs/MODELO_BURNOUT.md) — fundamentação do modelo de risco, pressupostos, utilidade e limites.
 - [`docs/META_AUTONOMA.md`](docs/META_AUTONOMA.md) — cálculo da carga total e da meta autónoma.
+- [`docs/IA_GENERATIVA.md`](docs/IA_GENERATIVA.md) — transparência sobre o uso de IA generativa.
 - [`docs/screenshots/`](docs/screenshots/) — evidências visuais.
 
 Trabalho desenvolvido no âmbito de **LAPR1 2026/27**, turma **LAPR1-2627-DKL01-Skills**, pelo grupo **“Quarteto Maravilha”**: Nuno Sousa, Miguel Pedrosa, Rodrigo Pinheiro e Sofia de Souza.

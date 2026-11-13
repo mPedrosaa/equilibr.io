@@ -92,6 +92,23 @@ A `SUPABASE_SERVICE_ROLE_KEY` não deve ser adicionada ao projeto da Vercel.
 
 O perfil é criado automaticamente por um trigger em `auth.users`.
 
+### Registos diários
+
+A tabela `activity_logs` guarda os registos diários autenticados:
+
+| Campo | Conteúdo |
+| --- | --- |
+| `user_id` | Utilizador dono do registo |
+| `course_id` | UC associada, ou nulo para descanso |
+| `type` | `aula`, `estudo`, `projeto` ou `descanso` |
+| `minutes` | Duração em minutos |
+| `log_date` | Data do registo |
+| `note` | Comentário opcional |
+| `created_at` / `updated_at` | Auditoria temporal |
+
+A migration `202611130006_daily_logs.sql` garante a tabela, índices, trigger de
+`updated_at` e políticas RLS.
+
 ### Segurança
 
 - RLS ativo em todas as tabelas.
