@@ -1,3 +1,4 @@
+
 /* global window, document, SLTWorkspace */
 (function () {
   'use strict';
@@ -44,12 +45,13 @@
       ).join('');
   }
 
-
   function updateFields() {
     const completed = statusSelect.value === 'completed';
+
     fields.forEach((field) => {
       field.hidden = !completed;
     });
+
     expectedInput.required = completed;
     confidenceValue.textContent = confidenceInput.value;
   }
@@ -67,13 +69,11 @@
     return { teste: 'Teste', avaliacao: 'Avaliação', exame: 'Exame' }[value] || value;
   }
 
-  function statusLabel(value) {
-    return value === 'completed' ? 'Realizado' : 'Agendado';
-  }
-
   function render(rows) {
-    if (!rows.length) {
-      list.innerHTML = '<p class="empty-note">Ainda não há avaliações registadas.</p>';
+    const scheduled = rows.filter((row) => row.status === 'scheduled');
+
+    if (!scheduled.length) {
+      list.innerHTML = '<p class="empty-note">Não há avaliações agendadas.</p>';
       return;
     }
 
@@ -85,28 +85,25 @@
             <th>UC</th>
             <th>Avaliação</th>
             <th>Estado</th>
-            <th>Nota esperada</th>
-            <th>Confiança</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          ${rows
+          ${scheduled
             .map(
               (row) => `
                 <tr>
                   <td>${esc(row.assessment_date)}</td>
                   <td>${esc(courseText(row.course_id))}</td>
                   <td>${esc(row.title)} <span class="small">(${esc(kindLabel(row.kind))})</span></td>
-                  <td>${esc(statusLabel(row.status))}</td>
-                  <td>${
-                    row.status === 'completed'
-                      ? `${esc(row.expected_min)}–${esc(row.expected_max)}`
-                      : '—'
-                  }</td>
-                  <td>${row.status === 'completed' ? esc(confidenceLabel(row.confidence)) : '—'}</td>
+                  <td>Agendado</td>
                   <td class="row-actions">
-                    <button type="button" data-delete-assessment="${esc(row.id)}">Eliminar</button>
+                    <button type="button" data-complete-assessment="${esc(row.id)}">
+                      Marcar como realizado
+                    </button>
+                    <button type="button" data-delete-assessment="${esc(row.id)}">
+                      Eliminar
+                    </button>
                   </td>
                 </tr>
               `
@@ -122,7 +119,7 @@
 
     if (!completed.length) {
       receivedList.innerHTML =
-        '<p class="empty-note">Ainda não há avaliações realizadas para registar nota.</p>';
+        '<p class="empty-note">Ainda não há avaliações realizadas.</p>';
       return;
     }
 
@@ -157,7 +154,9 @@
                     />
                   </td>
                   <td class="row-actions">
-                    <button type="button" data-save-received="${esc(row.id)}">Guardar</button>
+                    <button type="button" data-save-received="${esc(row.id)}">
+                      Guardar
+                    </button>
                   </td>
                 </tr>
               `
@@ -190,9 +189,11 @@
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     updateFields();
+
     if (!form.reportValidity()) return;
 
     const completed = statusSelect.value === 'completed';
+
     const selectedRange = completed
       ? GRADE_RANGES.find(
           (range) => `${range.min}-${range.max}` === expectedInput.value
@@ -229,21 +230,61 @@
   });
 
   list.addEventListener('click', async (event) => {
-    const button = event.target.closest('[data-delete-assessment]');
-    if (!button) return;
+    const completeButton = event.target.closest('[data-complete-assessment]');
+    const deleteButton = event.target.closest('[data-delete-assessment]');
 
-    const { error } = await client
-      .from('assessments')
-      .delete()
-      .eq('id', button.dataset.deleteAssessment)
-      .eq('user_id', user.id);
+    if (completeButton) {
+const assessmentId = completeButton.dataset.completeAssessment;
+      
+      // Encontrar o elemento pai ou a linha correspondente para obter os inputs de nota esperada e confiança
+      const rowItem = completeButton.closest('.assessment-item') || completeButton.parentElement;
+      const expectedGradeInput = rowItem.querySelector('[name="expected_grade"]') || rowItem.querySelector('.expected-grade-input');
+      const confidenceInput = rowItem.querySelector('[name="confidence"]') || rowItem.querySelector('.confidence-input');
 
-    if (error) {
-      setStatus(status, friendlyError(error.message), 'error');
+      // Se os inputs existirem na linha, recolhe os valores; caso contrário, podes usar prompt ou garantir que aparecem na UI
+      const expected_grade = expectedGradeInput ? parseFloat(expectedGradeInput.value) : null;
+      const confidence = confidenceInput ? parseInt(confidenceInput.value, 10) : null;
+
+      // Validação básica antes de enviar para o Supabase
+      if (isNaN(expected_grade) || isNaN(confidence)) {
+        setStatus(status, 'Por favor, preenche a nota esperada e a confiança antes de concluir.', 'error');
+        return;
+      }
+
+      const { error } = await client
+        .from('assessments')
+        .update({ 
+          status: 'completed',
+          expected_grade: expected_grade,
+          confidence: confidence
+        })
+        .eq('id', assessmentId)
+        .eq('user_id', user.id);
+
+      if (error) {
+        setStatus(status, friendlyError(error.message), 'error');
+        return;
+      }
+
+      setStatus(status, 'Avaliação marcada como realizada com sucesso.', 'success');
+      await loadRows();
       return;
     }
+     
+    if (deleteButton) {
+      const { error } = await client
+        .from('assessments')
+        .delete()
+        .eq('id', deleteButton.dataset.deleteAssessment)
+        .eq('user_id', user.id);
 
-    await loadRows();
+      if (error) {
+        setStatus(status, friendlyError(error.message), 'error');
+        return;
+      }
+
+      await loadRows();
+    }
   });
 
   receivedList.addEventListener('click', async (event) => {
@@ -254,7 +295,12 @@
     const input = receivedList.querySelector(`[data-grade-input="${id}"]`);
     const value = Number(input.value);
 
-    if (!Number.isFinite(value) || value < 0 || value > 20) {
+    if (
+      input.value.trim() === '' ||
+      !Number.isFinite(value) ||
+      value < 0 ||
+      value > 20
+    ) {
       setStatus(status, 'A nota recebida deve estar entre 0 e 20.', 'error');
       return;
     }
@@ -277,10 +323,14 @@
   requireSession(async (sessionUser) => {
     user = sessionUser;
     courses = await loadCourses();
+
     fillCourseSelect(document.getElementById('assessmentCourse'), courses);
     fillExpectedOptions();
     updateFields();
-    document.getElementById('assessmentDate').value = new Date().toISOString().slice(0, 10);
+
+    document.getElementById('assessmentDate').value =
+      new Date().toISOString().slice(0, 10);
+
     await loadRows();
   });
 })();

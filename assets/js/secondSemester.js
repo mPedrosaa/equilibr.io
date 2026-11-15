@@ -28,7 +28,7 @@
       const label = document.createElement('label');
       label.innerHTML = `<input type="checkbox" value="${esc(course.id)}" ${
         selected.has(course.id) ? 'checked' : ''
-      } /> <span>${esc(course.code)} — ${esc(course.name)}</span>`;
+      } /> <span>${esc(course.code)} — ${esc(course.name)} (${course.ects} ECTS)</span>`;
       label.querySelector('input').addEventListener('change', (event) => {
         if (event.target.checked) selected.add(course.id);
         else selected.delete(course.id);
@@ -116,3 +116,10 @@
     render();
   });
 })();
+INSERT INTO courses (id, code, name, ects, semester) VALUES
+('eng-software', 'ESOF', 'Engenharia de Software', 6, 2),
+('estatistica', 'ESTAT', 'Estatística', 5, 2),
+('lab-projeto-2', 'LP2', 'Laboratório / Projeto II', 8, 2),
+('matematica-discreta', 'MD', 'Matemática Discreta', 5, 2),
+('paradigmas-programacao', 'PPROG', 'Paradigmas da Programação', 6, 2)
+ON CONFLICT (id) DO NOTHING;
