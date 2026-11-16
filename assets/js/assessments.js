@@ -1,4 +1,3 @@
-
 /* global window, document, SLTWorkspace */
 (function () {
   'use strict';
@@ -45,13 +44,12 @@
       ).join('');
   }
 
+
   function updateFields() {
     const completed = statusSelect.value === 'completed';
-
     fields.forEach((field) => {
       field.hidden = !completed;
     });
-
     expectedInput.required = completed;
     confidenceValue.textContent = confidenceInput.value;
   }
@@ -69,6 +67,23 @@
     return { teste: 'Teste', avaliacao: 'Avaliação', exame: 'Exame' }[value] || value;
   }
 
+  function expectedOptionsMarkup(row) {
+    const selectedValue =
+      row.expected_min != null && row.expected_max != null
+        ? `${Number(row.expected_min)}-${Number(row.expected_max)}`
+        : '';
+
+    return (
+      '<option value="">Seleciona</option>' +
+      GRADE_RANGES.map(
+        (range) =>
+          `<option value="${range.min}-${range.max}" ${
+            `${range.min}-${range.max}` === selectedValue ? 'selected' : ''
+          }>${range.label}</option>`
+      ).join('')
+    );
+  }
+
   function render(rows) {
     const scheduled = rows.filter((row) => row.status === 'scheduled');
 
@@ -84,7 +99,8 @@
             <th>Data</th>
             <th>UC</th>
             <th>Avaliação</th>
-            <th>Estado</th>
+            <th>Nota esperada</th>
+            <th>Confiança</th>
             <th></th>
           </tr>
         </thead>
@@ -96,14 +112,25 @@
                   <td>${esc(row.assessment_date)}</td>
                   <td>${esc(courseText(row.course_id))}</td>
                   <td>${esc(row.title)} <span class="small">(${esc(kindLabel(row.kind))})</span></td>
-                  <td>Agendado</td>
+                  <td>
+                    <select data-complete-expected="${esc(row.id)}" aria-label="Nota esperada em ${esc(row.title)}">
+                      ${expectedOptionsMarkup(row)}
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      max="10"
+                      step="1"
+                      value="${row.confidence == null ? 5 : esc(row.confidence)}"
+                      data-complete-confidence="${esc(row.id)}"
+                      aria-label="Confiança em ${esc(row.title)}"
+                    />
+                  </td>
                   <td class="row-actions">
-                    <button type="button" data-complete-assessment="${esc(row.id)}">
-                      Marcar como realizado
-                    </button>
-                    <button type="button" data-delete-assessment="${esc(row.id)}">
-                      Eliminar
-                    </button>
+                    <button type="button" data-complete-assessment="${esc(row.id)}">Marcar como realizado</button>
+                    <button type="button" data-delete-assessment="${esc(row.id)}">Eliminar</button>
                   </td>
                 </tr>
               `
@@ -119,7 +146,7 @@
 
     if (!completed.length) {
       receivedList.innerHTML =
-        '<p class="empty-note">Ainda não há avaliações realizadas.</p>';
+        '<p class="empty-note">Ainda não há avaliações realizadas para registar nota.</p>';
       return;
     }
 
@@ -154,9 +181,7 @@
                     />
                   </td>
                   <td class="row-actions">
-                    <button type="button" data-save-received="${esc(row.id)}">
-                      Guardar
-                    </button>
+                    <button type="button" data-save-received="${esc(row.id)}">Guardar</button>
                   </td>
                 </tr>
               `
@@ -189,11 +214,9 @@
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     updateFields();
-
     if (!form.reportValidity()) return;
 
     const completed = statusSelect.value === 'completed';
-
     const selectedRange = completed
       ? GRADE_RANGES.find(
           (range) => `${range.min}-${range.max}` === expectedInput.value
@@ -234,31 +257,32 @@
     const deleteButton = event.target.closest('[data-delete-assessment]');
 
     if (completeButton) {
-const assessmentId = completeButton.dataset.completeAssessment;
-      
-      // Encontrar o elemento pai ou a linha correspondente para obter os inputs de nota esperada e confiança
-      const rowItem = completeButton.closest('.assessment-item') || completeButton.parentElement;
-      const expectedGradeInput = rowItem.querySelector('[name="expected_grade"]') || rowItem.querySelector('.expected-grade-input');
-      const confidenceInput = rowItem.querySelector('[name="confidence"]') || rowItem.querySelector('.confidence-input');
+      const row = completeButton.closest('tr');
+      const expectedValue = row.querySelector('[data-complete-expected]').value;
+      const confidence = Number(row.querySelector('[data-complete-confidence]').value);
+      const selectedRange = GRADE_RANGES.find(
+        (range) => `${range.min}-${range.max}` === expectedValue
+      );
 
-      // Se os inputs existirem na linha, recolhe os valores; caso contrário, podes usar prompt ou garantir que aparecem na UI
-      const expected_grade = expectedGradeInput ? parseFloat(expectedGradeInput.value) : null;
-      const confidence = confidenceInput ? parseInt(confidenceInput.value, 10) : null;
+      if (!selectedRange) {
+        setStatus(status, 'Seleciona a nota esperada antes de concluir.', 'error');
+        return;
+      }
 
-      // Validação básica antes de enviar para o Supabase
-      if (isNaN(expected_grade) || isNaN(confidence)) {
-        setStatus(status, 'Por favor, preenche a nota esperada e a confiança antes de concluir.', 'error');
+      if (!Number.isInteger(confidence) || confidence < 0 || confidence > 10) {
+        setStatus(status, 'A confiança deve estar entre 0 e 10.', 'error');
         return;
       }
 
       const { error } = await client
         .from('assessments')
-        .update({ 
+        .update({
           status: 'completed',
-          expected_grade: expected_grade,
-          confidence: confidence
+          expected_min: selectedRange.min,
+          expected_max: selectedRange.max,
+          confidence,
         })
-        .eq('id', assessmentId)
+        .eq('id', completeButton.dataset.completeAssessment)
         .eq('user_id', user.id);
 
       if (error) {
@@ -266,25 +290,25 @@ const assessmentId = completeButton.dataset.completeAssessment;
         return;
       }
 
-      setStatus(status, 'Avaliação marcada como realizada com sucesso.', 'success');
+      setStatus(status, 'Avaliação marcada como realizada.', 'success');
       await loadRows();
       return;
     }
-     
-    if (deleteButton) {
-      const { error } = await client
-        .from('assessments')
-        .delete()
-        .eq('id', deleteButton.dataset.deleteAssessment)
-        .eq('user_id', user.id);
 
-      if (error) {
-        setStatus(status, friendlyError(error.message), 'error');
-        return;
-      }
+    if (!deleteButton) return;
 
-      await loadRows();
+    const { error } = await client
+      .from('assessments')
+      .delete()
+      .eq('id', deleteButton.dataset.deleteAssessment)
+      .eq('user_id', user.id);
+
+    if (error) {
+      setStatus(status, friendlyError(error.message), 'error');
+      return;
     }
+
+    await loadRows();
   });
 
   receivedList.addEventListener('click', async (event) => {
@@ -295,12 +319,7 @@ const assessmentId = completeButton.dataset.completeAssessment;
     const input = receivedList.querySelector(`[data-grade-input="${id}"]`);
     const value = Number(input.value);
 
-    if (
-      input.value.trim() === '' ||
-      !Number.isFinite(value) ||
-      value < 0 ||
-      value > 20
-    ) {
+    if (!Number.isFinite(value) || value < 0 || value > 20) {
       setStatus(status, 'A nota recebida deve estar entre 0 e 20.', 'error');
       return;
     }
@@ -323,14 +342,10 @@ const assessmentId = completeButton.dataset.completeAssessment;
   requireSession(async (sessionUser) => {
     user = sessionUser;
     courses = await loadCourses();
-
     fillCourseSelect(document.getElementById('assessmentCourse'), courses);
     fillExpectedOptions();
     updateFields();
-
-    document.getElementById('assessmentDate').value =
-      new Date().toISOString().slice(0, 10);
-
+    document.getElementById('assessmentDate').value = new Date().toISOString().slice(0, 10);
     await loadRows();
   });
 })();
