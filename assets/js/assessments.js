@@ -67,13 +67,28 @@
     return { teste: 'Teste', avaliacao: 'Avaliação', exame: 'Exame' }[value] || value;
   }
 
-  function statusLabel(value) {
-    return value === 'completed' ? 'Realizado' : 'Agendado';
+  function expectedOptionsMarkup(row) {
+    const selectedValue =
+      row.expected_min != null && row.expected_max != null
+        ? `${Number(row.expected_min)}-${Number(row.expected_max)}`
+        : '';
+
+    return (
+      '<option value="">Seleciona</option>' +
+      GRADE_RANGES.map(
+        (range) =>
+          `<option value="${range.min}-${range.max}" ${
+            `${range.min}-${range.max}` === selectedValue ? 'selected' : ''
+          }>${range.label}</option>`
+      ).join('')
+    );
   }
 
   function render(rows) {
-    if (!rows.length) {
-      list.innerHTML = '<p class="empty-note">Ainda não há avaliações registadas.</p>';
+    const scheduled = rows.filter((row) => row.status === 'scheduled');
+
+    if (!scheduled.length) {
+      list.innerHTML = '<p class="empty-note">Não há avaliações agendadas.</p>';
       return;
     }
 
@@ -84,28 +99,37 @@
             <th>Data</th>
             <th>UC</th>
             <th>Avaliação</th>
-            <th>Estado</th>
             <th>Nota esperada</th>
             <th>Confiança</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          ${rows
+          ${scheduled
             .map(
               (row) => `
                 <tr>
                   <td>${esc(row.assessment_date)}</td>
                   <td>${esc(courseText(row.course_id))}</td>
                   <td>${esc(row.title)} <span class="small">(${esc(kindLabel(row.kind))})</span></td>
-                  <td>${esc(statusLabel(row.status))}</td>
-                  <td>${
-                    row.status === 'completed'
-                      ? `${esc(row.expected_min)}–${esc(row.expected_max)}`
-                      : '—'
-                  }</td>
-                  <td>${row.status === 'completed' ? esc(confidenceLabel(row.confidence)) : '—'}</td>
+                  <td>
+                    <select data-complete-expected="${esc(row.id)}" aria-label="Nota esperada em ${esc(row.title)}">
+                      ${expectedOptionsMarkup(row)}
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      max="10"
+                      step="1"
+                      value="${row.confidence == null ? 5 : esc(row.confidence)}"
+                      data-complete-confidence="${esc(row.id)}"
+                      aria-label="Confiança em ${esc(row.title)}"
+                    />
+                  </td>
                   <td class="row-actions">
+                    <button type="button" data-complete-assessment="${esc(row.id)}">Marcar como realizado</button>
                     <button type="button" data-delete-assessment="${esc(row.id)}">Eliminar</button>
                   </td>
                 </tr>
@@ -229,13 +253,54 @@
   });
 
   list.addEventListener('click', async (event) => {
-    const button = event.target.closest('[data-delete-assessment]');
-    if (!button) return;
+    const completeButton = event.target.closest('[data-complete-assessment]');
+    const deleteButton = event.target.closest('[data-delete-assessment]');
+
+    if (completeButton) {
+      const row = completeButton.closest('tr');
+      const expectedValue = row.querySelector('[data-complete-expected]').value;
+      const confidence = Number(row.querySelector('[data-complete-confidence]').value);
+      const selectedRange = GRADE_RANGES.find(
+        (range) => `${range.min}-${range.max}` === expectedValue
+      );
+
+      if (!selectedRange) {
+        setStatus(status, 'Seleciona a nota esperada antes de concluir.', 'error');
+        return;
+      }
+
+      if (!Number.isInteger(confidence) || confidence < 0 || confidence > 10) {
+        setStatus(status, 'A confiança deve estar entre 0 e 10.', 'error');
+        return;
+      }
+
+      const { error } = await client
+        .from('assessments')
+        .update({
+          status: 'completed',
+          expected_min: selectedRange.min,
+          expected_max: selectedRange.max,
+          confidence,
+        })
+        .eq('id', completeButton.dataset.completeAssessment)
+        .eq('user_id', user.id);
+
+      if (error) {
+        setStatus(status, friendlyError(error.message), 'error');
+        return;
+      }
+
+      setStatus(status, 'Avaliação marcada como realizada.', 'success');
+      await loadRows();
+      return;
+    }
+
+    if (!deleteButton) return;
 
     const { error } = await client
       .from('assessments')
       .delete()
-      .eq('id', button.dataset.deleteAssessment)
+      .eq('id', deleteButton.dataset.deleteAssessment)
       .eq('user_id', user.id);
 
     if (error) {
