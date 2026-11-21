@@ -188,10 +188,10 @@ Detalhes de arquitetura, execução local, testes e deploy em [`docs/DESENVOLVIM
 ## Limitações
 
 - O risco é uma heurística de bem-estar, não uma avaliação clínica.
+- O motor de burnout ainda usa apenas `activity_logs`: não integra os blocos de estudo planeados (`study_blocks`) nem a pressão e a incerteza das avaliações (`assessments`). Ver [#21](https://github.com/mPedrosaa/equilibr.io/issues/21).
+- O planeamento é manual: o horário permite criar blocos de estudo, mas ainda não sugere nem preenche automaticamente intervalos com base nas aulas, metas e avaliações. Ver [#22](https://github.com/mPedrosaa/equilibr.io/issues/22).
 - Não existem exportação, notificações, integração com calendário ou lembretes.
-- A meta de descanso e as constantes ECTS estão no código; não há ecrã de configurações.
-- O modo demonstração usa dados mock em `localStorage`; com login, os dados vêm do Supabase.
-- O semestre, o horário e as avaliações ficam preparados para a próxima fase de cálculos.
+- O protótipo não implementa a aplicação de consola descrita no relatório; valida os fluxos numa interface web.
 - A suite Selenium histórica não está incluída no repositório; a suite Playwright cobre os fluxos principais.
 
 ## Equipa
