@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="equilibr.io">
+  <title>Coração com pulso</title>
+  <defs>
+    <clipPath id="heart-clip">
+      <path d="M32 57C19 46 6 35 6 21C6 11 18 7 32 18C46 7 58 11 58 21C58 35 45 46 32 57Z"/>
+    </clipPath>
+  </defs>
+  <path d="M32 57C19 46 6 35 6 21C6 11 18 7 32 18C46 7 58 11 58 21C58 35 45 46 32 57Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+  <g clip-path="url(#heart-clip)">
+    <path d="M4 29H20L24 21L29 39L34 25L38 29H60" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

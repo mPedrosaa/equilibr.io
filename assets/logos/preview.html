@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>equilibr.io · conceitos de símbolo</title>
+  <style>
+    body { margin: 0; padding: 26px; background: #d9d9d9; color: #000; font-family: Arial, Helvetica, sans-serif; }
+    h1 { margin: 0 0 22px; font-family: "Times New Roman", Times, serif; font-size: 30px; }
+    h2 { margin: 26px 0 10px; padding-bottom: 5px; font-family: "Times New Roman", Times, serif; font-size: 20px; border-bottom: 3px double #000; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 170px; padding: 16px; background: #fff; border: 2px solid #000; }
+    .card img { width: 88px; height: 88px; }
+    .card .label { width: 100%; padding-top: 6px; border-top: 1px solid #000; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; text-align: center; }
+    .dark { color: #fff; background: #111; border-color: #111; }
+    .dark .label { border-color: #fff; }
+  </style>
+</head>
+<body>
+  <h1>equilibr.io · conceitos de símbolo</h1>
+
+  <h2>1. Só linha</h2>
+  <div class="grid">
+    <div class="card"><img src="linha-caixa-singular.svg" alt="" /><span class="label">Caixa singular · escolhido</span></div>
+    <div class="card"><img src="linha-pulso.svg" alt="" /><span class="label">Pulso</span></div>
+    <div class="card"><img src="linha-caixa.svg" alt="" /><span class="label">Caixa dupla</span></div>
+    <div class="card"><img src="linha-balanco.svg" alt="" /><span class="label">Balanço</span></div>
+    <div class="card"><img src="linha-mira.svg" alt="" /><span class="label">Mira</span></div>
+  </div>
+
+  <h2>2. Só eq</h2>
+  <div class="grid">
+    <div class="card"><img src="eq-classico.svg" alt="" /><span class="label">Clássico</span></div>
+    <div class="card"><img src="eq-geometrico.svg" alt="" /><span class="label">Geométrico</span></div>
+    <div class="card dark"><img src="eq-invertido.svg" alt="" /><span class="label">Invertido</span></div>
+  </div>
+
+  <h2>3. eq + linha</h2>
+  <div class="grid">
+    <div class="card"><img src="ambos-base.svg" alt="" /><span class="label">Base</span></div>
+    <div class="card"><img src="ambos-q-pulso.svg" alt="" /><span class="label">Q + pulso</span></div>
+    <div class="card"><img src="ambos-coluna.svg" alt="" /><span class="label">Coluna</span></div>
+  </div>
+
+  <h2>4. Exóticos</h2>
+  <div class="grid">
+    <div class="card"><img src="exotico-balanco.svg" alt="" /><span class="label">Balança</span></div>
+    <div class="card"><img src="exotico-ampulheta.svg" alt="" /><span class="label">Ampulheta</span></div>
+    <div class="card"><img src="exotico-coracao.svg" alt="" /><span class="label">Coração</span></div>
+    <div class="card"><img src="exotico-dia-noite.svg" alt="" /><span class="label">Dia / noite</span></div>
+  </div>
+</body>
+</html>

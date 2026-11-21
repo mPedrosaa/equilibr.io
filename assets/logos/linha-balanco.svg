@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="equilibr.io">
+  <title>Equilíbrio</title>
+  <path d="M8 21H56" fill="none" stroke="#000000" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M8 43H20L24 35L30 51L36 39L40 43H56" fill="none" stroke="#000000" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

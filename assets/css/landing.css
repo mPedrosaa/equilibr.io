@@ -85,8 +85,12 @@ a.avatar {
   width: 34px;
   height: 34px;
   place-items: center;
-  font-size: 14px;
-  border: 2px solid var(--line);
+}
+
+.brand-logo {
+  display: block;
+  width: 34px;
+  height: 34px;
 }
 
 .site-nav {
