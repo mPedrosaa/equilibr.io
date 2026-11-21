@@ -16,6 +16,9 @@ playwright-report/
 .env.*
 !.env.example
 
+# Configuração gerada a partir do .env (npm run config / npm run build)
+assets/js/config.js
+
 # Logs e temporários
 *.log
 *.tmp
