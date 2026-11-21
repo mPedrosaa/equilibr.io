@@ -243,8 +243,17 @@ Foram usadas ferramentas de IA generativa como apoio ao desenvolvimento, de form
 
 ## Estatísticas
 
-![Estatísticas do projeto](docs/assets/stats.png)
+![Stars](https://img.shields.io/github/stars/mPedrosaa/equilibr.io?style=flat-square&label=stars)
+![Forks](https://img.shields.io/github/forks/mPedrosaa/equilibr.io?style=flat-square&label=forks)
+![Issues](https://img.shields.io/github/issues/mPedrosaa/equilibr.io?style=flat-square&label=issues)
+![Último commit](https://img.shields.io/github/last-commit/mPedrosaa/equilibr.io?style=flat-square&label=%C3%BAltimo%20commit)
 
-Snapshot local atualizado a 21/11/2026. Os valores em tempo real estão no [repositório GitHub](https://github.com/mPedrosaa/equilibr.io).
+<p align="center">
+  <a href="https://star-history.com/#mPedrosaa/equilibr.io&amp;Date">
+    <img src="https://api.star-history.com/svg?repos=mPedrosaa/equilibr.io&amp;type=Date" alt="Evolução das stars do repositório" width="760" />
+  </a>
+</p>
+
+Badges e gráfico atualizados automaticamente a partir do GitHub. Não é necessário fazer commit para atualizar estas estatísticas.
 
 Protótipo académico independente. Não é uma aplicação oficial do ISEP.
