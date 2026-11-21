@@ -43,8 +43,8 @@ Este protótipo mantém as mesmas regras de negócio, mas adapta os fluxos a uma
 | Item | Valor |
 | --- | --- |
 | Unidade curricular | LAPR1 2026/27 |
-| Turma | LAPR1-2627-DKL01-Skills |
-| Grupo | Quarteto Maravilha |
+| Turma | DKL |
+| Grupo | 01 - Quarteto Maravilha |
 | Elementos | Nuno Sousa, Miguel Pedrosa, Rodrigo Pinheiro e Sofia de Souza |
 | Fonte funcional | `Relatório 1 - SPRINT 1 (1).pdf` |
 
