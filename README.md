@@ -141,11 +141,39 @@ O motor apresenta recomendações quando um fator soma pontos. A pontuação é 
 
 ## Vistas
 
-| Anti-burnout | Avaliações |
-| --- | --- |
-| ![Vista anti-burnout](docs/screenshots/burnout.png) | ![Vista de avaliações](docs/screenshots/assessments.png) |
-| **Horário** | **Mobile** |
-| ![Vista de horário](docs/screenshots/schedule.png) | ![Vista mobile do dashboard](docs/screenshots/mobile-dashboard.png) |
+### Desktop
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <a href="docs/screenshots/burnout.png"><img src="docs/screenshots/burnout.png" height="220" alt="Vista anti-burnout" /></a><br />
+      <sub><b>Anti-burnout</b></sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="docs/screenshots/assessments.png"><img src="docs/screenshots/assessments.png" height="220" alt="Vista de avaliações" /></a><br />
+      <sub><b>Avaliações</b></sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="docs/screenshots/schedule.png"><img src="docs/screenshots/schedule.png" height="220" alt="Vista de horário" /></a><br />
+      <sub><b>Horário</b></sub>
+    </td>
+  </tr>
+</table>
+
+### Mobile
+
+<table align="center">
+  <tr>
+    <td align="center" width="200">
+      <a href="docs/screenshots/mobile-dashboard.png"><img src="docs/screenshots/mobile-dashboard.png" width="170" alt="Dashboard em mobile" /></a><br />
+      <sub><b>Dashboard</b></sub>
+    </td>
+    <td align="center" width="200">
+      <a href="docs/screenshots/mobile-burnout.png"><img src="docs/screenshots/mobile-burnout.png" width="170" alt="Anti-burnout em mobile" /></a><br />
+      <sub><b>Anti-burnout</b></sub>
+    </td>
+  </tr>
+</table>
 
 Mais capturas em [`docs/screenshots/`](docs/screenshots/).
 
