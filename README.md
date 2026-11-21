@@ -234,7 +234,6 @@ Trabalho desenvolvido no âmbito de **LAPR1 2026/27**, turma **LAPR1-2627-DKL01-
 - [`docs/PROCESSO.md`](docs/PROCESSO.md) — análise do relatório, requisitos, decisões, modelo de dados, implementação, QA e roadmap.
 - [`docs/MODELO_BURNOUT.md`](docs/MODELO_BURNOUT.md) — fundamentação do modelo de risco, pressupostos, utilidade e limites.
 - [`docs/META_AUTONOMA.md`](docs/META_AUTONOMA.md) — cálculo da carga total e da meta autónoma.
-- [`docs/IA_GENERATIVA.md`](docs/IA_GENERATIVA.md) — transparência sobre o uso de IA generativa.
 - [`docs/screenshots/`](docs/screenshots/) — evidências visuais desktop e mobile.
 
 ## Transparência sobre IA generativa
