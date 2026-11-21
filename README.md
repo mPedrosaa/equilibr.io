@@ -254,6 +254,4 @@ Foram usadas ferramentas de IA generativa como apoio ao desenvolvimento, de form
   </a>
 </p>
 
-Badges e gráfico atualizados automaticamente a partir do GitHub. Não é necessário fazer commit para atualizar estas estatísticas.
-
 Protótipo académico independente. Não é uma aplicação oficial do ISEP.
