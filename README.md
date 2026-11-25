@@ -192,7 +192,6 @@ Detalhes de arquitetura, execução local, testes e deploy em [`docs/DESENVOLVIM
 - O planeamento é manual: o horário permite criar blocos de estudo, mas ainda não sugere nem preenche automaticamente intervalos com base nas aulas, metas e avaliações. Ver [#22](https://github.com/mPedrosaa/equilibr.io/issues/22).
 - Não existem exportação, notificações, integração com calendário ou lembretes.
 - O protótipo não implementa a aplicação de consola descrita no relatório; valida os fluxos numa interface web.
-- A suite Selenium histórica não está incluída no repositório; a suite Playwright cobre os fluxos principais.
 
 ## Equipa
 
